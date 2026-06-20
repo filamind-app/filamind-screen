@@ -1,0 +1,20 @@
+{
+  "nav": "Secties",
+  "tab": {
+    "status": "Status",
+    "control": "Bediening",
+    "settings": "Instellingen"
+  },
+  "trust": {
+    "live": "Actief",
+    "stale": "Opnieuw verbinden…",
+    "shutdown": "Klipper afgesloten",
+    "error": "Klipper-fout",
+    "offline": "Offline"
+  },
+  "remote": {
+    "here": "Dit scherm",
+    "dismiss": "Bericht sluiten",
+    "warning": "Waarschuwing"
+  }
+}

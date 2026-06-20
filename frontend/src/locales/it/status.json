@@ -1,0 +1,13 @@
+{
+  "hotend": "Hotend",
+  "bed": "Piano",
+  "print": "Stampa",
+  "state": {
+    "standby": "In attesa",
+    "printing": "Stampa in corso",
+    "paused": "In pausa",
+    "complete": "Completata",
+    "cancelled": "Annullata",
+    "error": "Errore"
+  }
+}

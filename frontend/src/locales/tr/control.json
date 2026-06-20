@@ -1,0 +1,19 @@
+{
+  "home": "Tümünü sıfırla",
+  "pause": "Duraklat",
+  "resume": "Devam et",
+  "cancel": "İptal",
+  "cancelConfirm": "İptal onaylansın mı?",
+  "estop": "Acil durdurma",
+  "safeOff": "Yazma etkin",
+  "safeOn": "Güvenli mod",
+  "blocked": {
+    "offline": "Yazıcı çevrimiçi değil",
+    "safe": "Güvenli mod açık",
+    "busy": "Bir işlem devam ediyor"
+  },
+  "error": {
+    "refused": "Reddedildi — yazıcı çevrimiçi değil",
+    "failed": "İşlem başarısız"
+  }
+}

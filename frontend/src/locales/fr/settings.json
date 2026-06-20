@@ -1,0 +1,9 @@
+{
+  "theme": "Thème",
+  "language": "Langue",
+  "themeName": {
+    "tutankhamun": "Toutânkhamon",
+    "horus": "Horus",
+    "anubis": "Anubis"
+  }
+}

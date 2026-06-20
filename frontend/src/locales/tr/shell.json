@@ -1,0 +1,20 @@
+{
+  "nav": "Bölümler",
+  "tab": {
+    "status": "Durum",
+    "control": "Kontrol",
+    "settings": "Ayarlar"
+  },
+  "trust": {
+    "live": "Canlı",
+    "stale": "Yeniden bağlanılıyor…",
+    "shutdown": "Klipper kapandı",
+    "error": "Klipper hatası",
+    "offline": "Çevrimdışı"
+  },
+  "remote": {
+    "here": "Bu ekran",
+    "dismiss": "Mesajı kapat",
+    "warning": "Uyarı"
+  }
+}

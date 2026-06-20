@@ -1,0 +1,13 @@
+{
+  "hotend": "热端",
+  "bed": "热床",
+  "print": "打印",
+  "state": {
+    "standby": "待机",
+    "printing": "打印中",
+    "paused": "已暂停",
+    "complete": "已完成",
+    "cancelled": "已取消",
+    "error": "错误"
+  }
+}

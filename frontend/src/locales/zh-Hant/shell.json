@@ -1,0 +1,20 @@
+{
+  "nav": "區段",
+  "tab": {
+    "status": "狀態",
+    "control": "控制",
+    "settings": "設定"
+  },
+  "trust": {
+    "live": "即時",
+    "stale": "重新連線中…",
+    "shutdown": "Klipper 已關閉",
+    "error": "Klipper 錯誤",
+    "offline": "離線"
+  },
+  "remote": {
+    "here": "此螢幕",
+    "dismiss": "關閉訊息",
+    "warning": "警告"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "home": "Bazuj wszystkie osie",
+  "pause": "Wstrzymaj",
+  "resume": "Wznów",
+  "cancel": "Anuluj",
+  "cancelConfirm": "Potwierdzić anulowanie?",
+  "estop": "Zatrzymanie awaryjne",
+  "safeOff": "Zapis włączony",
+  "safeOn": "Tryb bezpieczny",
+  "blocked": {
+    "offline": "Drukarka nieaktywna",
+    "safe": "Tryb bezpieczny jest włączony",
+    "busy": "Trwa wykonywanie akcji"
+  },
+  "error": {
+    "refused": "Odrzucono — drukarka nieaktywna",
+    "failed": "Akcja nie powiodła się"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "hotend": "Hotend",
+  "bed": "Mesa",
+  "print": "Impressão",
+  "state": {
+    "standby": "Em espera",
+    "printing": "Imprimindo",
+    "paused": "Pausado",
+    "complete": "Concluído",
+    "cancelled": "Cancelado",
+    "error": "Erro"
+  }
+}

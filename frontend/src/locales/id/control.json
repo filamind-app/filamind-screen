@@ -1,0 +1,19 @@
+{
+  "home": "Home semua",
+  "pause": "Jeda",
+  "resume": "Lanjutkan",
+  "cancel": "Batalkan",
+  "cancelConfirm": "Konfirmasi pembatalan?",
+  "estop": "Hentian darurat",
+  "safeOff": "Penulisan aktif",
+  "safeOn": "Mode aman",
+  "blocked": {
+    "offline": "Printer tidak aktif",
+    "safe": "Mode aman menyala",
+    "busy": "Suatu tindakan sedang berlangsung"
+  },
+  "error": {
+    "refused": "Ditolak — printer tidak aktif",
+    "failed": "Tindakan gagal"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "nav": "섹션",
+  "tab": {
+    "status": "상태",
+    "control": "제어",
+    "settings": "설정"
+  },
+  "trust": {
+    "live": "실시간",
+    "stale": "재연결 중…",
+    "shutdown": "Klipper 종료됨",
+    "error": "Klipper 오류",
+    "offline": "오프라인"
+  },
+  "remote": {
+    "here": "이 화면",
+    "dismiss": "메시지 닫기",
+    "warning": "경고"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "home": "全部歸位",
+  "pause": "暫停",
+  "resume": "繼續",
+  "cancel": "取消",
+  "cancelConfirm": "確認取消？",
+  "estop": "緊急停止",
+  "safeOff": "已啟用寫入",
+  "safeOn": "安全模式",
+  "blocked": {
+    "offline": "印表機未上線",
+    "safe": "安全模式已開啟",
+    "busy": "有操作正在進行中"
+  },
+  "error": {
+    "refused": "已拒絕 — 印表機未上線",
+    "failed": "操作失敗"
+  }
+}

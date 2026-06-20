@@ -1,0 +1,19 @@
+{
+  "home": "Azzera tutti gli assi",
+  "pause": "Pausa",
+  "resume": "Riprendi",
+  "cancel": "Annulla",
+  "cancelConfirm": "Confermi l'annullamento?",
+  "estop": "Arresto di emergenza",
+  "safeOff": "Scritture abilitate",
+  "safeOn": "Modalità sicura",
+  "blocked": {
+    "offline": "Stampante non attiva",
+    "safe": "La modalità sicura è attiva",
+    "busy": "Un'azione è in corso"
+  },
+  "error": {
+    "refused": "Rifiutato — stampante non attiva",
+    "failed": "Azione non riuscita"
+  }
+}

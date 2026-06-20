@@ -1,0 +1,20 @@
+{
+  "nav": "Mục",
+  "tab": {
+    "status": "Trạng thái",
+    "control": "Điều khiển",
+    "settings": "Cài đặt"
+  },
+  "trust": {
+    "live": "Trực tiếp",
+    "stale": "Đang kết nối lại…",
+    "shutdown": "Klipper đã tắt",
+    "error": "Lỗi Klipper",
+    "offline": "Ngoại tuyến"
+  },
+  "remote": {
+    "here": "Màn hình này",
+    "dismiss": "Bỏ qua thông báo",
+    "warning": "Cảnh báo"
+  }
+}

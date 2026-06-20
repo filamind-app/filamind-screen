@@ -1,0 +1,13 @@
+{
+  "hotend": "ホットエンド",
+  "bed": "ベッド",
+  "print": "印刷",
+  "state": {
+    "standby": "待機中",
+    "printing": "印刷中",
+    "paused": "一時停止中",
+    "complete": "完了",
+    "cancelled": "中止済み",
+    "error": "エラー"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "hotend": "Dysza",
+  "bed": "Stół",
+  "print": "Wydruk",
+  "state": {
+    "standby": "Gotowość",
+    "printing": "Drukowanie",
+    "paused": "Wstrzymano",
+    "complete": "Ukończono",
+    "cancelled": "Anulowano",
+    "error": "Błąd"
+  }
+}

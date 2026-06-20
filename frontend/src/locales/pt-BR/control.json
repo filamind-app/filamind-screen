@@ -1,0 +1,19 @@
+{
+  "home": "Referenciar tudo",
+  "pause": "Pausar",
+  "resume": "Retomar",
+  "cancel": "Cancelar",
+  "cancelConfirm": "Confirmar cancelamento?",
+  "estop": "Parada de emergência",
+  "safeOff": "Gravações ativadas",
+  "safeOn": "Modo seguro",
+  "blocked": {
+    "offline": "Impressora não está ativa",
+    "safe": "Modo seguro está ativado",
+    "busy": "Uma ação está em andamento"
+  },
+  "error": {
+    "refused": "Recusado — impressora não está ativa",
+    "failed": "Falha na ação"
+  }
+}

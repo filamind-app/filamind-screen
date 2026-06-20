@@ -1,0 +1,19 @@
+{
+  "home": "Alle referenzieren",
+  "pause": "Pause",
+  "resume": "Fortsetzen",
+  "cancel": "Abbrechen",
+  "cancelConfirm": "Abbruch bestätigen?",
+  "estop": "Not-Aus",
+  "safeOff": "Schreiben aktiviert",
+  "safeOn": "Sicherer Modus",
+  "blocked": {
+    "offline": "Drucker nicht aktiv",
+    "safe": "Sicherer Modus ist an",
+    "busy": "Eine Aktion läuft gerade"
+  },
+  "error": {
+    "refused": "Abgelehnt — Drucker nicht aktiv",
+    "failed": "Aktion fehlgeschlagen"
+  }
+}

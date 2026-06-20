@@ -1,0 +1,19 @@
+{
+  "home": "전체 원점 복귀",
+  "pause": "일시정지",
+  "resume": "재개",
+  "cancel": "취소",
+  "cancelConfirm": "취소하시겠습니까?",
+  "estop": "비상 정지",
+  "safeOff": "쓰기 허용됨",
+  "safeOn": "안전 모드",
+  "blocked": {
+    "offline": "프린터 연결 안 됨",
+    "safe": "안전 모드가 켜져 있음",
+    "busy": "작업이 진행 중입니다"
+  },
+  "error": {
+    "refused": "거부됨 — 프린터 연결 안 됨",
+    "failed": "작업 실패"
+  }
+}

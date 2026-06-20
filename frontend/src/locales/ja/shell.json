@@ -1,0 +1,20 @@
+{
+  "nav": "セクション",
+  "tab": {
+    "status": "ステータス",
+    "control": "操作",
+    "settings": "設定"
+  },
+  "trust": {
+    "live": "ライブ",
+    "stale": "再接続中…",
+    "shutdown": "Klipper がシャットダウン",
+    "error": "Klipper エラー",
+    "offline": "オフライン"
+  },
+  "remote": {
+    "here": "この画面",
+    "dismiss": "メッセージを閉じる",
+    "warning": "警告"
+  }
+}

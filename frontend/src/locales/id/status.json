@@ -1,0 +1,13 @@
+{
+  "hotend": "Hotend",
+  "bed": "Bed",
+  "print": "Cetak",
+  "state": {
+    "standby": "Siaga",
+    "printing": "Mencetak",
+    "paused": "Dijeda",
+    "complete": "Selesai",
+    "cancelled": "Dibatalkan",
+    "error": "Kesalahan"
+  }
+}

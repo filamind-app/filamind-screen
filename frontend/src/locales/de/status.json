@@ -1,0 +1,13 @@
+{
+  "hotend": "Hotend",
+  "bed": "Bett",
+  "print": "Druck",
+  "state": {
+    "standby": "Bereitschaft",
+    "printing": "Druckt",
+    "paused": "Pausiert",
+    "complete": "Fertig",
+    "cancelled": "Abgebrochen",
+    "error": "Fehler"
+  }
+}
