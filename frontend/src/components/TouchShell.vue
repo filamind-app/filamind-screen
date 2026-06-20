@@ -7,8 +7,10 @@ import StatusView from '@/views/StatusView.vue'
 import ControlView from '@/views/ControlView.vue'
 import SettingsView from '@/views/SettingsView.vue'
 import { remoteNav, remoteBanner, remoteLocating, dismissBanner } from '@/core/remote'
+import { useControlStore } from '@/core/store/control'
 
 const { t } = useI18n()
+const ctl = useControlStore()
 
 type Tab = 'status' | 'control' | 'settings'
 const tab = ref<Tab>('status')
@@ -60,7 +62,20 @@ function onDismissBanner(): void {
         <img src="/favicon.svg" width="26" height="26" alt="" />
         <span class="brand-name">FilaMind</span>
       </div>
-      <TrustRibbon />
+      <div class="bar-right">
+        <TrustRibbon />
+        <!-- E-STOP is reachable from every tab, not just Control; ungated like the in-tab one. -->
+        <button
+          class="estop-mini"
+          type="button"
+          :aria-label="t('control.estop')"
+          :title="t('control.estop')"
+          @click="ctl.emergencyStop()"
+        >
+          <span aria-hidden="true">⛔</span>
+          <span class="estop-label">{{ t('control.estop') }}</span>
+        </button>
+      </div>
     </header>
 
     <!-- Always mounted (v-show) so the aria-live region pre-exists and the first message is announced. -->
@@ -149,6 +164,29 @@ function onDismissBanner(): void {
   color: var(--fm-text);
   font-size: 1.15rem;
   letter-spacing: 0.5px;
+}
+.bar-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+/* Always-present emergency stop (every tab); ungated. */
+.estop-mini {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 44px;
+  padding: 0 0.85rem;
+  border: 0;
+  border-radius: 12px;
+  background: var(--fm-danger);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.estop-mini:active {
+  filter: brightness(0.9);
 }
 .content {
   flex: 1;
