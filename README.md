@@ -3,6 +3,12 @@
 On-printer **touch control**, built on `@filamind-app/core` and wrapped by **Tauri 2** (a fullscreen kiosk webview).
 Part of the FilaMind suite (3d web · screen touch · flow).
 
+[![CI](https://github.com/filamind-app/filamind-screen/actions/workflows/ci.yml/badge.svg)](https://github.com/filamind-app/filamind-screen/actions/workflows/ci.yml)
+[![License: GPLv3](https://img.shields.io/badge/License-GPLv3-111111.svg)](LICENSE)
+[![Tauri 2](https://img.shields.io/badge/Tauri-2-111111?logo=tauri&logoColor=white)](https://tauri.app)
+[![Klipper](https://img.shields.io/badge/Klipper-compatible-111111)](https://www.klipper3d.org)
+[![Moonraker](https://img.shields.io/badge/Moonraker-API-111111)](https://moonraker.readthedocs.io)
+
 ## What it is
 A focused, big-target touch UI over the same core as FilaMind 3d: a tab shell (**Status · Control · Settings**),
 the connection **trust ribbon**, the Klipper **prompt dialog**, and gated machine control (Home / Pause / Resume /
