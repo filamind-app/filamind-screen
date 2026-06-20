@@ -4,6 +4,8 @@
   "themeName": {
     "tutankhamun": "توت عنخ آمون",
     "horus": "حورس",
-    "anubis": "أنوبيس"
+    "anubis": "أنوبيس",
+    "light": "فاتح",
+    "dark": "داكن"
   }
 }

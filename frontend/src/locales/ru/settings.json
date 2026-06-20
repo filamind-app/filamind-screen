@@ -4,6 +4,8 @@
   "themeName": {
     "tutankhamun": "Тутанхамон",
     "horus": "Гор",
-    "anubis": "Анубис"
+    "anubis": "Анубис",
+    "light": "Светлая",
+    "dark": "Тёмная"
   }
 }

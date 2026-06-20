@@ -4,6 +4,8 @@
   "themeName": {
     "tutankhamun": "图坦卡蒙",
     "horus": "荷鲁斯",
-    "anubis": "阿努比斯"
+    "anubis": "阿努比斯",
+    "light": "浅色",
+    "dark": "深色"
   }
 }
