@@ -21,7 +21,18 @@ jobs:
           node-version: '22'
       - run: cd frontend && npm ci && npm run build
       - run: tar -czf filamind-screen-dist-${{ github.ref_name }}.tar.gz -C frontend/dist .
+      # Release notes come from CHANGELOG.md (not auto-generated from commits) so the
+      # published text is authored and stays within the R1 no-external-refs rule.
+      - name: Release notes from CHANGELOG
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          awk -v ver="$VERSION" '
+            $0 ~ "^## \\[" ver "\\]" { cap=1; next }
+            cap && /^## \[/ { exit }
+            cap { print }
+          ' CHANGELOG.md > NOTES.md
+          [ -s NOTES.md ] || echo "See CHANGELOG.md for details." > NOTES.md
       - uses: softprops/action-gh-release@v2
         with:
           files: filamind-screen-dist-${{ github.ref_name }}.tar.gz
-          generate_release_notes: true
+          body_path: NOTES.md
