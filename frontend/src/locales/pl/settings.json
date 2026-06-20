@@ -4,6 +4,8 @@
   "themeName": {
     "tutankhamun": "Tutanchamon",
     "horus": "Horus",
-    "anubis": "Anubis"
+    "anubis": "Anubis",
+    "light": "Jasny",
+    "dark": "Ciemny"
   }
 }
