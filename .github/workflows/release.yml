@@ -1,0 +1,27 @@
+name: Release
+
+# Cut a release by bumping frontend/package.json and pushing a tag:
+#   git tag v0.1.0 && git push --tags
+# Builds the touch SPA and attaches dist as a release asset (usable by a Moonraker `web`
+# update_manager). The packaged Tauri kiosk bundle is built separately once a Rust toolchain is set up.
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write # create the GitHub Release
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: cd frontend && npm ci && npm run build
+      - run: tar -czf filamind-screen-dist-${{ github.ref_name }}.tar.gz -C frontend/dist .
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: filamind-screen-dist-${{ github.ref_name }}.tar.gz
+          generate_release_notes: true
