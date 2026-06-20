@@ -1,0 +1,20 @@
+# dependencies / build output (the nested frontend/ ignore also covers these)
+node_modules/
+dist/
+*.tsbuildinfo
+
+# tauri / rust build output (Cargo.lock IS committed for an app)
+target/
+src-tauri/target/
+src-tauri/gen/
+
+# env / secrets
+.env
+.env.*
+!.env.example
+
+# os / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

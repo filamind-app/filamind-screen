@@ -1,0 +1,13 @@
+{
+  "hotend": "Hotend",
+  "bed": "Bed",
+  "print": "Print",
+  "state": {
+    "standby": "Standby",
+    "printing": "Printing",
+    "paused": "Paused",
+    "complete": "Complete",
+    "cancelled": "Cancelled",
+    "error": "Error"
+  }
+}

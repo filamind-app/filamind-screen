@@ -1,0 +1,51 @@
+{
+  "name": "@filamind/screen",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "FilaMind screen — on-printer touch control, built on @filamind-app/core and wrapped by Tauri 2.",
+  "license": "GPL-3.0-or-later",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "npm run type-check && vite build",
+    "preview": "vite preview",
+    "type-check": "vue-tsc --noEmit",
+    "lint": "eslint . --max-warnings 0",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write \"src/**/*.{ts,vue,css}\" \"*.{ts,js,json}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,vue,css}\" \"*.{ts,js,json}\"",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "tauri": "tauri"
+  },
+  "dependencies": {
+    "@filamind-app/core": "^0.1.0",
+    "@tauri-apps/api": "^2.11.1",
+    "pinia": "^3.0.4",
+    "vue": "^3.5.38",
+    "vue-i18n": "^11.4.6"
+  },
+  "devDependencies": {
+    "@intlify/unplugin-vue-i18n": "^11.2.4",
+    "@tailwindcss/vite": "^4.3.1",
+    "@tauri-apps/cli": "^2.11.3",
+    "@types/node": "^22.13.0",
+    "@vitejs/plugin-vue": "^6.0.7",
+    "@vue/eslint-config-prettier": "^10.1.0",
+    "@vue/eslint-config-typescript": "^14.8.0",
+    "@vue/test-utils": "^2.4.11",
+    "@vue/tsconfig": "^0.9.1",
+    "eslint": "^10.5.0",
+    "eslint-plugin-vue": "^10.9.2",
+    "jsdom": "^29.1.1",
+    "prettier": "^3.8.4",
+    "tailwindcss": "^4.3.1",
+    "typescript": "~6.0.3",
+    "vite": "^8.0.16",
+    "vitest": "^4.1.9",
+    "vue-tsc": "^3.3.5"
+  }
+}

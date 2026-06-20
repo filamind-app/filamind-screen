@@ -1,0 +1,100 @@
+@import 'tailwindcss';
+
+/* Semantic tokens → the Pharaonic --fm-* custom properties set by @filamind-app/core. */
+@theme {
+  --color-bg: var(--fm-bg);
+  --color-surface: var(--fm-surface);
+  --color-surface-2: var(--fm-surface-2);
+  --color-line: var(--fm-border);
+  --color-ink: var(--fm-text);
+  --color-muted: var(--fm-text-muted);
+  --color-primary: var(--fm-primary);
+  --color-on-primary: var(--fm-primary-contrast);
+  --color-secondary: var(--fm-secondary);
+  --color-accent: var(--fm-accent);
+  --color-success: var(--fm-success);
+  --color-warning: var(--fm-warning);
+  --color-danger: var(--fm-danger);
+
+  --font-display: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+}
+
+/* No-flash bg + text for first paint, before JS fills the full --fm-* set. */
+:root[data-fm-theme='tutankhamun'] {
+  --fm-bg: #0e0f12;
+  --fm-text: #f3ecd8;
+}
+:root[data-fm-theme='horus'] {
+  --fm-bg: #0b1016;
+  --fm-text: #eaf2f5;
+}
+:root[data-fm-theme='anubis'] {
+  --fm-bg: #1a1714;
+  --fm-text: #f4e7ce;
+}
+
+@layer base {
+  html,
+  body,
+  #app {
+    height: 100%;
+  }
+  body {
+    margin: 0;
+    background: var(--fm-bg, #0e0f12);
+    color: var(--fm-text, #f3ecd8);
+    font-family: var(--font-sans);
+    font-size: 18px; /* touch-first base size */
+    -webkit-font-smoothing: antialiased;
+    /* a fixed on-printer panel — no text selection / overscroll bounce */
+    user-select: none;
+    overscroll-behavior: none;
+  }
+  :focus-visible {
+    outline: 3px solid var(--fm-accent, #2ba199);
+    outline-offset: 2px;
+  }
+}
+
+/* Big touch primitives. */
+@utility touch-card {
+  background: var(--fm-surface);
+  border: 1px solid var(--fm-border);
+  border-radius: 18px;
+}
+@utility touch-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 64px;
+  padding: 0.9rem 1.4rem;
+  border-radius: 16px;
+  font-size: 1.05rem;
+  background: var(--fm-surface-2);
+  color: var(--fm-text);
+  border: 1px solid var(--fm-border);
+  cursor: pointer;
+}
+@utility touch-btn-primary {
+  background: var(--fm-primary);
+  color: var(--fm-primary-contrast);
+  border-color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+:root[data-fm-reduced='true'] *,
+:root[data-fm-reduced='true'] *::before,
+:root[data-fm-reduced='true'] *::after {
+  animation-duration: 0.001ms !important;
+  transition-duration: 0.001ms !important;
+}

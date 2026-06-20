@@ -1,0 +1,27 @@
+name: CI
+on: [push, pull_request]
+
+jobs:
+  frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22' # vue-i18n 11 + unplugin require Node >= 22
+      # NOTE: @filamind-app/core must be resolvable — published package (release) or the suite workspace symlink (dev).
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run format:check
+      - run: npm run type-check
+      - run: npm test
+      - run: npm run build
+      - name: No external-project references (R1)
+        run: bash scripts/check-no-external-refs.sh
+
+  # A Tauri (Rust) build job is added once app icons are generated (`npm run tauri icon`) and the
+  # CI runner installs the Tauri prerequisites (WebKitGTK etc.). The Rust shell is the standard
+  # Tauri 2 template; build it locally with `npm run tauri build` from frontend/.

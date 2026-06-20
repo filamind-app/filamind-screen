@@ -1,0 +1,19 @@
+{
+  "home": "Home all",
+  "pause": "Pause",
+  "resume": "Resume",
+  "cancel": "Cancel",
+  "cancelConfirm": "Confirm cancel?",
+  "estop": "Emergency stop",
+  "safeOff": "Writes enabled",
+  "safeOn": "Safe mode",
+  "blocked": {
+    "offline": "Printer not live",
+    "safe": "Safe mode is on",
+    "busy": "An action is in progress"
+  },
+  "error": {
+    "refused": "Refused — printer not live",
+    "failed": "Action failed"
+  }
+}
