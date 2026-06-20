@@ -21,7 +21,7 @@ Vue 3.5 · Pinia 3 · vue-i18n 11 · Vite 8 · Tailwind 4 · TypeScript 6 (front
 ## Layout
 ```
 frontend/
-  src/         core/ bridge (session·control·stores·theme·i18n·settings) + components/ + views/ + locales/ (en, ar)
+  src/         core/ bridge (session·control·stores·theme·i18n·settings) + components/ + views/ + locales/ (19 locale folders)
   src-tauri/   Tauri 2 shell — Cargo.toml · tauri.conf.json (fullscreen + CSP) · src/{main,lib}.rs · capabilities/
 ```
 
@@ -30,7 +30,7 @@ frontend/
 ```bash
 cd frontend
 npm run dev          # Vite on :5274 (open in a browser to preview the touch UI)
-npm run type-check && npm run lint && npm test && npm run build
+npm run type-check && npm run lint && npm test && npm run i18n:keydiff && npm run build
 ```
 **Tauri app** (needs the Rust toolchain + WebView2/WebKitGTK + app icons):
 ```bash
