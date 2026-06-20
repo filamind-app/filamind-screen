@@ -1,0 +1,20 @@
+{
+  "nav": "Bagian",
+  "tab": {
+    "status": "Status",
+    "control": "Kontrol",
+    "settings": "Pengaturan"
+  },
+  "trust": {
+    "live": "Langsung",
+    "stale": "Menghubungkan ulang…",
+    "shutdown": "Klipper dimatikan",
+    "error": "Kesalahan Klipper",
+    "offline": "Luring"
+  },
+  "remote": {
+    "here": "Layar ini",
+    "dismiss": "Tutup pesan",
+    "warning": "Peringatan"
+  }
+}

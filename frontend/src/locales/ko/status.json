@@ -1,0 +1,13 @@
+{
+  "hotend": "핫엔드",
+  "bed": "베드",
+  "print": "출력",
+  "state": {
+    "standby": "대기",
+    "printing": "출력 중",
+    "paused": "일시정지됨",
+    "complete": "완료",
+    "cancelled": "취소됨",
+    "error": "오류"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "home": "Về gốc tất cả",
+  "pause": "Tạm dừng",
+  "resume": "Tiếp tục",
+  "cancel": "Hủy",
+  "cancelConfirm": "Xác nhận hủy?",
+  "estop": "Dừng khẩn cấp",
+  "safeOff": "Đã bật ghi",
+  "safeOn": "Chế độ an toàn",
+  "blocked": {
+    "offline": "Máy in không trực tuyến",
+    "safe": "Chế độ an toàn đang bật",
+    "busy": "Đang có thao tác diễn ra"
+  },
+  "error": {
+    "refused": "Bị từ chối — máy in không trực tuyến",
+    "failed": "Thao tác thất bại"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "hotend": "Nozül",
+  "bed": "Tabla",
+  "print": "Baskı",
+  "state": {
+    "standby": "Beklemede",
+    "printing": "Baskı sürüyor",
+    "paused": "Duraklatıldı",
+    "complete": "Tamamlandı",
+    "cancelled": "İptal edildi",
+    "error": "Hata"
+  }
+}

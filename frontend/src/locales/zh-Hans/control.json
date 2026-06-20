@@ -1,0 +1,19 @@
+{
+  "home": "全部回零",
+  "pause": "暂停",
+  "resume": "继续",
+  "cancel": "取消",
+  "cancelConfirm": "确认取消？",
+  "estop": "急停",
+  "safeOff": "写入已启用",
+  "safeOn": "安全模式",
+  "blocked": {
+    "offline": "打印机未在线",
+    "safe": "安全模式已开启",
+    "busy": "操作进行中"
+  },
+  "error": {
+    "refused": "已拒绝 — 打印机未在线",
+    "failed": "操作失败"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "home": "Posición de inicio",
+  "pause": "Pausar",
+  "resume": "Reanudar",
+  "cancel": "Cancelar",
+  "cancelConfirm": "¿Confirmar cancelación?",
+  "estop": "Parada de emergencia",
+  "safeOff": "Escritura habilitada",
+  "safeOn": "Modo seguro",
+  "blocked": {
+    "offline": "Impresora no activa",
+    "safe": "El modo seguro está activado",
+    "busy": "Hay una acción en curso"
+  },
+  "error": {
+    "refused": "Rechazada — impresora no activa",
+    "failed": "La acción falló"
+  }
+}

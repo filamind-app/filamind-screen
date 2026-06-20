@@ -1,0 +1,13 @@
+{
+  "hotend": "Buse",
+  "bed": "Plateau",
+  "print": "Impression",
+  "state": {
+    "standby": "En veille",
+    "printing": "Impression en cours",
+    "paused": "En pause",
+    "complete": "Terminé",
+    "cancelled": "Annulé",
+    "error": "Erreur"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "nav": "板块",
+  "tab": {
+    "status": "状态",
+    "control": "控制",
+    "settings": "设置"
+  },
+  "trust": {
+    "live": "在线",
+    "stale": "重新连接中…",
+    "shutdown": "Klipper 已关闭",
+    "error": "Klipper 错误",
+    "offline": "离线"
+  },
+  "remote": {
+    "here": "本屏幕",
+    "dismiss": "关闭消息",
+    "warning": "警告"
+  }
+}

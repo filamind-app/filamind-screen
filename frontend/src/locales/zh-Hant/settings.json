@@ -1,0 +1,9 @@
+{
+  "theme": "主題",
+  "language": "語言",
+  "themeName": {
+    "tutankhamun": "圖坦卡門",
+    "horus": "荷魯斯",
+    "anubis": "阿努比斯"
+  }
+}

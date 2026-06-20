@@ -1,0 +1,19 @@
+{
+  "home": "Alles homen",
+  "pause": "Pauzeren",
+  "resume": "Hervatten",
+  "cancel": "Annuleren",
+  "cancelConfirm": "Annuleren bevestigen?",
+  "estop": "Noodstop",
+  "safeOff": "Schrijven ingeschakeld",
+  "safeOn": "Veilige modus",
+  "blocked": {
+    "offline": "Printer niet actief",
+    "safe": "Veilige modus staat aan",
+    "busy": "Er is een actie bezig"
+  },
+  "error": {
+    "refused": "Geweigerd — printer niet actief",
+    "failed": "Actie mislukt"
+  }
+}

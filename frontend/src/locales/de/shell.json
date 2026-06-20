@@ -1,0 +1,20 @@
+{
+  "nav": "Bereiche",
+  "tab": {
+    "status": "Status",
+    "control": "Steuerung",
+    "settings": "Einstellungen"
+  },
+  "trust": {
+    "live": "Live",
+    "stale": "Verbinde erneut…",
+    "shutdown": "Klipper heruntergefahren",
+    "error": "Klipper-Fehler",
+    "offline": "Offline"
+  },
+  "remote": {
+    "here": "Dieser Bildschirm",
+    "dismiss": "Meldung ausblenden",
+    "warning": "Warnung"
+  }
+}

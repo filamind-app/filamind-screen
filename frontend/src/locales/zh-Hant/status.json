@@ -1,0 +1,13 @@
+{
+  "hotend": "噴頭",
+  "bed": "熱床",
+  "print": "列印",
+  "state": {
+    "standby": "待機",
+    "printing": "列印中",
+    "paused": "已暫停",
+    "complete": "已完成",
+    "cancelled": "已取消",
+    "error": "錯誤"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "nav": "अनुभाग",
+  "tab": {
+    "status": "स्थिति",
+    "control": "नियंत्रण",
+    "settings": "सेटिंग्स"
+  },
+  "trust": {
+    "live": "लाइव",
+    "stale": "फिर से कनेक्ट हो रहा है…",
+    "shutdown": "Klipper बंद हो गया",
+    "error": "Klipper त्रुटि",
+    "offline": "ऑफ़लाइन"
+  },
+  "remote": {
+    "here": "यह स्क्रीन",
+    "dismiss": "संदेश खारिज करें",
+    "warning": "चेतावनी"
+  }
+}

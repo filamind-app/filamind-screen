@@ -1,0 +1,20 @@
+{
+  "nav": "Seções",
+  "tab": {
+    "status": "Status",
+    "control": "Controle",
+    "settings": "Configurações"
+  },
+  "trust": {
+    "live": "Ao vivo",
+    "stale": "Reconectando…",
+    "shutdown": "Klipper desligado",
+    "error": "Erro do Klipper",
+    "offline": "Offline"
+  },
+  "remote": {
+    "here": "Esta tela",
+    "dismiss": "Dispensar mensagem",
+    "warning": "Aviso"
+  }
+}

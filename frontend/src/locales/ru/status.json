@@ -1,0 +1,13 @@
+{
+  "hotend": "Сопло",
+  "bed": "Стол",
+  "print": "Печать",
+  "state": {
+    "standby": "Ожидание",
+    "printing": "Печать",
+    "paused": "Пауза",
+    "complete": "Завершено",
+    "cancelled": "Отменено",
+    "error": "Ошибка"
+  }
+}

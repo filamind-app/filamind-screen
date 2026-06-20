@@ -1,0 +1,13 @@
+{
+  "hotend": "Đầu phun",
+  "bed": "Bàn in",
+  "print": "In",
+  "state": {
+    "standby": "Chờ",
+    "printing": "Đang in",
+    "paused": "Đã tạm dừng",
+    "complete": "Hoàn tất",
+    "cancelled": "Đã hủy",
+    "error": "Lỗi"
+  }
+}

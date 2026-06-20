@@ -1,0 +1,20 @@
+{
+  "nav": "Sezioni",
+  "tab": {
+    "status": "Stato",
+    "control": "Controllo",
+    "settings": "Impostazioni"
+  },
+  "trust": {
+    "live": "In diretta",
+    "stale": "Riconnessione…",
+    "shutdown": "Klipper arrestato",
+    "error": "Errore Klipper",
+    "offline": "Non in linea"
+  },
+  "remote": {
+    "here": "Questo schermo",
+    "dismiss": "Ignora messaggio",
+    "warning": "Avviso"
+  }
+}

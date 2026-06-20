@@ -1,0 +1,13 @@
+{
+  "hotend": "Fusor",
+  "bed": "Cama",
+  "print": "Impresión",
+  "state": {
+    "standby": "En espera",
+    "printing": "Imprimiendo",
+    "paused": "En pausa",
+    "complete": "Completada",
+    "cancelled": "Cancelada",
+    "error": "Error"
+  }
+}

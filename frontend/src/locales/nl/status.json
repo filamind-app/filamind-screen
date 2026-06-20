@@ -1,0 +1,13 @@
+{
+  "hotend": "Hotend",
+  "bed": "Bed",
+  "print": "Print",
+  "state": {
+    "standby": "Stand-by",
+    "printing": "Bezig met printen",
+    "paused": "Gepauzeerd",
+    "complete": "Voltooid",
+    "cancelled": "Geannuleerd",
+    "error": "Fout"
+  }
+}
