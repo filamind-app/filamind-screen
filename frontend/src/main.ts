@@ -38,6 +38,13 @@ async function bootstrap(): Promise<void> {
   app.use(createPinia())
   app.use(i18n)
   app.mount('#app')
+
+  // Drop the boot splash once the app has mounted.
+  const splash = document.getElementById('fm-splash')
+  if (splash) {
+    splash.style.opacity = '0'
+    setTimeout(() => splash.remove(), 300)
+  }
 }
 
 void bootstrap()
