@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
     <meta name="color-scheme" content="dark light" />
     <title>FilaMind screen</title>
@@ -21,6 +22,20 @@
     </script>
   </head>
   <body>
+    <!-- Boot splash on the kiosk display; removed by main.ts once the app mounts.
+         Inline styles only (CSP allows style-src 'unsafe-inline'); no inline script. -->
+    <div
+      id="fm-splash"
+      style="position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: #0e0f12; transition: opacity 0.3s ease"
+    >
+      <img
+        src="/apple-touch-icon.png"
+        width="96"
+        height="96"
+        alt="FilaMind"
+        style="border-radius: 20px"
+      />
+    </div>
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
   </body>
