@@ -6,6 +6,9 @@
 # the touch UI on the printer's display in a browser; the packaged Tauri kiosk app is the eventual
 # production path (needs a Rust toolchain — see DEPLOY.md).
 #
+# The touch UI ships pre-built in frontend/dist, so no Node is needed on the printer; the
+# build-on-host path below is only a fallback if the bundle is ever missing.
+#
 # Run on the printer as a sudo-capable user:
 #   sudo bash deploy/install.sh [--port 8088] [--moonraker 127.0.0.1:7125]
 #   sudo bash deploy/install.sh --uninstall
