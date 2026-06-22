@@ -1,0 +1,1 @@
+var e={title:{t:0,b:{t:2,i:[{t:3}],s:`프린터 프롬프트`}},close:{t:0,b:{t:2,i:[{t:3}],s:`닫기`}}};export{e as default};
