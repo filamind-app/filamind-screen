@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en" data-fm-theme="tutankhamun">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <meta name="color-scheme" content="dark light" />
+    <title>FilaMind screen</title>
+    <!-- No-flash: apply the stored theme + direction before CSS/JS load. -->
+    <script>
+      try {
+        var s = JSON.parse(localStorage.getItem('filamind.settings') || '{}')
+        document.documentElement.dataset.fmTheme = s && s.theme ? s.theme : 'tutankhamun'
+        if (s && s.locale) {
+          document.documentElement.lang = s.locale
+          document.documentElement.dir = s.locale === 'ar' ? 'rtl' : 'ltr'
+        }
+      } catch (e) {
+        /* default theme stays */
+      }
+    </script>
+    <script type="module" crossorigin src="./assets/index-D7OVABUY.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-qr0aYAkb.css">
+  </head>
+  <body>
+    <!-- Boot splash on the kiosk display; removed by main.ts once the app mounts.
+         Inline styles only (CSP allows style-src 'unsafe-inline'); no inline script. -->
+    <div
+      id="fm-splash"
+      style="position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: #0e0f12; transition: opacity 0.3s ease"
+    >
+      <img
+        src="./apple-touch-icon.png"
+        width="96"
+        height="96"
+        alt="FilaMind"
+        style="border-radius: 20px"
+      />
+    </div>
+    <div id="app"></div>
+  </body>
+</html>

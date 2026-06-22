@@ -1,0 +1,1 @@
+var e={title:{t:0,b:{t:2,i:[{t:3}],s:`印表機提示`}},close:{t:0,b:{t:2,i:[{t:3}],s:`關閉`}}};export{e as default};
