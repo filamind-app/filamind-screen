@@ -2,6 +2,15 @@
 
 All notable changes to FilaMind screen are documented here. Format: `## [version]` sections (parsed by the release workflow).
 
+## [0.1.2]
+
+### Changed
+
+- **Installer guides the proper kiosk setup.** The post-install message now points to installing a
+  dedicated `filamind-screen-kiosk` service (via FilaMind flow's installer) so the touch app runs on
+  the printer's display and is switchable from flow's Screen Manager - not just a one-off chromium
+  command.
+
 ## [0.1.1]
 
 ### Fixed
