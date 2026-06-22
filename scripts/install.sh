@@ -49,9 +49,12 @@ if [ "$CMD" = update ]; then
 fi
 
 # When invoked via `curl | bash`, stdin is the pipe (not a terminal), so the sudo calls below can't
-# prompt for a password. Reconnect the controlling terminal if there is one (a no-op for the
-# download-then-run form, where stdin is already a tty).
-if [ ! -t 0 ] && [ -e /dev/tty ]; then exec </dev/tty; fi
+# prompt for a password. Reconnect the controlling terminal when one is actually attached. Testing
+# `[ -e /dev/tty ]` is not enough: in a service context (no controlling terminal) the device node
+# still exists but opening it fails, and a bare `exec </dev/tty` would abort the whole script. Probe
+# that it opens first; if it does not (a headless run, e.g. from the Setup widget) fall through and
+# let sudo print its own clear error instead of dying on a cryptic /dev/tty failure.
+if [ ! -t 0 ] && (exec </dev/tty) 2>/dev/null; then exec </dev/tty; fi
 
 if [ "$CMD" = uninstall ]; then
   info "Removing FilaMind screen"
