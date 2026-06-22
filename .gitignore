@@ -1,6 +1,7 @@
 # dependencies / build output (the nested frontend/ ignore also covers these)
 node_modules/
 dist/
+!frontend/dist/
 *.tsbuildinfo
 
 # tauri / rust build output (Cargo.lock IS committed for an app)
