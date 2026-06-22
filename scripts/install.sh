@@ -48,6 +48,11 @@ if [ "$CMD" = update ]; then
   CMD=install
 fi
 
+# When invoked via `curl | bash`, stdin is the pipe (not a terminal), so the sudo calls below can't
+# prompt for a password. Reconnect the controlling terminal if there is one (a no-op for the
+# download-then-run form, where stdin is already a tty).
+if [ ! -t 0 ] && [ -e /dev/tty ]; then exec </dev/tty; fi
+
 if [ "$CMD" = uninstall ]; then
   info "Removing FilaMind screen"
   sudo bash "$APP/deploy/install.sh" --uninstall
