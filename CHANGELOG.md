@@ -2,6 +2,18 @@
 
 All notable changes to FilaMind screen are documented here. Format: `## [version]` sections (parsed by the release workflow).
 
+## [0.1.3]
+
+### Fixed
+
+- **Installer no longer aborts on a `/dev/tty` error when run without a terminal.** The previous
+  terminal-reconnect guard only checked that `/dev/tty` exists, but in a service context (no
+  controlling terminal, e.g. when the FilaMind flow Setup widget runs the installer) the device
+  node exists yet cannot be opened, so the script died with a cryptic
+  `/dev/tty: No such device or address`. It now probes that the terminal actually opens before
+  reconnecting; a headless run falls through and lets `sudo` print its clear "run on the host"
+  guidance instead.
+
 ## [0.1.2]
 
 ### Changed
