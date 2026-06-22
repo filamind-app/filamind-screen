@@ -2,6 +2,15 @@
 
 All notable changes to FilaMind screen are documented here. Format: `## [version]` sections (parsed by the release workflow).
 
+## [0.1.1]
+
+### Fixed
+
+- **One-line installer can prompt for the sudo password.** Running `scripts/install.sh` via
+  `curl … | bash` left stdin attached to the pipe, so the nginx setup failed with
+  `sudo: a terminal is required to read the password`. It now reconnects the controlling terminal
+  before the sudo step, so the one-liner works.
+
 ## [0.1.0]
 
 Initial on-printer **touch** app, built on `@filamind-app/core` and wrapped by Tauri 2.
