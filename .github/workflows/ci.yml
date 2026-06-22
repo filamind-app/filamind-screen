@@ -4,11 +4,17 @@ on: [push, pull_request]
 jobs:
   frontend:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # push the CI-built dist back to the PR branch
     defaults:
       run:
         working-directory: frontend
     steps:
+      # On a PR, check out the branch tip (not the merge commit) so we can push the rebuilt dist
+      # back to it; on push to main, head_ref is empty and the default checkout is used.
       - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.head_ref }}
       - uses: actions/setup-node@v6
         with:
           node-version: '22' # vue-i18n 11 + unplugin require Node >= 22
@@ -22,6 +28,27 @@ jobs:
       - run: npm run build
       - name: No external-project references (R1)
         run: bash scripts/check-no-external-refs.sh
+      # The screen app serves the prebuilt bundle from git (no Node on the host), so the committed
+      # dist must match a fresh build. CI is the canonical builder: on a PR, rebuild and commit
+      # frontend/dist back to the branch; on push to main, only verify it is fresh.
+      - name: Commit rebuilt dist back to the PR branch
+        if: github.event_name == 'pull_request'
+        run: |
+          if [ -n "$(git status --porcelain -- dist)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add dist
+            git commit -m "chore(ci): rebuild frontend/dist"
+            git push origin HEAD:${{ github.head_ref }}
+          fi
+      - name: Verify committed frontend/dist is fresh
+        if: github.event_name == 'push'
+        run: |
+          if [ -n "$(git status --porcelain -- dist)" ]; then
+            echo "::error::frontend/dist is stale"
+            git status --porcelain -- dist
+            exit 1
+          fi
 
   # A Tauri (Rust) build job is added once app icons are generated (`npm run tauri icon`) and the
   # CI runner installs the Tauri prerequisites (WebKitGTK etc.). The Rust shell is the standard
