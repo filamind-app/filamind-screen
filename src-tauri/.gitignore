@@ -1,0 +1,4 @@
+# Rust build output
+/target
+# Tauri-generated schemas/bindings (regenerated at build time)
+/gen/schemas

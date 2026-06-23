@@ -1,0 +1,77 @@
+name: build-native
+
+# Builds the native Tauri 2 shell as an aarch64 Debian package for the printer's display.
+# Runs on a GitHub-hosted ARM64 runner inside a debian:bookworm container, so the binary links
+# against the same glibc + webkit2gtk-4.1 the printer (Debian Bookworm) ships - no QEMU, no
+# cross-glibc surprises. The .deb is uploaded as an artifact, and attached to the GitHub release
+# when the workflow runs on a tag.
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'src-tauri/**'
+      - 'frontend/**'
+      - '.github/workflows/build-native.yml'
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  aarch64-deb:
+    runs-on: ubuntu-24.04-arm
+    container: debian:bookworm
+    steps:
+      - name: Install OS build dependencies
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends \
+            ca-certificates curl file git unzip xz-utils \
+            pkg-config build-essential \
+            libwebkit2gtk-4.1-dev libgtk-3-dev librsvg2-dev \
+            libssl-dev libayatana-appindicator3-dev
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Node 22
+        run: |
+          curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
+          apt-get install -y nodejs
+          node --version
+
+      - name: Install Rust (stable)
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal --default-toolchain stable
+          echo "$HOME/.cargo/bin" >> "$GITHUB_PATH"
+
+      - name: Install Tauri CLI
+        run: cargo install tauri-cli --version "^2.0" --locked
+
+      - name: Install frontend dependencies
+        run: npm --prefix frontend ci
+
+      - name: Build native app (.deb, aarch64)
+        # `beforeBuildCommand` in tauri.conf.json builds frontend/dist; tauri then bundles it.
+        run: cargo tauri build
+
+      - name: Collect the .deb
+        run: |
+          mkdir -p dist-native
+          find src-tauri/target -type f -name '*.deb' -exec cp {} dist-native/ \;
+          ls -la dist-native
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: filamind-screen-aarch64-deb
+          path: dist-native/*.deb
+          if-no-files-found: error
+
+      - name: Attach to the release (tag builds only)
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist-native/*.deb

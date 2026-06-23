@@ -1,0 +1,7 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "Minimal capabilities for the fullscreen FilaMind screen window. The UI talks to Moonraker directly over a WebSocket, so no Tauri command/plugin permissions are needed beyond core defaults.",
+  "windows": ["main"],
+  "permissions": ["core:default"]
+}
