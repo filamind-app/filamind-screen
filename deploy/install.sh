@@ -9,9 +9,12 @@
 # The touch UI ships pre-built in frontend/dist, so no Node is needed on the printer; the
 # build-on-host path below is only a fallback if the bundle is ever missing.
 #
-# Run on the printer as a sudo-capable user:
-#   sudo bash deploy/install.sh [--port 8088] [--moonraker 127.0.0.1:7125]
-#   sudo bash deploy/install.sh --uninstall
+# Runs as your NORMAL user and uses `sudo` only for the specific privileged steps (place the nginx
+# site, reload nginx) — exactly cp/chmod/systemctl. So it works both interactively (sudo prompts
+# once) and unattended from the FilaMind flow Setup service, which has passwordless sudo for
+# precisely those commands — no full-root `sudo bash`, no tee/ln/nginx-binary needed.
+#   bash deploy/install.sh [--port 8088] [--moonraker 127.0.0.1:7125]
+#   bash deploy/install.sh --uninstall
 set -euo pipefail
 
 PORT=8088
@@ -23,7 +26,7 @@ while [ $# -gt 0 ]; do
     --port) PORT="$2"; shift 2 ;;
     --moonraker) MOONRAKER="$2"; shift 2 ;;
     --uninstall) ACTION=uninstall; shift ;;
-    -h|--help) sed -n '2,12p' "$0"; exit 0 ;;
+    -h|--help) sed -n '2,15p' "$0"; exit 0 ;;
     *) echo "unknown option: $1" >&2; exit 1 ;;
   esac
 done
@@ -33,17 +36,12 @@ DIST="$APP_DIR/frontend/dist"
 SITE_AVAILABLE=/etc/nginx/sites-available/filamind-screen
 SITE_ENABLED=/etc/nginx/sites-enabled/filamind-screen
 
-require_root() { [ "$(id -u)" -eq 0 ] || { echo "Run with sudo." >&2; exit 1; }; }
-
 if [ "$ACTION" = uninstall ]; then
-  require_root
-  rm -f "$SITE_ENABLED" "$SITE_AVAILABLE"
-  nginx -t && systemctl reload nginx
+  sudo rm -f "$SITE_ENABLED" "$SITE_AVAILABLE"
+  sudo systemctl reload nginx || true
   echo "FilaMind screen nginx site removed."
   exit 0
 fi
-
-require_root
 
 if [ ! -f "$DIST/index.html" ]; then
   echo "No build found — building the frontend (needs Node 22 + npm)…"
@@ -51,8 +49,11 @@ if [ ! -f "$DIST/index.html" ]; then
   ( cd "$APP_DIR/frontend" && npm ci && npm run build )
 fi
 
-echo "Writing nginx site → $SITE_AVAILABLE (port $PORT, Moonraker $MOONRAKER)…"
-cat > "$SITE_AVAILABLE" <<NGINX
+# Render the site to a temp file AS THE USER, then place it with narrow sudo (cp). We write a real
+# file into sites-enabled too (nginx includes sites-enabled/*), which avoids needing `ln`.
+TMP="$(mktemp)"
+trap 'rm -f "$TMP"' EXIT
+cat > "$TMP" <<NGINX
 server {
     listen $PORT;
     server_name _;
@@ -78,12 +79,15 @@ server {
 }
 NGINX
 
-ln -sf "$SITE_AVAILABLE" "$SITE_ENABLED"
-nginx -t && systemctl reload nginx
+echo "Installing nginx site → $SITE_AVAILABLE (port $PORT, Moonraker $MOONRAKER)…"
+sudo cp "$TMP" "$SITE_AVAILABLE"
+sudo cp "$TMP" "$SITE_ENABLED"
+# Let nginx (www-data) traverse into the user's home to reach the dist (no-op if already o+x).
+sudo chmod o+x "$HOME" 2>/dev/null || true
+# `systemctl reload` re-tests the config and keeps the running one if the new file is bad.
+sudo systemctl reload nginx
 IP="$(hostname -I 2>/dev/null | awk '{print $1}')"
 echo "Done. Open FilaMind screen at:  http://${IP:-<printer-ip>}:$PORT/"
 echo ""
-echo "To run it on the printer's own display (and switch to it from FilaMind flow's Screen Manager),"
-echo "install its kiosk service once (needs FilaMind flow on the host):"
-echo "  sudo bash ~/filamind-flow/scripts/install.sh kiosk \$USER http://localhost:$PORT/ filamind-screen-kiosk"
-echo "Or just for a quick look now:  chromium-browser --kiosk http://localhost:$PORT/"
+echo "To run it on the printer's own display, pick \"FilaMind screen\" in FilaMind flow's"
+echo "Screen Manager."
