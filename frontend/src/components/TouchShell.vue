@@ -2,6 +2,7 @@
 import { ref, computed, nextTick, onMounted, watch, type Component } from 'vue'
 import { useI18n } from 'vue-i18n'
 import TrustRibbon from '@/components/TrustRibbon.vue'
+import TabIcon from '@/components/TabIcon.vue'
 import PromptDialog from '@/components/PromptDialog.vue'
 import StatusView from '@/views/StatusView.vue'
 import ControlView from '@/views/ControlView.vue'
@@ -33,11 +34,7 @@ const tab = ref<Tab>('status')
 watch(remoteNav, (r) => {
   if (r) tab.value = r.view
 })
-const tabs: { id: Tab; icon: string }[] = [
-  { id: 'status', icon: '📊' },
-  { id: 'control', icon: '🎛' },
-  { id: 'settings', icon: '⚙️' },
-]
+const tabs: { id: Tab }[] = [{ id: 'status' }, { id: 'control' }, { id: 'settings' }]
 const views: Record<Tab, Component> = {
   status: StatusView,
   control: ControlView,
@@ -146,7 +143,7 @@ function onDismissBanner(): void {
         :tabindex="tab === tb.id ? 0 : -1"
         @click="tab = tb.id"
       >
-        <span class="tab-icon" aria-hidden="true">{{ tb.icon }}</span>
+        <TabIcon :name="tb.id" class="tab-icon" />
         <span class="tab-label">{{ t('shell.tab.' + tb.id) }}</span>
       </button>
     </nav>
