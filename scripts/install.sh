@@ -29,24 +29,34 @@ esac
 
 info() { printf '\n\033[1;33m==>\033[0m %s\n' "$*"; }
 
-# If this script is on disk (run from a clone), use that clone; otherwise (curl | bash) clone it.
+# If this script is on disk (run from a clone), use that clone; otherwise (curl | bash, or the Setup
+# widget's `bash -c`) clone it - and if a clone already EXISTS, refresh it to current main first.
+# Reusing a stale pre-existing clone would run an outdated deploy/install.sh (the old one had a
+# `require_root` gate that prints "Run with sudo." and exits), so install kept failing until the host
+# was re-cloned by hand. Hard-reset (not pull --ff-only) so a diverged/dirty checkout still updates.
 SELF="${BASH_SOURCE[0]:-}"
 if [ -n "$SELF" ] && [ -f "$SELF" ]; then
   APP="$(cd "$(dirname "$SELF")/.." && pwd)"
-elif [ ! -d "$APP/.git" ]; then
-  info "Cloning FilaMind screen -> $APP"
+  if [ "$CMD" = update ]; then
+    info "Updating FilaMind screen"
+    git -C "$APP" pull --ff-only
+  fi
+else
   command -v git >/dev/null || {
     echo "git not found; install git first." >&2
     exit 1
   }
-  git clone --depth 1 "$REPO" "$APP"
+  if [ ! -d "$APP/.git" ]; then
+    info "Cloning FilaMind screen -> $APP"
+    git clone --depth 1 "$REPO" "$APP"
+  else
+    info "Refreshing FilaMind screen -> $APP"
+    git -C "$APP" fetch --depth 1 origin main && git -C "$APP" reset --hard origin/main
+  fi
 fi
 
-if [ "$CMD" = update ]; then
-  info "Updating FilaMind screen"
-  git -C "$APP" pull --ff-only
-  CMD=install
-fi
+# 'update' is handled above (refresh); everything past here is the normal install.
+[ "$CMD" = update ] && CMD=install
 
 # When invoked via `curl | bash`, stdin is the pipe (not a terminal), so the sudo calls below can't
 # prompt for a password. Reconnect the controlling terminal when one is actually attached. Testing
