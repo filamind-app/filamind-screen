@@ -9,5 +9,13 @@
     "complete": "已完成",
     "cancelled": "已取消",
     "error": "錯誤"
-  }
+  },
+  "fan": "風扇",
+  "speed": "速度",
+  "move": "移動",
+  "tune": "調整",
+  "files": "檔案",
+  "console": "主控台",
+  "layer": "層",
+  "eta": "剩餘"
 }

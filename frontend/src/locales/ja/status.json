@@ -9,5 +9,13 @@
     "complete": "完了",
     "cancelled": "中止済み",
     "error": "エラー"
-  }
+  },
+  "fan": "ファン",
+  "speed": "速度",
+  "move": "移動",
+  "tune": "調整",
+  "files": "ファイル",
+  "console": "コンソール",
+  "layer": "レイヤー",
+  "eta": "残り"
 }

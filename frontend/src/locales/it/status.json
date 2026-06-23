@@ -9,5 +9,13 @@
     "complete": "Completata",
     "cancelled": "Annullata",
     "error": "Errore"
-  }
+  },
+  "fan": "Ventola",
+  "speed": "Velocità",
+  "move": "Muovi",
+  "tune": "Regola",
+  "files": "File",
+  "console": "Console",
+  "layer": "Strato",
+  "eta": "ETA"
 }

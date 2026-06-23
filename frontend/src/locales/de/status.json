@@ -9,5 +9,13 @@
     "complete": "Fertig",
     "cancelled": "Abgebrochen",
     "error": "Fehler"
-  }
+  },
+  "fan": "Lüfter",
+  "speed": "Tempo",
+  "move": "Bewegen",
+  "tune": "Anpassen",
+  "files": "Dateien",
+  "console": "Konsole",
+  "layer": "Schicht",
+  "eta": "Restzeit"
 }

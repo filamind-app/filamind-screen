@@ -31,6 +31,11 @@ const views: Record<Tab, Component> = {
 }
 const active = computed(() => views[tab.value])
 
+// A view (e.g. the Status action bar's Move / Tune) can ask the shell to switch tabs.
+function onNavigate(to: Tab): void {
+  tab.value = to
+}
+
 // WAI-ARIA tabs keyboard support: arrows + Home/End move + focus the tab.
 function onTabKey(e: KeyboardEvent): void {
   const i = tabs.findIndex((tb) => tb.id === tab.value)
@@ -110,7 +115,7 @@ function onDismissBanner(): void {
       :aria-labelledby="`tab-${tab}`"
       tabindex="0"
     >
-      <component :is="active" />
+      <component :is="active" @navigate="onNavigate" />
     </main>
 
     <nav class="tabs" role="tablist" :aria-label="t('shell.nav')" @keydown="onTabKey">

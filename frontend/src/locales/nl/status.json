@@ -9,5 +9,13 @@
     "complete": "Voltooid",
     "cancelled": "Geannuleerd",
     "error": "Fout"
-  }
+  },
+  "fan": "Ventilator",
+  "speed": "Snelheid",
+  "move": "Bewegen",
+  "tune": "Afstellen",
+  "files": "Bestanden",
+  "console": "Console",
+  "layer": "Laag",
+  "eta": "ETA"
 }

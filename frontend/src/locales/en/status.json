@@ -9,5 +9,13 @@
     "complete": "Complete",
     "cancelled": "Cancelled",
     "error": "Error"
-  }
+  },
+  "fan": "Fan",
+  "speed": "Speed",
+  "move": "Move",
+  "tune": "Tune",
+  "files": "Files",
+  "console": "Console",
+  "layer": "Layer",
+  "eta": "ETA"
 }

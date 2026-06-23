@@ -9,5 +9,13 @@
     "complete": "Completada",
     "cancelled": "Cancelada",
     "error": "Error"
-  }
+  },
+  "fan": "Ventilador",
+  "speed": "Velocidad",
+  "move": "Mover",
+  "tune": "Ajustar",
+  "files": "Archivos",
+  "console": "Consola",
+  "layer": "Capa",
+  "eta": "ETA"
 }

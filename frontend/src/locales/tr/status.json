@@ -9,5 +9,13 @@
     "complete": "Tamamlandı",
     "cancelled": "İptal edildi",
     "error": "Hata"
-  }
+  },
+  "fan": "Fan",
+  "speed": "Hız",
+  "move": "Hareket",
+  "tune": "Ayar",
+  "files": "Dosyalar",
+  "console": "Konsol",
+  "layer": "Katman",
+  "eta": "ETA"
 }
