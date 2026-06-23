@@ -9,5 +9,13 @@
     "complete": "Selesai",
     "cancelled": "Dibatalkan",
     "error": "Kesalahan"
-  }
+  },
+  "fan": "Kipas",
+  "speed": "Kecepatan",
+  "move": "Gerak",
+  "tune": "Setel",
+  "files": "Berkas",
+  "console": "Konsol",
+  "layer": "Lapisan",
+  "eta": "ETA"
 }

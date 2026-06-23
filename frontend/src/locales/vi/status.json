@@ -9,5 +9,13 @@
     "complete": "Hoàn tất",
     "cancelled": "Đã hủy",
     "error": "Lỗi"
-  }
+  },
+  "fan": "Quạt",
+  "speed": "Tốc độ",
+  "move": "Di chuyển",
+  "tune": "Tinh chỉnh",
+  "files": "Tệp",
+  "console": "Bảng điều khiển",
+  "layer": "Lớp",
+  "eta": "Còn lại"
 }

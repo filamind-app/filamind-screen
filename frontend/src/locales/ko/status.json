@@ -9,5 +9,13 @@
     "complete": "완료",
     "cancelled": "취소됨",
     "error": "오류"
-  }
+  },
+  "fan": "팬",
+  "speed": "속도",
+  "move": "이동",
+  "tune": "튜닝",
+  "files": "파일",
+  "console": "콘솔",
+  "layer": "레이어",
+  "eta": "남음"
 }

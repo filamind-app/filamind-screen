@@ -9,5 +9,13 @@
     "complete": "Ukończono",
     "cancelled": "Anulowano",
     "error": "Błąd"
-  }
+  },
+  "fan": "Wentylator",
+  "speed": "Prędkość",
+  "move": "Ruch",
+  "tune": "Strojenie",
+  "files": "Pliki",
+  "console": "Konsola",
+  "layer": "Warstwa",
+  "eta": "ETA"
 }
