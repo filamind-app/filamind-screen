@@ -58,9 +58,11 @@ if [ ! -t 0 ] && (exec </dev/tty) 2>/dev/null; then exec </dev/tty; fi
 
 if [ "$CMD" = uninstall ]; then
   info "Removing FilaMind screen"
-  sudo bash "$APP/deploy/install.sh" --uninstall
+  # deploy/install.sh runs as this user and elevates only the narrow steps (cp/systemctl) itself,
+  # so no full-root `sudo bash` - this lets the FilaMind flow Setup service install it passwordless.
+  bash "$APP/deploy/install.sh" --uninstall
   exit 0
 fi
 
 info "Installing FilaMind screen (serving the prebuilt touch UI via nginx)"
-sudo bash "$APP/deploy/install.sh" "$@"
+bash "$APP/deploy/install.sh" "$@"
