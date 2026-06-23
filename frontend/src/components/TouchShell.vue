@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, nextTick, watch, type Component } from 'vue'
+import { ref, computed, nextTick, onMounted, watch, type Component } from 'vue'
 import { useI18n } from 'vue-i18n'
 import TrustRibbon from '@/components/TrustRibbon.vue'
 import PromptDialog from '@/components/PromptDialog.vue'
@@ -8,9 +8,23 @@ import ControlView from '@/views/ControlView.vue'
 import SettingsView from '@/views/SettingsView.vue'
 import { remoteNav, remoteBanner, remoteLocating, dismissBanner } from '@/core/remote'
 import { useControlStore } from '@/core/store/control'
+import { connector } from '@/core/session'
 
 const { t } = useI18n()
 const ctl = useControlStore()
+
+// Show which printer this panel drives: its Moonraker hostname. Falls back to the product name until
+// the host answers (and if it never does, e.g. a cold boot before Klipper is up).
+const printerName = ref('')
+onMounted(async () => {
+  try {
+    const info = await connector.call<{ hostname?: string }>('printer.info')
+    printerName.value = info?.hostname ?? ''
+  } catch {
+    printerName.value = ''
+  }
+})
+const brandName = computed(() => printerName.value || 'FilaMind')
 
 type Tab = 'status' | 'control' | 'settings'
 const tab = ref<Tab>('status')
@@ -65,7 +79,7 @@ function onDismissBanner(): void {
     <header class="bar">
       <div class="brand">
         <img src="/favicon.svg" width="26" height="26" alt="" />
-        <span class="brand-name">FilaMind</span>
+        <span class="brand-name" :title="brandName">{{ brandName }}</span>
       </div>
       <div class="bar-right">
         <TrustRibbon />
@@ -169,6 +183,10 @@ function onDismissBanner(): void {
   color: var(--fm-text);
   font-size: 1.15rem;
   letter-spacing: 0.5px;
+  max-width: 14rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .bar-right {
   display: flex;
