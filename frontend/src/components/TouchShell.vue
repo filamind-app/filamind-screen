@@ -7,6 +7,7 @@ import PromptDialog from '@/components/PromptDialog.vue'
 import StatusView from '@/views/StatusView.vue'
 import ControlView from '@/views/ControlView.vue'
 import SettingsView from '@/views/SettingsView.vue'
+import MoveView from '@/views/MoveView.vue'
 import { remoteNav, remoteBanner, remoteLocating, dismissBanner } from '@/core/remote'
 import { useControlStore } from '@/core/store/control'
 import { connector } from '@/core/session'
@@ -28,11 +29,19 @@ onMounted(async () => {
 const brandName = computed(() => printerName.value || 'FilaMind')
 
 type Tab = 'status' | 'control' | 'settings'
+// Tools are full-screen overlays launched from a tab (e.g. Status' action bar), not bottom-nav tabs.
+// Kept separate from `tab` so the bottom nav stays a clean 3-way and its roving tabindex is intact.
+type Tool = 'move'
 const tab = ref<Tab>('status')
+const tool = ref<Tool | null>(null)
 
-// A remote-control "navigate" command from another surface switches the active tab.
+// A remote-control "navigate" command from another surface switches the active tab (and drops any
+// open tool — the remote asked for a specific tab).
 watch(remoteNav, (r) => {
-  if (r) tab.value = r.view
+  if (r) {
+    tool.value = null
+    tab.value = r.view
+  }
 })
 const tabs: { id: Tab }[] = [{ id: 'status' }, { id: 'control' }, { id: 'settings' }]
 const views: Record<Tab, Component> = {
@@ -40,11 +49,22 @@ const views: Record<Tab, Component> = {
   control: ControlView,
   settings: SettingsView,
 }
-const active = computed(() => views[tab.value])
+const toolViews: Record<Tool, Component> = { move: MoveView }
+// The tool overlay takes over the content area when open; otherwise the active tab's view shows.
+const active = computed<Component>(() => (tool.value ? toolViews[tool.value] : views[tab.value]))
 
-// A view (e.g. the Status action bar's Move / Tune) can ask the shell to switch tabs.
-function onNavigate(to: Tab): void {
+// A view (e.g. the Status action bar's Move / Tune) asks the shell to switch tab OR open a tool.
+function onNavigate(to: Tab | Tool): void {
+  if (to === 'move') {
+    tool.value = 'move'
+    return
+  }
+  tool.value = null
   tab.value = to
+}
+function selectTab(id: Tab): void {
+  tool.value = null
+  tab.value = id
 }
 
 // WAI-ARIA tabs keyboard support: arrows + Home/End move + focus the tab.
@@ -59,7 +79,7 @@ function onTabKey(e: KeyboardEvent): void {
   e.preventDefault()
   const target = tabs[next]
   if (!target) return
-  tab.value = target.id
+  selectTab(target.id)
   void nextTick().then(() => document.getElementById(`tab-${target.id}`)?.focus())
 }
 
@@ -126,7 +146,7 @@ function onDismissBanner(): void {
       :aria-labelledby="`tab-${tab}`"
       tabindex="0"
     >
-      <component :is="active" @navigate="onNavigate" />
+      <component :is="active" @navigate="onNavigate" @close="tool = null" />
     </main>
 
     <nav class="tabs" role="tablist" :aria-label="t('shell.nav')" @keydown="onTabKey">
@@ -141,7 +161,7 @@ function onDismissBanner(): void {
         :aria-selected="tab === tb.id"
         :aria-controls="`panel-${tb.id}`"
         :tabindex="tab === tb.id ? 0 : -1"
-        @click="tab = tb.id"
+        @click="selectTab(tb.id)"
       >
         <TabIcon :name="tb.id" class="tab-icon" />
         <span class="tab-label">{{ t('shell.tab.' + tb.id) }}</span>

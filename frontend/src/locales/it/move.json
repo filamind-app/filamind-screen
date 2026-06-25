@@ -1,0 +1,10 @@
+{
+  "title": "Movimento",
+  "back": "Indietro",
+  "position": "Posizione",
+  "step": "Passo (mm)",
+  "homeAll": "Home tutti",
+  "homeAxis": "Home {axis}",
+  "disable": "Disabilita motori",
+  "notHomed": "Non in home"
+}

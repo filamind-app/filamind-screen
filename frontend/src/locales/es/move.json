@@ -1,0 +1,10 @@
+{
+  "title": "Mover",
+  "back": "Atrás",
+  "position": "Posición",
+  "step": "Paso (mm)",
+  "homeAll": "Origen total",
+  "homeAxis": "Origen {axis}",
+  "disable": "Desactivar motores",
+  "notHomed": "Sin origen"
+}

@@ -1,0 +1,308 @@
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useSessionStore } from '@/core/store/session'
+import { useControlStore } from '@/core/store/control'
+import { useWriteGuard } from '@/core/useWriteGuard'
+
+// The jog tool: relative XY/Z moves, per-axis + all homing, and disable-steppers — every write goes
+// through the same gated control store as the rest of the app. Opened as an overlay from Status.
+const { t } = useI18n()
+const session = useSessionStore()
+const ctl = useControlStore()
+const { canWrite, blockedReason } = useWriteGuard()
+
+const emit = defineEmits<{ close: [] }>()
+
+interface Toolhead {
+  position?: number[]
+  homed_axes?: string
+}
+const th = computed(() => session.object<Toolhead>('toolhead'))
+const homed = computed(() => th.value?.homed_axes ?? '')
+const pos = computed(() => th.value?.position ?? [])
+
+const AXES = [
+  { char: 'X', i: 0, dp: 1 },
+  { char: 'Y', i: 1, dp: 1 },
+  { char: 'Z', i: 2, dp: 2 },
+] as const
+
+function axisValue(i: number, char: string, dp: number): string {
+  if (!homed.value.toLowerCase().includes(char.toLowerCase())) return '—'
+  const v = pos.value[i]
+  return v == null ? '—' : v.toFixed(dp)
+}
+const anyHomed = computed(() => homed.value.length > 0)
+
+const STEPS = [0.1, 1, 10, 100]
+const step = ref(10)
+
+// Relative move; G91/G90 are wrapped per-jog so we never leave the machine in relative mode. Z is
+// fed slower than XY — a fast Z jog into the bed is how nozzles die.
+function jog(axis: 'X' | 'Y' | 'Z', dir: 1 | -1): void {
+  if (!canWrite.value) return
+  const feed = axis === 'Z' ? 600 : 6000
+  const dist = (dir * step.value).toFixed(2)
+  void ctl.runGcode(`G91\nG1 ${axis}${dist} F${feed}\nG90`)
+}
+function homeAxis(axis: 'X' | 'Y' | 'Z'): void {
+  if (!canWrite.value) return
+  void ctl.runGcode(`G28 ${axis}`)
+}
+function disableMotors(): void {
+  if (!canWrite.value) return
+  void ctl.runGcode('M84')
+}
+</script>
+
+<template>
+  <div class="move">
+    <header class="head">
+      <button
+        class="back touch-btn"
+        type="button"
+        :aria-label="t('move.back')"
+        @click="emit('close')"
+      >
+        ‹
+      </button>
+      <h2 class="title">{{ t('move.title') }}</h2>
+    </header>
+
+    <!-- Live position -->
+    <div class="pos touch-card">
+      <span class="pos-label">{{ t('move.position') }}</span>
+      <span class="pos-axes">
+        <span v-for="a in AXES" :key="a.char" class="pos-axis">
+          <b>{{ a.char }}</b> {{ axisValue(a.i, a.char, a.dp) }}
+        </span>
+      </span>
+      <span v-if="!anyHomed" class="pos-hint">{{ t('move.notHomed') }}</span>
+    </div>
+
+    <div class="pads">
+      <!-- XY jog pad -->
+      <div class="xy">
+        <button
+          class="touch-btn jog up"
+          type="button"
+          :disabled="!canWrite"
+          :title="canWrite ? '' : blockedReason"
+          @click="jog('Y', 1)"
+        >
+          Y+
+        </button>
+        <button
+          class="touch-btn jog left"
+          type="button"
+          :disabled="!canWrite"
+          @click="jog('X', -1)"
+        >
+          X−
+        </button>
+        <button
+          class="touch-btn jog home"
+          type="button"
+          :disabled="!canWrite"
+          :aria-label="t('move.homeAll')"
+          @click="ctl.home()"
+        >
+          ⌂
+        </button>
+        <button
+          class="touch-btn jog right"
+          type="button"
+          :disabled="!canWrite"
+          @click="jog('X', 1)"
+        >
+          X+
+        </button>
+        <button
+          class="touch-btn jog down"
+          type="button"
+          :disabled="!canWrite"
+          @click="jog('Y', -1)"
+        >
+          Y−
+        </button>
+      </div>
+
+      <!-- Z jog -->
+      <div class="z">
+        <button class="touch-btn jog" type="button" :disabled="!canWrite" @click="jog('Z', 1)">
+          Z+
+        </button>
+        <button class="touch-btn jog" type="button" :disabled="!canWrite" @click="jog('Z', -1)">
+          Z−
+        </button>
+      </div>
+    </div>
+
+    <!-- Step size -->
+    <div class="steps">
+      <span class="steps-label">{{ t('move.step') }}</span>
+      <div class="steps-row">
+        <button
+          v-for="s in STEPS"
+          :key="s"
+          class="touch-btn step"
+          :class="{ on: step === s }"
+          type="button"
+          :aria-pressed="step === s"
+          @click="step = s"
+        >
+          {{ s }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Homing + disable -->
+    <div class="home-row">
+      <button
+        v-for="a in AXES"
+        :key="a.char"
+        class="touch-btn"
+        type="button"
+        :disabled="!canWrite"
+        @click="homeAxis(a.char)"
+      >
+        {{ t('move.homeAxis', { axis: a.char }) }}
+      </button>
+      <button class="touch-btn disable" type="button" :disabled="!canWrite" @click="disableMotors">
+        {{ t('move.disable') }}
+      </button>
+    </div>
+
+    <p v-if="ctl.lastError" class="err" role="alert">{{ t('control.error.' + ctl.lastError) }}</p>
+  </div>
+</template>
+
+<style scoped>
+.move {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.back {
+  min-width: 3rem;
+  font-size: 1.6rem;
+  line-height: 1;
+}
+.title {
+  margin: 0;
+  font-family: var(--font-display, system-ui);
+  font-size: 1.25rem;
+  color: var(--fm-text);
+}
+.pos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem 1rem;
+  padding: 0.75rem 0.9rem;
+}
+.pos-label {
+  color: var(--fm-text-muted);
+  font-size: 0.85rem;
+}
+.pos-axes {
+  display: flex;
+  gap: 1rem;
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  color: var(--fm-text);
+}
+.pos-axis b {
+  color: var(--fm-text-muted);
+  font-weight: 600;
+  margin-inline-end: 0.2rem;
+}
+.pos-hint {
+  color: var(--fm-warning);
+  font-size: 0.8rem;
+}
+.pads {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 1rem;
+  align-items: center;
+}
+.xy {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 0.6rem;
+  aspect-ratio: 1;
+}
+.jog {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+.up {
+  grid-column: 2;
+  grid-row: 1;
+}
+.left {
+  grid-column: 1;
+  grid-row: 2;
+}
+.home {
+  grid-column: 2;
+  grid-row: 2;
+  font-size: 1.5rem;
+}
+.right {
+  grid-column: 3;
+  grid-row: 2;
+}
+.down {
+  grid-column: 2;
+  grid-row: 3;
+}
+.z {
+  display: grid;
+  grid-template-rows: repeat(2, 1fr);
+  gap: 0.6rem;
+  height: 100%;
+}
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.steps-label {
+  color: var(--fm-text-muted);
+  font-size: 0.85rem;
+}
+.steps-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.6rem;
+}
+.step.on {
+  background: var(--fm-primary);
+  color: var(--fm-primary-contrast);
+  border-color: transparent;
+}
+.home-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.6rem;
+}
+.disable {
+  color: var(--fm-warning);
+}
+.touch-btn:disabled {
+  opacity: 0.45;
+}
+.err {
+  margin: 0;
+  color: var(--fm-danger);
+}
+</style>

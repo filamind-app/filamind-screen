@@ -1,0 +1,10 @@
+{
+  "title": "Verplaatsen",
+  "back": "Terug",
+  "position": "Positie",
+  "step": "Stap (mm)",
+  "homeAll": "Alles homen",
+  "homeAxis": "{axis} homen",
+  "disable": "Motoren uit",
+  "notHomed": "Niet gehomed"
+}

@@ -1,0 +1,10 @@
+{
+  "title": "Gerak",
+  "back": "Kembali",
+  "position": "Posisi",
+  "step": "Langkah (mm)",
+  "homeAll": "Home semua",
+  "homeAxis": "Home {axis}",
+  "disable": "Matikan motor",
+  "notHomed": "Belum di-home"
+}

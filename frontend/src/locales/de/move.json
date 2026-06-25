@@ -1,0 +1,10 @@
+{
+  "title": "Bewegen",
+  "back": "Zurück",
+  "position": "Position",
+  "step": "Schritt (mm)",
+  "homeAll": "Alle homen",
+  "homeAxis": "{axis} homen",
+  "disable": "Motoren aus",
+  "notHomed": "Nicht gehomt"
+}

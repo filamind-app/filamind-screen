@@ -1,0 +1,10 @@
+{
+  "title": "Mover",
+  "back": "Voltar",
+  "position": "Posição",
+  "step": "Passo (mm)",
+  "homeAll": "Referenciar tudo",
+  "homeAxis": "Referenciar {axis}",
+  "disable": "Desligar motores",
+  "notHomed": "Sem referência"
+}

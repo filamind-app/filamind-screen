@@ -1,0 +1,10 @@
+{
+  "title": "Hareket",
+  "back": "Geri",
+  "position": "Konum",
+  "step": "Adım (mm)",
+  "homeAll": "Tümünü sıfırla",
+  "homeAxis": "{axis} sıfırla",
+  "disable": "Motorları kapat",
+  "notHomed": "Sıfırlanmadı"
+}
