@@ -103,7 +103,7 @@ BIN="$(dpkg -L "$PKG" 2>/dev/null | grep -E '^/usr/bin/' | head -1 || true)"
 log "Installed binary: $BIN"
 
 # ── 3. write the kiosk unit via Flow's single-source unit-writer (empty URL = no HTTP origin) ───
-sudo bash "$FLOW_DIR/scripts/install.sh" kiosk --native --bin "$BIN" "$USER_NAME" "" "$SERVICE"
+sudo bash "$FLOW_DIR/scripts/install.sh" kiosk --bin "$BIN" "$USER_NAME" "" "$SERVICE"
 
 # ── 4. register with Moonraker so the panel can start/stop/restart it ───────────────────────────
 if [ -f "$ASVC" ]; then
