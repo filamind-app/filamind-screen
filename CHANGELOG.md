@@ -2,7 +2,16 @@
 
 All notable changes to FilaMind screen are documented here. Format: `## [version]` sections (parsed by the release workflow).
 
-## [Unreleased]
+## [0.3.0]
+
+### Added
+
+- **Move tool — a native jog panel for the touchscreen.** The Status action bar's "Move" button now
+  opens a real jog tool (XY pad, Z up/down, a 0.1/1/10/100 mm step selector, per-axis + all homing,
+  disable steppers, and a live homed-aware position readout) instead of falling back to the basic
+  Control view. Every move goes through the same gated write path as the other controls (refused
+  unless the printer is live and Klippy is ready); Z is fed slower than XY. Translated into all 19
+  locales.
 
 ### Fixed
 
