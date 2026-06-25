@@ -22,6 +22,33 @@ const appVersion = typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSION__ : '0
 
 export const connector = new MoonrakerClient({ url: defaultWsUrl() })
 
+// notify_gcode_response tee. FilaMindSession owns the connector's single callback sink (it parses
+// gcode responses for M117 prompts), so the console can't call setCallbacks itself without clobbering
+// it. We wrap setCallbacks once here, in the composition root: every callback the session installs is
+// forwarded untouched, and gcode-response lines are additionally fanned out to console subscribers.
+type GcodeLineListener = (line: string) => void
+const gcodeLineListeners = new Set<GcodeLineListener>()
+export function onGcodeResponse(fn: GcodeLineListener): () => void {
+  gcodeLineListeners.add(fn)
+  return () => {
+    gcodeLineListeners.delete(fn)
+  }
+}
+const _setCallbacks = connector.setCallbacks.bind(connector)
+connector.setCallbacks = (cb) => {
+  _setCallbacks({
+    ...cb,
+    onUpdate: (method, params) => {
+      cb.onUpdate?.(method, params)
+      if (method === 'notify_gcode_response' && Array.isArray(params)) {
+        for (const line of params) {
+          if (typeof line === 'string') gcodeLineListeners.forEach((l) => l(line))
+        }
+      }
+    },
+  })
+}
+
 export const session = new FilaMindSession(connector, {
   subscriptions: FULL_CONTROL,
   identify: { client_name: 'FilaMind screen', version: appVersion, type: 'display' },

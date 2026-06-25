@@ -1,0 +1,8 @@
+{
+  "title": "Console",
+  "back": "Indietro",
+  "placeholder": "Inserisci g-code…",
+  "send": "Invia",
+  "clear": "Cancella",
+  "empty": "Nessun output"
+}

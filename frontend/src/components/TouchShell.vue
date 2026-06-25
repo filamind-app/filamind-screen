@@ -10,6 +10,7 @@ import SettingsView from '@/views/SettingsView.vue'
 import MoveView from '@/views/MoveView.vue'
 import TuneView from '@/views/TuneView.vue'
 import FilesView from '@/views/FilesView.vue'
+import ConsoleView from '@/views/ConsoleView.vue'
 import { remoteNav, remoteBanner, remoteLocating, dismissBanner } from '@/core/remote'
 import { useControlStore } from '@/core/store/control'
 import { connector } from '@/core/session'
@@ -33,8 +34,8 @@ const brandName = computed(() => printerName.value || 'FilaMind')
 type Tab = 'status' | 'control' | 'settings'
 // Tools are full-screen overlays launched from a tab (e.g. Status' action bar), not bottom-nav tabs.
 // Kept separate from `tab` so the bottom nav stays a clean 3-way and its roving tabindex is intact.
-type Tool = 'move' | 'tune' | 'files'
-const TOOLS: readonly Tool[] = ['move', 'tune', 'files']
+type Tool = 'move' | 'tune' | 'files' | 'console'
+const TOOLS: readonly Tool[] = ['move', 'tune', 'files', 'console']
 const tab = ref<Tab>('status')
 const tool = ref<Tool | null>(null)
 
@@ -52,7 +53,12 @@ const views: Record<Tab, Component> = {
   control: ControlView,
   settings: SettingsView,
 }
-const toolViews: Record<Tool, Component> = { move: MoveView, tune: TuneView, files: FilesView }
+const toolViews: Record<Tool, Component> = {
+  move: MoveView,
+  tune: TuneView,
+  files: FilesView,
+  console: ConsoleView,
+}
 // The tool overlay takes over the content area when open; otherwise the active tab's view shows.
 const active = computed<Component>(() => (tool.value ? toolViews[tool.value] : views[tab.value]))
 
