@@ -25,6 +25,15 @@ case "${1:-}" in
     CMD="$1"
     shift
     ;;
+  native)
+    # Native touch app (the .deb) — bypasses the nginx/clone path entirely.
+    shift
+    SELF_N="${BASH_SOURCE[0]:-}"
+    if [ -n "$SELF_N" ] && [ -f "$SELF_N" ]; then
+      APP="$(cd "$(dirname "$SELF_N")/.." && pwd)"
+    fi
+    exec bash "$APP/deploy/install-native.sh" "$@"
+    ;;
 esac
 
 info() { printf '\n\033[1;33m==>\033[0m %s\n' "$*"; }
@@ -68,6 +77,11 @@ if [ ! -t 0 ] && (exec </dev/tty) 2>/dev/null; then exec </dev/tty; fi
 
 if [ "$CMD" = uninstall ]; then
   info "Removing FilaMind screen"
+  # If the native touch app was installed, remove it first (restores KlipperScreen, drops the unit +
+  # the Moonraker registration) so the full uninstall leaves no orphan display-owner unit.
+  if [ -f /etc/systemd/system/filamind-screen-kiosk.service ]; then
+    bash "$APP/deploy/install-native.sh" --uninstall 2>/dev/null || true
+  fi
   # deploy/install.sh runs as this user and elevates only the narrow steps (cp/systemctl) itself,
   # so no full-root `sudo bash` - this lets the FilaMind flow Setup service install it passwordless.
   bash "$APP/deploy/install.sh" --uninstall
