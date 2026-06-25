@@ -2,6 +2,20 @@
 
 All notable changes to FilaMind screen are documented here. Format: `## [version]` sections (parsed by the release workflow).
 
+## [0.2.0]
+
+### Added
+
+- **Installable on the printer's touchscreen.** CI now builds an arm64 `.deb` of the native touch
+  app and attaches it to each Release (`filamind-screen-arm64.deb`).
+- **`deploy/install-native.sh`** (and `install.sh native`): downloads the prebuilt `.deb` (never
+  builds on the low-RAM host), installs it, and writes a `filamind-screen-kiosk` systemd unit by
+  delegating to FilaMind Flow's single-source unit-writer (one display-stack detector for the whole
+  suite). Registers with Moonraker. First-class `--uninstall` restores KlipperScreen before removing
+  the binary; the full `uninstall` also removes the native unit so no orphan display owner is left.
+  Switch to it (and back) from FilaMind Flow's Screen Manager (Touch UI); not boot-enabled, so any
+  switch is reboot-recoverable.
+
 ## [0.1.3]
 
 ### Fixed
