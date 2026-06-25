@@ -1,0 +1,1 @@
+var e={title:{t:0,b:{t:2,i:[{t:3}],s:`ファイル`}},back:{t:0,b:{t:2,i:[{t:3}],s:`戻る`}},refresh:{t:0,b:{t:2,i:[{t:3}],s:`更新`}},loading:{t:0,b:{t:2,i:[{t:3}],s:`読み込み中…`}},empty:{t:0,b:{t:2,i:[{t:3}],s:`印刷可能なファイルがありません`}},print:{t:0,b:{t:2,i:[{t:3}],s:`印刷`}},busy:{t:0,b:{t:2,i:[{t:3}],s:`すでに印刷を実行中です`}}};export{e as default};

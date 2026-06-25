@@ -1,0 +1,1 @@
+var e={title:{t:0,b:{t:2,i:[{t:3}],s:`Pliki`}},back:{t:0,b:{t:2,i:[{t:3}],s:`Wstecz`}},refresh:{t:0,b:{t:2,i:[{t:3}],s:`Odśwież`}},loading:{t:0,b:{t:2,i:[{t:3}],s:`Ładowanie…`}},empty:{t:0,b:{t:2,i:[{t:3}],s:`Brak plików do druku`}},print:{t:0,b:{t:2,i:[{t:3}],s:`Drukuj`}},busy:{t:0,b:{t:2,i:[{t:3}],s:`Wydruk już trwa`}}};export{e as default};
