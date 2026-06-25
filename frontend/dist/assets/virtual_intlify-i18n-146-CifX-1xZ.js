@@ -1,0 +1,1 @@
+var e={title:{t:0,b:{t:2,i:[{t:3}],s:`主控台`}},back:{t:0,b:{t:2,i:[{t:3}],s:`返回`}},placeholder:{t:0,b:{t:2,i:[{t:3}],s:`輸入 g-code…`}},send:{t:0,b:{t:2,i:[{t:3}],s:`傳送`}},clear:{t:0,b:{t:2,i:[{t:3}],s:`清除`}},empty:{t:0,b:{t:2,i:[{t:3}],s:`尚無輸出`}}};export{e as default};

@@ -1,0 +1,1 @@
+var e={title:{t:0,b:{t:2,i:[{t:3}],s:`콘솔`}},back:{t:0,b:{t:2,i:[{t:3}],s:`뒤로`}},placeholder:{t:0,b:{t:2,i:[{t:3}],s:`g-code 입력…`}},send:{t:0,b:{t:2,i:[{t:3}],s:`전송`}},clear:{t:0,b:{t:2,i:[{t:3}],s:`지우기`}},empty:{t:0,b:{t:2,i:[{t:3}],s:`출력 없음`}}};export{e as default};
