@@ -1,0 +1,1 @@
+var e={title:{t:0,b:{t:2,i:[{t:3}],s:`이동`}},back:{t:0,b:{t:2,i:[{t:3}],s:`뒤로`}},position:{t:0,b:{t:2,i:[{t:3}],s:`위치`}},step:{t:0,b:{t:2,i:[{t:3}],s:`이동량 (mm)`}},homeAll:{t:0,b:{t:2,i:[{t:3}],s:`전체 호밍`}},homeAxis:{t:0,b:{t:2,i:[{t:4,k:`axis`},{t:3,v:` 호밍`}]}},disable:{t:0,b:{t:2,i:[{t:3}],s:`모터 끄기`}},notHomed:{t:0,b:{t:2,i:[{t:3}],s:`호밍 안 됨`}}};export{e as default};

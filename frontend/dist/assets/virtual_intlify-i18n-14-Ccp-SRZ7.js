@@ -1,0 +1,1 @@
+var e={title:{t:0,b:{t:2,i:[{t:3}],s:`移动`}},back:{t:0,b:{t:2,i:[{t:3}],s:`返回`}},position:{t:0,b:{t:2,i:[{t:3}],s:`位置`}},step:{t:0,b:{t:2,i:[{t:3}],s:`步距 (mm)`}},homeAll:{t:0,b:{t:2,i:[{t:3}],s:`全部回零`}},homeAxis:{t:0,b:{t:2,i:[{t:4,k:`axis`},{t:3,v:` 回零`}]}},disable:{t:0,b:{t:2,i:[{t:3}],s:`关闭电机`}},notHomed:{t:0,b:{t:2,i:[{t:3}],s:`未回零`}}};export{e as default};
