@@ -58,6 +58,30 @@ jobs:
             echo "::warning::frontend/dist differs from a fresh local rebuild (non-deterministic bundler hashes); the committed bundle is the canonical PR build."
           fi
 
-  # A Tauri (Rust) build job is added once app icons are generated (`npm run tauri icon`) and the
-  # CI runner installs the Tauri prerequisites (WebKitGTK etc.). The Rust shell is the standard
-  # Tauri 2 template; build it locally with `npm run tauri build` from frontend/.
+  # Compile the native Tauri shell so the desktop/touch app can't silently break. This is a
+  # COMPILE check (no OS bundling) — bundling needs generated app icons (`npm run tauri icon`) and
+  # a per-arch packaging step, which land with the native build. Verifies the Rust shell + the
+  # webview frontend integrate and build.
+  tauri:
+    name: Tauri compile
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+      - name: Tauri 2 Linux prerequisites
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev build-essential curl wget file \
+            libxdo-dev libssl-dev libayatana-appindicator3-dev librsvg2-dev
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: frontend/src-tauri
+      - run: npm ci
+      - run: npm run build # the webview bundle Tauri embeds (frontendDist = ../dist)
+      - run: cargo build --manifest-path src-tauri/Cargo.toml
