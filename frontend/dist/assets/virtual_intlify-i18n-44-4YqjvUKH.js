@@ -1,0 +1,1 @@
+var e={title:{t:0,b:{t:2,i:[{t:3}],s:`移動`}},back:{t:0,b:{t:2,i:[{t:3}],s:`返回`}},position:{t:0,b:{t:2,i:[{t:3}],s:`座標`}},step:{t:0,b:{t:2,i:[{t:3}],s:`步距 (mm)`}},homeAll:{t:0,b:{t:2,i:[{t:3}],s:`全部歸位`}},homeAxis:{t:0,b:{t:2,i:[{t:4,k:`axis`},{t:3,v:` 歸位`}]}},disable:{t:0,b:{t:2,i:[{t:3}],s:`關閉馬達`}},notHomed:{t:0,b:{t:2,i:[{t:3}],s:`尚未歸位`}}};export{e as default};
