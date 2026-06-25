@@ -21,6 +21,8 @@ export const control = {
   pause: () => arbiter.run('pause', () => connector.call('printer.print.pause')),
   resume: () => arbiter.run('resume', () => connector.call('printer.print.resume')),
   cancel: () => arbiter.run('cancel', () => connector.call('printer.print.cancel')),
+  startPrint: (filename: string) =>
+    arbiter.run('start', () => connector.call('printer.print.start', { filename })),
   emergencyStop: (): Promise<unknown> => {
     logger.warn('emergency-stop')
     return connector.call('printer.emergency_stop')

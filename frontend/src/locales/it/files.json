@@ -1,0 +1,9 @@
+{
+  "title": "File",
+  "back": "Indietro",
+  "refresh": "Aggiorna",
+  "loading": "Caricamento…",
+  "empty": "Nessun file stampabile",
+  "print": "Stampa",
+  "busy": "Una stampa è già in corso"
+}
