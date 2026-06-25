@@ -1,0 +1,209 @@
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useSessionStore } from '@/core/store/session'
+import { useControlStore } from '@/core/store/control'
+import { useWriteGuard } from '@/core/useWriteGuard'
+
+// Live print tuning: speed (M220), flow (M221), Z babystep (SET_GCODE_OFFSET), part fan (M106).
+// Reads the live factors off gcode_move / fan and applies relative nudges through the gated store.
+const { t } = useI18n()
+const session = useSessionStore()
+const ctl = useControlStore()
+const { canWrite, blockedReason } = useWriteGuard()
+
+const emit = defineEmits<{ close: [] }>()
+
+interface GcodeMove {
+  speed_factor?: number
+  extrude_factor?: number
+  homing_origin?: number[]
+}
+const gm = computed(() => session.object<GcodeMove>('gcode_move'))
+const fan = computed(() => session.object<{ speed?: number }>('fan'))
+
+const speedPct = computed(() => Math.round((gm.value?.speed_factor ?? 1) * 100))
+const flowPct = computed(() => Math.round((gm.value?.extrude_factor ?? 1) * 100))
+const zOffset = computed(() => gm.value?.homing_origin?.[2] ?? 0)
+const fanPct = computed(() => Math.round((fan.value?.speed ?? 0) * 100))
+
+const clamp = (v: number, lo: number, hi: number): number => Math.min(hi, Math.max(lo, v))
+
+function setSpeed(d: number): void {
+  if (canWrite.value) void ctl.runGcode(`M220 S${clamp(speedPct.value + d, 10, 300)}`)
+}
+function setFlow(d: number): void {
+  if (canWrite.value) void ctl.runGcode(`M221 S${clamp(flowPct.value + d, 50, 200)}`)
+}
+function adjustZ(d: number): void {
+  if (canWrite.value) void ctl.runGcode(`SET_GCODE_OFFSET Z_ADJUST=${d.toFixed(3)} MOVE=1`)
+}
+function setFan(d: number): void {
+  if (!canWrite.value) return
+  const pct = clamp(fanPct.value + d, 0, 100)
+  void ctl.runGcode(`M106 S${Math.round((pct * 255) / 100)}`)
+}
+function send(gcode: string): void {
+  if (canWrite.value) void ctl.runGcode(gcode)
+}
+
+const PCT_STEPS = [-25, -5, 5, 25]
+const Z_STEPS = [-0.05, -0.01, 0.01, 0.05]
+const fmtPct = (d: number): string => (d > 0 ? `+${d}` : `${d}`)
+const fmtZ = (d: number): string => (d > 0 ? `+${d.toFixed(2)}` : d.toFixed(2))
+
+interface Row {
+  key: string
+  label: string
+  value: string
+  steps: number[]
+  fmtStep: (d: number) => string
+  apply: (d: number) => void
+  reset: () => void
+}
+const rows = computed<Row[]>(() => [
+  {
+    key: 'speed',
+    label: t('tune.speed'),
+    value: `${speedPct.value}%`,
+    steps: PCT_STEPS,
+    fmtStep: fmtPct,
+    apply: setSpeed,
+    reset: () => send('M220 S100'),
+  },
+  {
+    key: 'flow',
+    label: t('tune.flow'),
+    value: `${flowPct.value}%`,
+    steps: PCT_STEPS,
+    fmtStep: fmtPct,
+    apply: setFlow,
+    reset: () => send('M221 S100'),
+  },
+  {
+    key: 'zoff',
+    label: t('tune.zOffset'),
+    value: `${zOffset.value >= 0 ? '+' : ''}${zOffset.value.toFixed(3)}`,
+    steps: Z_STEPS,
+    fmtStep: fmtZ,
+    apply: adjustZ,
+    reset: () => send('SET_GCODE_OFFSET Z=0 MOVE=1'),
+  },
+  {
+    key: 'fan',
+    label: t('tune.fan'),
+    value: `${fanPct.value}%`,
+    steps: PCT_STEPS,
+    fmtStep: fmtPct,
+    apply: setFan,
+    reset: () => send('M106 S0'),
+  },
+])
+</script>
+
+<template>
+  <div class="tune">
+    <header class="head">
+      <button
+        class="back touch-btn"
+        type="button"
+        :aria-label="t('tune.back')"
+        @click="emit('close')"
+      >
+        ‹
+      </button>
+      <h2 class="title">{{ t('tune.title') }}</h2>
+    </header>
+
+    <div v-for="r in rows" :key="r.key" class="row touch-card">
+      <div class="row-head">
+        <span class="row-label">{{ r.label }}</span>
+        <span class="row-value">{{ r.value }}</span>
+      </div>
+      <div class="row-btns">
+        <button
+          v-for="d in r.steps"
+          :key="d"
+          class="touch-btn step"
+          type="button"
+          :disabled="!canWrite"
+          :title="canWrite ? '' : blockedReason"
+          @click="r.apply(d)"
+        >
+          {{ r.fmtStep(d) }}
+        </button>
+        <button
+          class="touch-btn reset"
+          type="button"
+          :disabled="!canWrite"
+          :aria-label="t('tune.reset')"
+          @click="r.reset()"
+        >
+          ⟲
+        </button>
+      </div>
+    </div>
+
+    <p v-if="ctl.lastError" class="err" role="alert">{{ t('control.error.' + ctl.lastError) }}</p>
+  </div>
+</template>
+
+<style scoped>
+.tune {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+.head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.back {
+  min-width: 3rem;
+  font-size: 1.6rem;
+  line-height: 1;
+}
+.title {
+  margin: 0;
+  font-family: var(--font-display, system-ui);
+  font-size: 1.25rem;
+  color: var(--fm-text);
+}
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 0.8rem 0.9rem;
+}
+.row-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+.row-label {
+  color: var(--fm-text-muted);
+  font-size: 0.95rem;
+}
+.row-value {
+  font-family: var(--font-mono);
+  font-size: 1.4rem;
+  color: var(--fm-text);
+}
+.row-btns {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.5rem;
+}
+.reset {
+  font-size: 1.3rem;
+  color: var(--fm-text-muted);
+}
+.touch-btn:disabled {
+  opacity: 0.45;
+}
+.err {
+  margin: 0;
+  color: var(--fm-danger);
+}
+</style>
