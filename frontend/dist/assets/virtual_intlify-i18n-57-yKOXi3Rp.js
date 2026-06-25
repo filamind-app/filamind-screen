@@ -1,0 +1,1 @@
+var e={title:{t:0,b:{t:2,i:[{t:3}],s:`Tuning`}},back:{t:0,b:{t:2,i:[{t:3}],s:`Kembali`}},speed:{t:0,b:{t:2,i:[{t:3}],s:`Kecepatan`}},flow:{t:0,b:{t:2,i:[{t:3}],s:`Aliran`}},zOffset:{t:0,b:{t:2,i:[{t:3}],s:`Offset Z`}},fan:{t:0,b:{t:2,i:[{t:3}],s:`Kipas`}},reset:{t:0,b:{t:2,i:[{t:3}],s:`Atur Ulang`}}};export{e as default};

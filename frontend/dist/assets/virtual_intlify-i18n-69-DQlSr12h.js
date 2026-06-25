@@ -1,0 +1,1 @@
+var e={title:{t:0,b:{t:2,i:[{t:3}],s:`Ayar`}},back:{t:0,b:{t:2,i:[{t:3}],s:`Geri`}},speed:{t:0,b:{t:2,i:[{t:3}],s:`Hız`}},flow:{t:0,b:{t:2,i:[{t:3}],s:`Akış`}},zOffset:{t:0,b:{t:2,i:[{t:3}],s:`Z ofset`}},fan:{t:0,b:{t:2,i:[{t:3}],s:`Fan`}},reset:{t:0,b:{t:2,i:[{t:3}],s:`Sıfırla`}}};export{e as default};

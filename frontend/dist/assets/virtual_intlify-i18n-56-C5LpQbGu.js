@@ -1,0 +1,1 @@
+var e={title:{t:0,b:{t:2,i:[{t:3}],s:`微调`}},back:{t:0,b:{t:2,i:[{t:3}],s:`返回`}},speed:{t:0,b:{t:2,i:[{t:3}],s:`速度`}},flow:{t:0,b:{t:2,i:[{t:3}],s:`流量`}},zOffset:{t:0,b:{t:2,i:[{t:3}],s:`Z偏移`}},fan:{t:0,b:{t:2,i:[{t:3}],s:`风扇`}},reset:{t:0,b:{t:2,i:[{t:3}],s:`重置`}}};export{e as default};
