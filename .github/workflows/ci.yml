@@ -84,4 +84,6 @@ jobs:
           workspaces: frontend/src-tauri
       - run: npm ci
       - run: npm run build # the webview bundle Tauri embeds (frontendDist = ../dist)
+      # generate_context! needs the app icons at compile time; generate them from the tracked source.
+      - run: npm run tauri -- icon src-tauri/icons/icon-source.png
       - run: cargo build --manifest-path src-tauri/Cargo.toml
