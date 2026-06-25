@@ -1,0 +1,8 @@
+{
+  "title": "콘솔",
+  "back": "뒤로",
+  "placeholder": "g-code 입력…",
+  "send": "전송",
+  "clear": "지우기",
+  "empty": "출력 없음"
+}

@@ -1,0 +1,8 @@
+{
+  "title": "Consola",
+  "back": "Atrás",
+  "placeholder": "Escribe un g-code…",
+  "send": "Enviar",
+  "clear": "Borrar",
+  "empty": "Sin salida aún"
+}

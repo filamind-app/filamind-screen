@@ -1,0 +1,8 @@
+{
+  "title": "主控台",
+  "back": "返回",
+  "placeholder": "輸入 g-code…",
+  "send": "傳送",
+  "clear": "清除",
+  "empty": "尚無輸出"
+}
