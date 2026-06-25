@@ -2,6 +2,23 @@
 
 All notable changes to FilaMind screen are documented here. Format: `## [version]` sections (parsed by the release workflow).
 
+## [0.4.0]
+
+### Added
+
+The print-control screen gains its remaining three touch tools — the Status action bar's
+Move / Tune / Files / Console buttons are now all real (they were stubs that fell back to the basic
+Control view). Each opens as a full-screen overlay and routes every write through the same gated
+control path (refused unless the printer is live and Klippy is ready).
+
+- **Tune** — live print tuning: speed (`M220`), flow (`M221`), Z baby-step (`SET_GCODE_OFFSET`),
+  part fan (`M106`), each with coarse/fine steps and a reset, read off the live factors.
+- **Files** — browse the Moonraker `gcodes` root (newest first, with size + date) and start the
+  selected file; blocked while a print is already running.
+- **Console** — send any g-code and watch Klipper's responses stream back in a bounded,
+  auto-scrolling log (via a `notify_gcode_response` tee in the session, so the console gets the
+  stream without disturbing the rest of the app).
+
 ## [0.3.0]
 
 ### Added
