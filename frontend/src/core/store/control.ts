@@ -35,6 +35,7 @@ export const useControlStore = defineStore('control', () => {
     pause: () => run(control.pause),
     resume: () => run(control.resume),
     cancel: () => run(control.cancel),
+    startPrint: (filename: string) => run(() => control.startPrint(filename)),
     emergencyStop: () => void control.emergencyStop().catch(() => undefined),
     toggleSafeMode: () => control.setSafeMode(!safeMode.value),
   }

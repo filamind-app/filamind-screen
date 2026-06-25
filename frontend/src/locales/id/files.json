@@ -1,0 +1,9 @@
+{
+  "title": "File",
+  "back": "Kembali",
+  "refresh": "Segarkan",
+  "loading": "Memuat…",
+  "empty": "Tidak ada file g-code",
+  "print": "Cetak",
+  "busy": "Pencetakan sedang berjalan"
+}

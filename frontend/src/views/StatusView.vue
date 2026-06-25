@@ -11,7 +11,9 @@ const store = useSessionStore()
 const ctl = useControlStore()
 
 // Switch the shell tab (Move / Tune / Files / Console jump to where those tools live).
-const emit = defineEmits<{ navigate: [to: 'status' | 'control' | 'settings' | 'move' | 'tune'] }>()
+const emit = defineEmits<{
+  navigate: [to: 'status' | 'control' | 'settings' | 'move' | 'tune' | 'files']
+}>()
 
 interface Heater {
   temperature?: number
@@ -82,7 +84,7 @@ const actions = computed<Action[]>(() => [
       },
   { key: 'tune', label: t('status.tune'), icon: '🎚', run: () => emit('navigate', 'tune') },
   { key: 'move', label: t('status.move'), icon: '✥', run: () => emit('navigate', 'move') },
-  { key: 'files', label: t('status.files'), icon: '📁', run: () => emit('navigate', 'control') },
+  { key: 'files', label: t('status.files'), icon: '📁', run: () => emit('navigate', 'files') },
   { key: 'console', label: t('status.console'), icon: '⌨', run: () => emit('navigate', 'control') },
 ])
 
