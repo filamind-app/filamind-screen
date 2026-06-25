@@ -2,6 +2,14 @@
 
 All notable changes to FilaMind screen are documented here. Format: `## [version]` sections (parsed by the release workflow).
 
+## [Unreleased]
+
+### Fixed
+
+- **`deploy/install-native.sh`** no longer passes the removed `--native` flag to Flow's
+  `install.sh kiosk`. Flow made its kiosk unit-writer native-only and it now takes only `--bin`; with
+  the stale flag, the on-printer screen install treated `--native` as the username and failed.
+
 ## [0.2.0]
 
 ### Added
