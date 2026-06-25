@@ -1,0 +1,10 @@
+{
+  "title": "Ruch",
+  "back": "Wstecz",
+  "position": "Pozycja",
+  "step": "Krok (mm)",
+  "homeAll": "Bazuj wszystkie",
+  "homeAxis": "Bazuj {axis}",
+  "disable": "Wyłącz silniki",
+  "notHomed": "Nie bazowano"
+}

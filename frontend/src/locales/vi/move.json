@@ -1,0 +1,10 @@
+{
+  "title": "Di chuyển",
+  "back": "Quay lại",
+  "position": "Vị trí",
+  "step": "Bước (mm)",
+  "homeAll": "Về gốc tất cả",
+  "homeAxis": "Về gốc {axis}",
+  "disable": "Tắt động cơ",
+  "notHomed": "Chưa về gốc"
+}

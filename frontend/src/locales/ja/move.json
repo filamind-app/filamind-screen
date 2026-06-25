@@ -1,0 +1,10 @@
+{
+  "title": "移動",
+  "back": "戻る",
+  "position": "座標",
+  "step": "ステップ (mm)",
+  "homeAll": "全軸ホーム",
+  "homeAxis": "{axis}ホーム",
+  "disable": "モーター解除",
+  "notHomed": "未ホーム"
+}

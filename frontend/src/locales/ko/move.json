@@ -1,0 +1,10 @@
+{
+  "title": "이동",
+  "back": "뒤로",
+  "position": "위치",
+  "step": "이동량 (mm)",
+  "homeAll": "전체 호밍",
+  "homeAxis": "{axis} 호밍",
+  "disable": "모터 끄기",
+  "notHomed": "호밍 안 됨"
+}

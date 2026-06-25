@@ -1,0 +1,10 @@
+{
+  "title": "移动",
+  "back": "返回",
+  "position": "位置",
+  "step": "步距 (mm)",
+  "homeAll": "全部回零",
+  "homeAxis": "{axis} 回零",
+  "disable": "关闭电机",
+  "notHomed": "未回零"
+}

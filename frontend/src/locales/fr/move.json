@@ -1,0 +1,10 @@
+{
+  "title": "Déplacer",
+  "back": "Retour",
+  "position": "Position",
+  "step": "Pas (mm)",
+  "homeAll": "Origine tous",
+  "homeAxis": "Origine {axis}",
+  "disable": "Désactiver moteurs",
+  "notHomed": "Non référencé"
+}
