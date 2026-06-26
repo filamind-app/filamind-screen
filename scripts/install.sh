@@ -26,13 +26,13 @@ case "${1:-}" in
     shift
     ;;
   native)
-    # Native touch app (the .deb) — bypasses the nginx/clone path entirely.
+    # Native touch app (the .deb). Set the mode and fall through to the shared clone-refresh below;
+    # do NOT exec here. Refreshing first guarantees deploy/install-native.sh actually exists even when
+    # the host has a STALE pre-existing clone from before that file was added - running it off an
+    # un-refreshed clone is exactly what caused "deploy/install-native.sh: No such file or directory".
+    # This mirrors the `agent` path in filamind-3d.
+    CMD="native"
     shift
-    SELF_N="${BASH_SOURCE[0]:-}"
-    if [ -n "$SELF_N" ] && [ -f "$SELF_N" ]; then
-      APP="$(cd "$(dirname "$SELF_N")/.." && pwd)"
-    fi
-    exec bash "$APP/deploy/install-native.sh" "$@"
     ;;
 esac
 
@@ -74,6 +74,14 @@ fi
 # that it opens first; if it does not (a headless run, e.g. from the Setup widget) fall through and
 # let sudo print its own clear error instead of dying on a cryptic /dev/tty failure.
 if [ ! -t 0 ] && (exec </dev/tty) 2>/dev/null; then exec </dev/tty; fi
+
+# The native touch app (.deb) is a separate, additive install path. Run it off the just-refreshed
+# clone so deploy/install-native.sh is always present and current (see the `native` case note above).
+if [ "$CMD" = native ]; then
+  info "Installing the FilaMind screen native touch app"
+  bash "$APP/deploy/install-native.sh" "$@"
+  exit 0
+fi
 
 if [ "$CMD" = uninstall ]; then
   info "Removing FilaMind screen"
