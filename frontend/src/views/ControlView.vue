@@ -98,13 +98,17 @@ onUnmounted(() => {
 
 <style scoped>
 .control {
+  height: 100%;
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
+/* Each row of controls grows to fill the panel so the buttons are big and the view never scrolls. */
 .grid {
+  flex: 1;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: 1fr;
   gap: 1rem;
 }
 .touch-btn:disabled {
