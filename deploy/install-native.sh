@@ -14,8 +14,10 @@
 #   bash deploy/install-native.sh                # download + install the .deb + write the unit
 #   bash deploy/install-native.sh --uninstall    # remove the unit + package, restore KlipperScreen
 #
-# NOTE: `apt-get` (to install the .deb) and the unit write need real root. The narrow FilaMind
-# sudoers grant covers only systemctl/cp, so this needs INTERACTIVE sudo (or a one-time broad grant).
+# `apt-get` (to install the .deb + its WebKit runtime) and the unit write need real root. With a
+# terminal we prompt (host run); headless (the FilaMind Flow Setup widget) we use the passwordless
+# grant Flow's installer writes for apt/dpkg + the kiosk unit-writer (scripts/install.sh sudoers),
+# so a one-click native install works without ever hanging on a password prompt.
 set -euo pipefail
 
 REPO="filamind-app/filamind-screen"
@@ -31,12 +33,17 @@ ASVC="$PRINTER_DATA/moonraker.asvc"
 
 if [ ! -t 0 ] && (exec </dev/tty) 2>/dev/null; then exec </dev/tty; fi
 
+# Privileged steps: prompt when a terminal is attached (host run), else rely on the passwordless
+# grant the FilaMind Flow Setup service installs (headless widget run) — never hang on a password.
+if [ -t 0 ]; then SUDO="sudo"; else SUDO="sudo -n"; fi
+BASH_BIN="$(command -v bash || echo /bin/bash)"
+
 log() { echo "[native] $*"; }
 
 restore_klipperscreen() {
   if systemctl list-unit-files "$SCREEN_UNIT" 2>/dev/null | grep -q "^$SCREEN_UNIT"; then
-    sudo systemctl enable "$SCREEN_UNIT" || true
-    sudo systemctl start "$SCREEN_UNIT" || true
+    $SUDO systemctl enable "$SCREEN_UNIT" || true
+    $SUDO systemctl start "$SCREEN_UNIT" || true
   else
     log "WARNING: $SCREEN_UNIT is not installed — no display owner to restore to; leaving as-is."
   fi
@@ -48,19 +55,19 @@ deregister_moonraker() {
 
 uninstall() {
   log "Removing the FilaMind screen native touch app…"
-  sudo systemctl stop "${SERVICE}.service" 2>/dev/null || true
-  sudo systemctl disable "${SERVICE}.service" 2>/dev/null || true
-  sudo rm -f "/etc/systemd/system/${SERVICE}.service"
-  sudo systemctl daemon-reload || true
+  $SUDO systemctl stop "${SERVICE}.service" 2>/dev/null || true
+  $SUDO systemctl disable "${SERVICE}.service" 2>/dev/null || true
+  $SUDO rm -f "/etc/systemd/system/${SERVICE}.service"
+  $SUDO systemctl daemon-reload || true
   # Restore the display owner BEFORE removing the binary so there's never a dark-screen window.
   restore_klipperscreen
   local pkg
   pkg="$(dpkg -S /usr/bin/filamind-screen 2>/dev/null | cut -d: -f1 || true)"
   if [ -n "$pkg" ]; then
-    sudo apt-get remove -y "$pkg" 2>/dev/null || sudo dpkg -r "$pkg" 2>/dev/null || true
+    $SUDO apt-get remove -y "$pkg" 2>/dev/null || $SUDO dpkg -r "$pkg" 2>/dev/null || true
   fi
   deregister_moonraker
-  sudo systemctl restart moonraker 2>/dev/null || true
+  $SUDO systemctl restart moonraker 2>/dev/null || true
   log "Removed. KlipperScreen is the display owner again."
   exit 0
 }
@@ -95,9 +102,9 @@ curl -fL "$DEB_URL" -o "$TMP/$ASSET" \
   || { echo "[native] Could not download $DEB_URL — is there a published Release with the .deb asset?" >&2; exit 1; }
 
 # ── 2. install it (apt resolves the libwebkit2gtk-4.1 runtime dep) ──────────────────────────────
-log "Installing the .deb (needs sudo for apt)…"
-sudo apt-get install -y "$TMP/$ASSET" \
-  || { sudo dpkg -i "$TMP/$ASSET" || true; sudo apt-get -y -f install; }
+log "Installing the .deb (apt resolves the WebKit runtime dep)…"
+$SUDO apt-get install -y "$TMP/$ASSET" \
+  || { $SUDO dpkg -i "$TMP/$ASSET" || true; $SUDO apt-get -y -f install; }
 
 PKG="$(dpkg-deb -f "$TMP/$ASSET" Package 2>/dev/null || echo filamind-screen)"
 BIN="$(dpkg -L "$PKG" 2>/dev/null | grep -E '^/usr/bin/' | head -1 || true)"
@@ -105,18 +112,18 @@ BIN="$(dpkg -L "$PKG" 2>/dev/null | grep -E '^/usr/bin/' | head -1 || true)"
 log "Installed binary: $BIN"
 
 # ── 3. write the kiosk unit via Flow's single-source unit-writer (empty URL = no HTTP origin) ───
-sudo bash "$FLOW_DIR/scripts/install.sh" kiosk --bin "$BIN" "$USER_NAME" "" "$SERVICE"
+$SUDO "$BASH_BIN" "$FLOW_DIR/scripts/install.sh" kiosk --bin "$BIN" "$USER_NAME" "" "$SERVICE"
 
 # ── 4. register with Moonraker so the panel can start/stop/restart it ───────────────────────────
 if [ -f "$ASVC" ]; then
   grep -qx "$SERVICE" "$ASVC" || echo "$SERVICE" >> "$ASVC"
-  sudo systemctl restart moonraker 2>/dev/null || true
+  $SUDO systemctl restart moonraker 2>/dev/null || true
 fi
 
 cat <<MSG
 
 [native] Done. The FilaMind screen native print-control app is installed but NOT yet on the screen.
-  Put it on the screen:  FilaMind Flow > Screen Manager > Touch UI > "Use"   (or: sudo systemctl start $SERVICE)
+  Put it on the screen:  FilaMind Flow > Screen Manager > Touch UI > "Use"   (or: $SUDO systemctl start $SERVICE)
   KlipperScreen stays the boot default until you persist the switch (reboot-recoverable).
   Remove it:             bash deploy/install-native.sh --uninstall
 MSG
