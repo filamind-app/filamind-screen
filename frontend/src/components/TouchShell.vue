@@ -187,7 +187,7 @@ function onDismissBanner(): void {
 
 <style scoped>
 .shell {
-  min-height: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
 }

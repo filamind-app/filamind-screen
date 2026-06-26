@@ -40,18 +40,14 @@ async function chooseLocale(code: string): Promise<void> {
 
     <section class="block touch-card">
       <h2 class="block-title">{{ t('settings.language') }}</h2>
-      <div class="langs">
-        <button
-          v-for="l in shippedLocales"
-          :key="l.code"
-          class="touch-btn lang"
-          :class="{ sel: locale === l.code }"
-          type="button"
-          @click="chooseLocale(l.code)"
-        >
-          {{ l.name }}
-        </button>
-      </div>
+      <select
+        class="lang-select"
+        :value="locale"
+        :aria-label="t('settings.language')"
+        @change="chooseLocale(($event.target as HTMLSelectElement).value)"
+      >
+        <option v-for="l in shippedLocales" :key="l.code" :value="l.code">{{ l.name }}</option>
+      </select>
     </section>
   </div>
 </template>
@@ -106,13 +102,14 @@ async function chooseLocale(code: string): Promise<void> {
   font-size: 0.95rem;
   color: var(--fm-text);
 }
-.langs {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.75rem;
-}
-.lang.sel {
-  border-color: var(--fm-primary);
-  color: var(--fm-primary);
+.lang-select {
+  width: 100%;
+  min-height: 56px;
+  padding: 0 1rem;
+  border-radius: 16px;
+  background: var(--fm-surface-2);
+  color: var(--fm-text);
+  border: 1px solid var(--fm-border);
+  font-size: 1.05rem;
 }
 </style>
