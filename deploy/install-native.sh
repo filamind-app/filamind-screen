@@ -80,7 +80,9 @@ esac
 
 # The unit must be written by Flow's single-source unit-writer (one display-stack detector for the
 # whole suite). Require the Flow clone rather than shipping a divergent copy that could drift.
-if [ ! -x "$FLOW_DIR/scripts/install.sh" ]; then
+# Test for the file (-f), not the executable bit (-x): the script is always invoked via `bash …`
+# below, and a git clone does not reliably set +x, so -x gave a false "Flow not found".
+if [ ! -f "$FLOW_DIR/scripts/install.sh" ]; then
   echo "[native] FilaMind Flow is required (it owns the shared touch-UI installer) but was not found" >&2
   echo "         at $FLOW_DIR. Install FilaMind Flow first, then re-run — or set FILAMIND_FLOW_DIR." >&2
   exit 1
