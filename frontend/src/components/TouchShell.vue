@@ -40,7 +40,7 @@ const tab = ref<Tab>('status')
 const tool = ref<Tool | null>(null)
 
 // A remote-control "navigate" command from another surface switches the active tab (and drops any
-// open tool — the remote asked for a specific tab).
+// open tool - the remote asked for a specific tab).
 watch(remoteNav, (r) => {
   if (r) {
     tool.value = null
@@ -344,7 +344,7 @@ function onDismissBanner(): void {
   font-family: var(--font-display);
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
 }
-/* Static fallback when motion is reduced — both the OS signal and the in-app setting
+/* Static fallback when motion is reduced - both the OS signal and the in-app setting
    (:root[data-fm-reduced] set by theme.ts), since the global reduced-motion rule zeroes the pulse. */
 @media (prefers-reduced-motion: reduce) {
   .shell.locating {

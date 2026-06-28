@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { i18n } from '@/core/i18n'
 
-// Mutable plain state behind the mocked stores (set BEFORE mount per test) — no vue refs, so the
+// Mutable plain state behind the mocked stores (set BEFORE mount per test) - no vue refs, so the
 // real useWriteGuard reads live/klippy through getters and computes canWrite for real.
 const state = vi.hoisted(() => ({
   live: true,

@@ -5,7 +5,7 @@ import { useSessionStore } from '@/core/store/session'
 import { useControlStore } from '@/core/store/control'
 import { useWriteGuard } from '@/core/useWriteGuard'
 
-// The jog tool: relative XY/Z moves, per-axis + all homing, and disable-steppers — every write goes
+// The jog tool: relative XY/Z moves, per-axis + all homing, and disable-steppers - every write goes
 // through the same gated control store as the rest of the app. Opened as an overlay from Status.
 const { t } = useI18n()
 const session = useSessionStore()
@@ -29,9 +29,9 @@ const AXES = [
 ] as const
 
 function axisValue(i: number, char: string, dp: number): string {
-  if (!homed.value.toLowerCase().includes(char.toLowerCase())) return '—'
+  if (!homed.value.toLowerCase().includes(char.toLowerCase())) return '-'
   const v = pos.value[i]
-  return v == null ? '—' : v.toFixed(dp)
+  return v == null ? '-' : v.toFixed(dp)
 }
 const anyHomed = computed(() => homed.value.length > 0)
 
@@ -39,7 +39,7 @@ const STEPS = [0.1, 1, 10, 100]
 const step = ref(10)
 
 // Relative move; G91/G90 are wrapped per-jog so we never leave the machine in relative mode. Z is
-// fed slower than XY — a fast Z jog into the bed is how nozzles die.
+// fed slower than XY - a fast Z jog into the bed is how nozzles die.
 function jog(axis: 'X' | 'Y' | 'Z', dir: 1 | -1): void {
   if (!canWrite.value) return
   const feed = axis === 'Z' ? 600 : 6000

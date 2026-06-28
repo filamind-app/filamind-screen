@@ -13,7 +13,7 @@
     "busy": "An action is in progress"
   },
   "error": {
-    "refused": "Refused — printer not live",
+    "refused": "Refused - printer not live",
     "failed": "Action failed"
   }
 }

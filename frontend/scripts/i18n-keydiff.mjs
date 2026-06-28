@@ -1,9 +1,9 @@
 #!/usr/bin/env node
-// CI gate: every non-reference locale must carry EXACTLY the `en` key set — no missing, no extra.
+// CI gate: every non-reference locale must carry EXACTLY the `en` key set - no missing, no extra.
 //
 // Each locale folder holds one JSON file per namespace (common.json, control.json, …). i18n.ts
 // keys the message tree by filename (control.title, dashboard.title, …), so this script does the
-// same — a flat merge would collide on shared top-level keys like `title`. vue-i18n pluralization
+// same - a flat merge would collide on shared top-level keys like `title`. vue-i18n pluralization
 // lives inside string VALUES (`one | other`), never adds keys, so a strict key diff is correct.
 //
 // With only `en` present this is a trivial pass; it does real work the moment a second locale lands.
@@ -62,7 +62,7 @@ for (const code of others) {
 }
 
 if (!others.length) {
-  console.log(`i18n-keydiff: only '${REFERENCE}' present (${refKeys.size} keys) — nothing to diff yet.`)
+  console.log(`i18n-keydiff: only '${REFERENCE}' present (${refKeys.size} keys) - nothing to diff yet.`)
 }
 
 process.exit(failed ? 1 : 0)

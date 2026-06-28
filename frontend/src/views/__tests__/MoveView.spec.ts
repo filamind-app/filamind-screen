@@ -4,7 +4,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { i18n } from '@/core/i18n'
 
 // Mutable, non-reactive backing state for the mocked stores (set BEFORE mount per test). Plain
-// values — no vue refs — so vi.hoisted has no TDZ and useWriteGuard reads them through real getters.
+// values - no vue refs - so vi.hoisted has no TDZ and useWriteGuard reads them through real getters.
 const state = vi.hoisted(() => ({
   live: true,
   klippyReady: true,

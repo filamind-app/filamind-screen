@@ -62,7 +62,7 @@ function dispatch(cmd: RemoteCommand): void {
   }
 }
 
-/** Pass to FilaMindSession's onAgentEvent — validates the bus event then dispatches a typed command.
+/** Pass to FilaMindSession's onAgentEvent - validates the bus event then dispatches a typed command.
  *  Only accept commands from FilaMind surfaces (best-effort: client_name is self-asserted, which is why
  *  the commands stay strictly UI-only). */
 export function onRemoteAgentEvent(ev: AgentEvent): void {
