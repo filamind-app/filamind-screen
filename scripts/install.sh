@@ -57,10 +57,14 @@ else
   }
   if [ ! -d "$APP/.git" ]; then
     info "Cloning FilaMind screen -> $APP"
-    git clone --depth 1 "$REPO" "$APP"
+    # Full clone (NOT --depth 1) so tags come too: Moonraker's update_manager needs them to show a
+    # real version instead of "v0.0.0-...-inferred".
+    git clone "$REPO" "$APP"
   else
     info "Refreshing FilaMind screen -> $APP"
-    git -C "$APP" fetch --depth 1 origin main && git -C "$APP" reset --hard origin/main
+    # Unshallow a legacy --depth 1 clone + fetch tags, then hard-reset to current main.
+    [ -f "$APP/.git/shallow" ] && git -C "$APP" fetch --unshallow --tags origin 2>/dev/null || true
+    git -C "$APP" fetch --tags --force origin && git -C "$APP" reset --hard origin/main
   fi
 fi
 
