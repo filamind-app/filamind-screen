@@ -67,6 +67,15 @@ uninstall() {
     $SUDO apt-get remove -y "$pkg" 2>/dev/null || $SUDO dpkg -r "$pkg" 2>/dev/null || true
   fi
   deregister_moonraker
+  # Remove only the update_manager block we appended; leave other moonraker.conf sections intact.
+  MCONF="$PRINTER_DATA/config/moonraker.conf"
+  if [ -f "$MCONF" ] && grep -q "update_manager filamind-screen" "$MCONF"; then
+    python3 - "$MCONF" <<'PY'
+import re, sys
+p = sys.argv[1]
+open(p, "w").write(re.sub(r"\n\[update_manager filamind-screen\][^\[]*", "\n", open(p).read()))
+PY
+  fi
   $SUDO systemctl restart moonraker 2>/dev/null || true
   log "Removed. KlipperScreen is the display owner again."
   exit 0
@@ -114,11 +123,26 @@ log "Installed binary: $BIN"
 # ── 3. write the kiosk unit via Flow's single-source unit-writer (empty URL = no HTTP origin) ───
 $SUDO "$BASH_BIN" "$FLOW_DIR/scripts/install.sh" kiosk --bin "$BIN" "$USER_NAME" "" "$SERVICE"
 
-# ── 4. register with Moonraker so the panel can start/stop/restart it ───────────────────────────
+# ── 4. register with Moonraker: the service allowlist (start/stop/restart from the panel) AND the
+#    update_manager (so the screen app shows in the updates panel and gets git-updated). ───────────
 if [ -f "$ASVC" ]; then
   grep -qx "$SERVICE" "$ASVC" || echo "$SERVICE" >> "$ASVC"
-  $SUDO systemctl restart moonraker 2>/dev/null || true
 fi
+MCONF="$PRINTER_DATA/config/moonraker.conf"
+if [ -f "$MCONF" ] && ! grep -q "update_manager filamind-screen" "$MCONF"; then
+  cp "$MCONF" "$MCONF.bak.filamind.$(date +%s)" 2>/dev/null || true
+  cat >> "$MCONF" <<'EOF'
+
+[update_manager filamind-screen]
+type: git_repo
+path: ~/filamind-screen
+origin: https://github.com/filamind-app/filamind-screen.git
+primary_branch: main
+managed_services: filamind-screen-kiosk
+install_script: deploy/install-native.sh
+EOF
+fi
+$SUDO systemctl restart moonraker 2>/dev/null || true
 
 cat <<MSG
 
