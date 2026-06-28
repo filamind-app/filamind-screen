@@ -87,6 +87,15 @@ case "${1:-}" in
   *) echo "usage: $0 [--uninstall]" >&2; exit 2 ;;
 esac
 
+# ── 0. full clone + tags ────────────────────────────────────────────────────────────────────
+# Repair a legacy --depth 1 (shallow) screen clone so Moonraker's update_manager reads a real
+# version, not "v0.0.0-...-inferred". Runs on install AND whenever Moonraker re-runs this script.
+SCREEN_DIR="${FILAMIND_SCREEN_DIR:-$HOME/filamind-screen}"
+if [ -d "$SCREEN_DIR/.git" ]; then
+  [ -f "$SCREEN_DIR/.git/shallow" ] && git -C "$SCREEN_DIR" fetch --unshallow --tags origin 2>/dev/null || true
+  git -C "$SCREEN_DIR" fetch --tags origin 2>/dev/null || true
+fi
+
 # ── 1. arch guard + fetch the prebuilt .deb ─────────────────────────────────────────────────────
 ARCH="$(dpkg --print-architecture 2>/dev/null || uname -m)"
 case "$ARCH" in
