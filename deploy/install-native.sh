@@ -120,6 +120,16 @@ curl -fL "$DEB_URL" -o "$TMP/$ASSET" \
   || { echo "[native] Could not download $DEB_URL - is there a published Release with the .deb asset?" >&2; exit 1; }
 
 # -- 2. install it (apt resolves the libwebkit2gtk-4.1 runtime dep) ------------------------------
+# Headless preflight: installing the .deb needs root via passwordless sudo. When run from the Setup
+# widget (no terminal, SUDO="sudo -n") with the grant missing, apt would print three opaque
+# "sudo: a password is required" lines and a doomed -f retry. Stop with ONE clear instruction: the
+# one-time grant that makes every widget install work without a prompt.
+if [ "$SUDO" = "sudo -n" ] && ! sudo -n apt-get --version >/dev/null 2>&1; then
+  echo "[native] The native touch app needs root to install its .deb, but passwordless sudo is not" >&2
+  echo "[native] set up on this host. Grant it once over SSH, then re-run from the widget (no prompt):" >&2
+  echo "[native]   sudo bash ${FLOW_DIR}/scripts/install.sh sudoers" >&2
+  exit 1
+fi
 log "Installing the .deb (apt resolves the WebKit runtime dep)…"
 $SUDO apt-get install -y "$TMP/$ASSET" \
   || { $SUDO dpkg -i "$TMP/$ASSET" || true; $SUDO apt-get -y -f install; }
