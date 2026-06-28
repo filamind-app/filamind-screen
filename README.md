@@ -29,7 +29,7 @@ FilaMind Screen is a native touchscreen app for your Klipper printer. It runs fu
 curl -fsSL https://raw.githubusercontent.com/filamind-app/filamind-screen/main/deploy/install-native.sh | bash
 ```
 
-This downloads the prebuilt arm64 app from the latest Release, installs it (apt resolves the WebKitGTK runtime it needs), and registers it with Moonraker so the panel can start and stop it. It needs `sudo`, so run it as your normal printer user and approve the prompt. Installing does **not** take over the screen on its own — your current touch UI stays the boot default, and you switch to FilaMind Screen from FilaMind Flow's Screen Manager (Touch UI → "Use"), or with `sudo systemctl start filamind-screen-kiosk`. Because the switch is not boot-enabled, a reboot always brings your old screen back, so trying it is risk-free.
+This downloads the prebuilt arm64 app from the latest Release, installs it (apt resolves the WebKitGTK runtime it needs), and registers it with Moonraker so the panel can start and stop it. It needs `sudo`, so run it as your normal printer user and approve the prompt. Installing does **not** take over the screen on its own - your current touch UI stays the boot default, and you switch to FilaMind Screen from FilaMind Flow's Screen Manager (Touch UI → "Use"), or with `sudo systemctl start filamind-screen-kiosk`. Because the switch is not boot-enabled, a reboot always brings your old screen back, so trying it is risk-free.
 
 > **Heads up:** this is the native on-screen path and targets arm64 printer hosts. It installs the app that FilaMind's CI built and leans on FilaMind Flow to write the screen-takeover service, so [install FilaMind Flow](https://github.com/filamind-app/filamind-flow) first. Just want to preview the touch UI in a browser on the printer? See [DEPLOY.md](DEPLOY.md) for the nginx/kiosk-browser path.
 
@@ -43,25 +43,25 @@ This restores your previous touch UI first (so the display is never left dark), 
 
 ## What's on the screen
 
-FilaMind Screen is built for fingers, not a mouse. A three-tab bar runs along the bottom — **Status**, **Control**, **Settings** — and the deeper tools open as fullscreen overlays you reach from the Status face. A connection **trust ribbon** at the top always tells you whether the printer is live, and an **emergency stop** sits on every tab, one tap away.
+FilaMind Screen is built for fingers, not a mouse. A three-tab bar runs along the bottom - **Status**, **Control**, **Settings** - and the deeper tools open as fullscreen overlays you reach from the Status face. A connection **trust ribbon** at the top always tells you whether the printer is live, and an **emergency stop** sits on every tab, one tap away.
 
 | Area | What it does |
 | ---- | ------------ |
 | **Status** | The job face: a big progress ring with layer count, live hotend / bed / fan / speed tiles, a remaining-time estimate, and quick jumps to the tools below. |
-| **Control** | Large, gated buttons — Home, Pause, Resume, Cancel (with a tap-to-confirm), Emergency-stop, and a Safe-mode toggle that locks out writes. |
+| **Control** | Large, gated buttons - Home, Pause, Resume, Cancel (with a tap-to-confirm), Emergency-stop, and a Safe-mode toggle that locks out writes. |
 | **Move** | A jog pad: XY directions, Z up/down (fed slower, so a stray tap can't drive the nozzle into the bed), a 0.1 / 1 / 10 / 100 mm step picker, per-axis and all-axis homing, disable steppers, and a live position readout that knows which axes are homed. |
 | **Tune** | Live print tuning while it runs: speed, flow, Z baby-step, and part fan, each with coarse and fine nudges and a one-tap reset, read off the printer's live factors. |
-| **Files** | Browse your g-code files (newest first, with size and date) and start the one you pick — blocked while a print is already running. |
+| **Files** | Browse your g-code files (newest first, with size and date) and start the one you pick - blocked while a print is already running. |
 | **Console** | Send any g-code and watch Klipper's responses stream back in a tidy, auto-scrolling log. |
 | **Settings** | Pick a theme and a language right on the screen. |
 
-Two things tie it into the rest of FilaMind. **Settings roam:** set a theme or language anywhere in FilaMind and this screen picks it up on the next connect. **Remote control:** another FilaMind surface can flip this screen to a tab, flash a "you are here" badge to tell which physical panel is which, or push a short message banner — all UI-only, never a hidden machine command.
+Two things tie it into the rest of FilaMind. **Settings roam:** set a theme or language anywhere in FilaMind and this screen picks it up on the next connect. **Remote control:** another FilaMind surface can flip this screen to a tab, flash a "you are here" badge to tell which physical panel is which, or push a short message banner - all UI-only, never a hidden machine command.
 
-Every machine action runs through one gated write path: it is refused unless the connection is live and Klipper is ready, and Safe-mode blocks writes on demand. Emergency stop is the deliberate exception — it always goes through, and it is logged.
+Every machine action runs through one gated write path: it is refused unless the connection is live and Klipper is ready, and Safe-mode blocks writes on demand. Emergency stop is the deliberate exception - it always goes through, and it is logged.
 
 ## Tested on real printers
 
-FilaMind Screen is developed and tested on a Sovol SV08 (CoreXY) driven by a BTT CB1 host — an arm64 board with a small touchscreen, the kind of low-RAM machine this app is built for. That constraint is why the screen is never built on the printer: the app you install is the one CI compiled, fetched as a ready-made package.
+FilaMind Screen is developed and tested on a Sovol SV08 (CoreXY) driven by a BTT CB1 host - an arm64 board with a small touchscreen, the kind of low-RAM machine this app is built for. That constraint is why the screen is never built on the printer: the app you install is the one CI compiled, fetched as a ready-made package.
 
 ## How it's built
 
@@ -69,7 +69,7 @@ The interface is a Vue 3 single-page app, wrapped by a Tauri 2 native shell that
 
 ## Languages
 
-The whole interface is translated into **19 languages** — every tab and tool, not just the chrome. Pick one in Settings; your choice is remembered, and on first run the app matches the printer's language. Set the language on another FilaMind surface and this screen follows along.
+The whole interface is translated into **19 languages** - every tab and tool, not just the chrome. Pick one in Settings; your choice is remembered, and on first run the app matches the printer's language. Set the language on another FilaMind surface and this screen follows along.
 
 | | | | |
 | --- | --- | --- | --- |
@@ -88,7 +88,7 @@ Everything but the native shell is verifiable with just Node (≥ 22.13):
 ```bash
 cd frontend
 npm install
-npm run dev        # Vite dev server on :5274 — open it in a browser to preview the touch UI
+npm run dev        # Vite dev server on :5274 - open it in a browser to preview the touch UI
 npm run lint && npm run type-check && npm test && npm run i18n:keydiff && npm run build
 ```
 
@@ -124,9 +124,9 @@ FilaMind Screen is free and open source, built and maintained in spare time. If 
 
 Built and maintained by the DeltaFabs team:
 
-- Abdelmonem Awad — <eg2@live.com>
-- Ahmed Bebars — <Ahmedbebars1@gmail.com>
-- Kareem Salama — <Golden.kiko@gmail.com>
+- Abdelmonem Awad - <eg2@live.com>
+- Ahmed Bebars - <Ahmedbebars1@gmail.com>
+- Kareem Salama - <Golden.kiko@gmail.com>
 
 ## License
 

@@ -48,7 +48,7 @@
     font-family: var(--font-sans);
     font-size: 18px; /* touch-first base size */
     -webkit-font-smoothing: antialiased;
-    /* a fixed on-printer panel — no text selection / overscroll bounce */
+    /* a fixed on-printer panel - no text selection / overscroll bounce */
     user-select: none;
     overscroll-behavior: none;
   }

@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# FilaMind screen — install the NATIVE print-control touch app on the printer's touchscreen.
+# FilaMind screen - install the NATIVE print-control touch app on the printer's touchscreen.
 #
 # Downloads the prebuilt arm64 .deb (the Tauri print-control app that CI built) from the GitHub
 # Release, installs it, and writes a `filamind-screen-kiosk` systemd unit that can take over the
-# touchscreen from KlipperScreen — reversibly. The unit is NOT enabled at boot; you switch to it
+# touchscreen from KlipperScreen - reversibly. The unit is NOT enabled at boot; you switch to it
 # from FilaMind Flow's Screen Manager (Touch UI > "Use"). KlipperScreen stays the boot default.
 #
-# We never BUILD on the printer (a Tauri/Rust build would OOM a ~1 GB host) — we fetch the aarch64
+# We never BUILD on the printer (a Tauri/Rust build would OOM a ~1 GB host) - we fetch the aarch64
 # .deb CI already produced. The systemd unit is written by FilaMind Flow's single-source unit-writer
 # (`scripts/install.sh kiosk --native`) so there is ONE display-stack detector for the whole suite,
 # never a divergent copy that could drift (a stale Conflicts= list = two GUIs = OOM on 1 GB).
@@ -34,7 +34,7 @@ ASVC="$PRINTER_DATA/moonraker.asvc"
 if [ ! -t 0 ] && (exec </dev/tty) 2>/dev/null; then exec </dev/tty; fi
 
 # Privileged steps: prompt when a terminal is attached (host run), else rely on the passwordless
-# grant the FilaMind Flow Setup service installs (headless widget run) — never hang on a password.
+# grant the FilaMind Flow Setup service installs (headless widget run) - never hang on a password.
 if [ -t 0 ]; then SUDO="sudo"; else SUDO="sudo -n"; fi
 BASH_BIN="$(command -v bash || echo /bin/bash)"
 
@@ -45,7 +45,7 @@ restore_klipperscreen() {
     $SUDO systemctl enable "$SCREEN_UNIT" || true
     $SUDO systemctl start "$SCREEN_UNIT" || true
   else
-    log "WARNING: $SCREEN_UNIT is not installed — no display owner to restore to; leaving as-is."
+    log "WARNING: $SCREEN_UNIT is not installed - no display owner to restore to; leaving as-is."
   fi
 }
 
@@ -87,7 +87,7 @@ case "${1:-}" in
   *) echo "usage: $0 [--uninstall]" >&2; exit 2 ;;
 esac
 
-# ── 0. full clone + tags ────────────────────────────────────────────────────────────────────
+# -- 0. full clone + tags --------------------------------------------------------------------
 # Repair a legacy --depth 1 (shallow) screen clone so Moonraker's update_manager reads a real
 # version, not "v0.0.0-...-inferred". Runs on install AND whenever Moonraker re-runs this script.
 SCREEN_DIR="${FILAMIND_SCREEN_DIR:-$HOME/filamind-screen}"
@@ -96,7 +96,7 @@ if [ -d "$SCREEN_DIR/.git" ]; then
   git -C "$SCREEN_DIR" fetch --tags origin 2>/dev/null || true
 fi
 
-# ── 1. arch guard + fetch the prebuilt .deb ─────────────────────────────────────────────────────
+# -- 1. arch guard + fetch the prebuilt .deb -----------------------------------------------------
 ARCH="$(dpkg --print-architecture 2>/dev/null || uname -m)"
 case "$ARCH" in
   arm64 | aarch64) ;;
@@ -109,7 +109,7 @@ esac
 # below, and a git clone does not reliably set +x, so -x gave a false "Flow not found".
 if [ ! -f "$FLOW_DIR/scripts/install.sh" ]; then
   echo "[native] FilaMind Flow is required (it owns the shared touch-UI installer) but was not found" >&2
-  echo "         at $FLOW_DIR. Install FilaMind Flow first, then re-run — or set FILAMIND_FLOW_DIR." >&2
+  echo "         at $FLOW_DIR. Install FilaMind Flow first, then re-run - or set FILAMIND_FLOW_DIR." >&2
   exit 1
 fi
 
@@ -117,9 +117,9 @@ TMP="$(mktemp -d)"; trap 'rm -rf "$TMP"' EXIT
 DEB_URL="https://github.com/$REPO/releases/latest/download/$ASSET"
 log "Downloading $ASSET from the latest Release…"
 curl -fL "$DEB_URL" -o "$TMP/$ASSET" \
-  || { echo "[native] Could not download $DEB_URL — is there a published Release with the .deb asset?" >&2; exit 1; }
+  || { echo "[native] Could not download $DEB_URL - is there a published Release with the .deb asset?" >&2; exit 1; }
 
-# ── 2. install it (apt resolves the libwebkit2gtk-4.1 runtime dep) ──────────────────────────────
+# -- 2. install it (apt resolves the libwebkit2gtk-4.1 runtime dep) ------------------------------
 log "Installing the .deb (apt resolves the WebKit runtime dep)…"
 $SUDO apt-get install -y "$TMP/$ASSET" \
   || { $SUDO dpkg -i "$TMP/$ASSET" || true; $SUDO apt-get -y -f install; }
@@ -129,11 +129,11 @@ BIN="$(dpkg -L "$PKG" 2>/dev/null | grep -E '^/usr/bin/' | head -1 || true)"
 [ -n "$BIN" ] || BIN="/usr/bin/filamind-screen"
 log "Installed binary: $BIN"
 
-# ── 3. write the kiosk unit via Flow's single-source unit-writer (empty URL = no HTTP origin) ───
+# -- 3. write the kiosk unit via Flow's single-source unit-writer (empty URL = no HTTP origin) ---
 $SUDO "$BASH_BIN" "$FLOW_DIR/scripts/install.sh" kiosk --bin "$BIN" "$USER_NAME" "" "$SERVICE"
 
-# ── 4. register with Moonraker: the service allowlist (start/stop/restart from the panel) AND the
-#    update_manager (so the screen app shows in the updates panel and gets git-updated). ───────────
+# -- 4. register with Moonraker: the service allowlist (start/stop/restart from the panel) AND the
+#    update_manager (so the screen app shows in the updates panel and gets git-updated). -----------
 if [ -f "$ASVC" ]; then
   grep -qx "$SERVICE" "$ASVC" || echo "$SERVICE" >> "$ASVC"
 fi

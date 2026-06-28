@@ -45,7 +45,7 @@ const active = computed(() => printing.value || paused.value)
 
 const stateLabel = computed(() => {
   const key = `status.state.${stats.value.state ?? 'standby'}`
-  return te(key) ? t(key) : (stats.value.state ?? '—')
+  return te(key) ? t(key) : (stats.value.state ?? '-')
 })
 
 // Remaining-time estimate from elapsed print time and fraction done (no slicer estimate needed).
@@ -138,7 +138,7 @@ const tiles = computed<Tile[]>(() => [
             {{ t('status.layer') }} {{ layer.current_layer ?? 0 }}/{{ layer.total_layer }}
           </text>
         </svg>
-        <div class="file" :title="stats.filename || ''">{{ stats.filename || '—' }}</div>
+        <div class="file" :title="stats.filename || ''">{{ stats.filename || '-' }}</div>
         <div class="eta">
           <span class="state-dot" :class="stats.state"></span>{{ stateLabel
           }}<span v-if="eta"> · {{ t('status.eta') }} {{ eta }}</span>

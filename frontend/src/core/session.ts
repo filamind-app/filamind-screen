@@ -8,7 +8,7 @@ function defaultWsUrl(): string {
   const env = import.meta.env.VITE_MOONRAKER_WS_URL
   if (env) return env
   const host = typeof window !== 'undefined' ? window.location?.host : ''
-  // In the Tauri bundle the webview origin is tauri.localhost — NOT the printer. The screen
+  // In the Tauri bundle the webview origin is tauri.localhost - NOT the printer. The screen
   // runs on the printer, so default to the local Moonraker. A browser served by Moonraker
   // (or VITE_MOONRAKER_WS_URL) overrides this.
   if (!host || host.includes('tauri') || host.includes('localhost')) {

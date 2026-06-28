@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
-# FilaMind screen — serve the touch UI on the printer host (for a browser/kiosk test).
+# FilaMind screen - serve the touch UI on the printer host (for a browser/kiosk test).
 #
 # Installs an nginx site that serves the built touch SPA AND reverse-proxies Moonraker on the SAME
 # origin (no CORS, app auto-resolves ws://<host>:<port>/websocket). This is the quickest way to test
 # the touch UI on the printer's display in a browser; the packaged Tauri kiosk app is the eventual
-# production path (needs a Rust toolchain — see DEPLOY.md).
+# production path (needs a Rust toolchain - see DEPLOY.md).
 #
 # The touch UI ships pre-built in frontend/dist, so no Node is needed on the printer; the
 # build-on-host path below is only a fallback if the bundle is ever missing.
 #
 # Runs as your NORMAL user and uses `sudo` only for the specific privileged steps (place the nginx
-# site, reload nginx) — exactly cp/chmod/systemctl. So it works both interactively (sudo prompts
+# site, reload nginx) - exactly cp/chmod/systemctl. So it works both interactively (sudo prompts
 # once) and unattended from the FilaMind flow Setup service, which has passwordless sudo for
-# precisely those commands — no full-root `sudo bash`, no tee/ln/nginx-binary needed.
+# precisely those commands - no full-root `sudo bash`, no tee/ln/nginx-binary needed.
 #   bash deploy/install.sh [--port 8088] [--moonraker 127.0.0.1:7125]
 #   bash deploy/install.sh --uninstall
 set -euo pipefail
@@ -44,7 +44,7 @@ if [ "$ACTION" = uninstall ]; then
 fi
 
 if [ ! -f "$DIST/index.html" ]; then
-  echo "No build found — building the frontend (needs Node 22 + npm)…"
+  echo "No build found - building the frontend (needs Node 22 + npm)…"
   command -v npm >/dev/null || { echo "npm not found; install Node 22 or ship a prebuilt frontend/dist." >&2; exit 1; }
   ( cd "$APP_DIR/frontend" && npm ci && npm run build )
 fi
@@ -63,7 +63,7 @@ server {
     location = /index.html { add_header Cache-Control "no-cache"; }
     location / { try_files \$uri \$uri/ /index.html; }
 
-    # Same-origin reverse proxy to Moonraker (REST + WebSocket) — no CORS needed.
+    # Same-origin reverse proxy to Moonraker (REST + WebSocket) - no CORS needed.
     location ~ ^/(server|printer|access|machine) {
         proxy_pass http://$MOONRAKER;
         proxy_set_header Host \$host;

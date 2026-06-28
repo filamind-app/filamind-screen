@@ -18,7 +18,7 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: '22' # vue-i18n 11 + unplugin require Node >= 22
-      # NOTE: @filamind-app/core must be resolvable — published package (release) or the suite workspace symlink (dev).
+      # NOTE: @filamind-app/core must be resolvable - published package (release) or the suite workspace symlink (dev).
       - run: npm ci
       - run: npm run lint
       - run: npm run format:check
@@ -65,7 +65,7 @@ jobs:
           fi
 
   # Compile the native Tauri shell so the desktop/touch app can't silently break. This is a
-  # COMPILE check (no OS bundling) — bundling needs generated app icons (`npm run tauri icon`) and
+  # COMPILE check (no OS bundling) - bundling needs generated app icons (`npm run tauri icon`) and
   # a per-arch packaging step, which land with the native build. Verifies the Rust shell + the
   # webview frontend integrate and build.
   tauri:
