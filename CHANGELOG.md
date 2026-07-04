@@ -2,6 +2,21 @@
 
 All notable changes to FilaMind screen are documented here. Format: `## [version]` sections (parsed by the release workflow).
 
+## [0.5.0]
+
+### Added
+
+- **Fill-the-screen touch layout** with a language dropdown.
+- **Native install registers the screen kiosk** with Moonraker's `update_manager` (shows in the
+  printer's update list and reports a real version).
+
+### Changed
+
+- Native install now works **headless** (no TTY) via the Flow sudo grant, survives a **stale clone**,
+  and does a full clone + fetched tags so Moonraker shows a real version.
+- Fixed Flow detection in the native installer (`-f`, not `-x`).
+- Modernized README + added `docs/ARCHITECTURE.md`; ASCII-only published text.
+
 ## [0.4.0]
 
 ### Added
