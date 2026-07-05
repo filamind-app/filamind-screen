@@ -161,7 +161,6 @@ type: git_repo
 path: ~/filamind-screen
 origin: https://github.com/filamind-app/filamind-screen.git
 primary_branch: main
-managed_services: filamind-screen-kiosk
 install_script: deploy/install-native.sh
 EOF
 fi

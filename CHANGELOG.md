@@ -2,6 +2,20 @@
 
 All notable changes to FilaMind screen are documented here. Format: `## [version]` sections (parsed by the release workflow).
 
+## [0.5.2]
+
+### Fixed
+
+- **The native app now launches on older printer hosts.** The release `.deb` was built on a
+  glibc-2.39 runner, so on a glibc-2.36 host (e.g. Armbian bookworm) the binary refused to start
+  (`GLIBC_2.39 not found`) - the kiosk started then immediately exited, so "Use" never showed the
+  screen. The `.deb` is now built in the same Debian Bookworm (glibc 2.36) container `bundle.yml`
+  uses, so it runs on the widest range of hosts (bookworm through trixie).
+- **No more Moonraker warning about `managed_services`.** The `[update_manager filamind-screen]`
+  block declared `managed_services: filamind-screen-kiosk`, which Moonraker rejects (it only allows
+  the entry's own name plus `klipper`/`moonraker`). Dropped it - the `install_script` already
+  reinstalls the `.deb` and restarts the kiosk on update.
+
 ## [0.5.1]
 
 ### Fixed
