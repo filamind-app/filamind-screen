@@ -2,6 +2,15 @@
 
 All notable changes to FilaMind screen are documented here. Format: `## [version]` sections (parsed by the release workflow).
 
+## [0.5.3]
+
+### Fixed
+
+- **No more Moonraker "not permitted to restart service" warning.** The `[update_manager
+  filamind-screen]` block now sets `is_system_service: False` - the entry tracks the source repo, it
+  is not itself a systemd service (the kiosk unit is `filamind-screen-kiosk`), and the update
+  `install_script` already handles the restart.
+
 ## [0.5.2]
 
 ### Fixed
