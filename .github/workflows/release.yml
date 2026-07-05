@@ -74,6 +74,9 @@ jobs:
     defaults:
       run:
         working-directory: frontend
+        # The node:20-bookworm container runs steps with dash by default, which rejects
+        # `set -o pipefail`; force bash so the build script works.
+        shell: bash
     permissions:
       contents: write
     steps:
