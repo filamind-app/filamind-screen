@@ -120,15 +120,19 @@ curl -fL "$DEB_URL" -o "$TMP/$ASSET" \
   || { echo "[native] Could not download $DEB_URL - is there a published Release with the .deb asset?" >&2; exit 1; }
 
 # -- 2. install it (apt resolves the libwebkit2gtk-4.1 runtime dep) ------------------------------
-# Headless preflight: installing the .deb needs root via passwordless sudo. When run from the Setup
-# widget (no terminal, SUDO="sudo -n") with the grant missing, apt would print three opaque
-# "sudo: a password is required" lines and a doomed -f retry. Stop with ONE clear instruction: the
-# one-time grant that makes every widget install work without a prompt.
+# Headless preflight: installing the .deb needs root via passwordless sudo (SUDO="sudo -n"). When
+# the apt/dpkg grant is missing (e.g. a host whose grant predates the native-install rules),
+# auto-heal it via Flow's passwordless sudoers refresh - it re-applies the current grant using the
+# base `sudo -n cp` right the panel already has - then re-check. Never ask the user to run a sudo
+# command by hand; if the base grant is absent too, point them at updating Flow (which grants it).
 if [ "$SUDO" = "sudo -n" ] && ! sudo -n apt-get --version >/dev/null 2>&1; then
-  echo "[native] The native touch app needs root to install its .deb, but passwordless sudo is not" >&2
-  echo "[native] set up on this host. Grant it once over SSH, then re-run from the widget (no prompt):" >&2
-  echo "[native]   sudo bash ${FLOW_DIR}/scripts/install.sh sudoers" >&2
-  exit 1
+  log "Setting up the native-install permissions…"
+  bash "$FLOW_DIR/scripts/install.sh" sudoers-refresh >/dev/null 2>&1 || true
+  if ! sudo -n apt-get --version >/dev/null 2>&1; then
+    echo "[native] The native touch app needs extra host permissions that aren't in place yet." >&2
+    echo "[native] Update FilaMind Flow (it grants them automatically), then install again." >&2
+    exit 1
+  fi
 fi
 log "Installing the .deb (apt resolves the WebKit runtime dep)…"
 $SUDO apt-get install -y "$TMP/$ASSET" \
