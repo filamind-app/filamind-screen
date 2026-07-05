@@ -4,9 +4,19 @@ name: Release
 #   git tag v0.1.0 && git push --tags
 # Builds the touch SPA and attaches dist as a release asset (usable by a Moonraker `web`
 # update_manager). The packaged Tauri kiosk bundle is built separately once a Rust toolchain is set up.
+#
+# workflow_dispatch is the escape hatch for the `[skip ci]` release commit: when the tag is created
+# on the "rebuild frontend/dist [skip ci]" commit, GitHub skips the tag-triggered run, so the .deb
+# asset is never built. Re-run this workflow manually with the tag to build + attach the assets to
+# the existing Release:  gh workflow run release.yml -f tag=vX.Y.Z
 on:
   push:
     tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Existing tag to build + attach release assets to (e.g. v0.5.0)'
+        required: true
 
 permissions:
   contents: write # create the GitHub Release
@@ -14,18 +24,23 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
+    # The tag to build: the input on a manual dispatch, else the pushed tag ref.
+    env:
+      TAG: ${{ github.event.inputs.tag || github.ref_name }}
     steps:
       - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.inputs.tag || github.ref_name }}
       - uses: actions/setup-node@v6
         with:
           node-version: '22'
       - run: cd frontend && npm ci && npm run build
-      - run: tar -czf filamind-screen-dist-${{ github.ref_name }}.tar.gz -C frontend/dist .
+      - run: tar -czf filamind-screen-dist-${TAG}.tar.gz -C frontend/dist .
       # Release notes come from CHANGELOG.md (not auto-generated from commits) so the
       # published text is authored and stays within the R1 no-external-refs rule.
       - name: Release notes from CHANGELOG
         run: |
-          VERSION="${GITHUB_REF_NAME#v}"
+          VERSION="${TAG#v}"
           awk -v ver="$VERSION" '
             $0 ~ "^## \\[" ver "\\]" { cap=1; next }
             cap && /^## \[/ { exit }
@@ -36,8 +51,9 @@ jobs:
         with:
           # Release title is the version tag ALONE; any descriptive summary lives in the release
           # commit / tag annotation, not the Release name. The body comes from CHANGELOG.md.
-          name: ${{ github.ref_name }}
-          files: filamind-screen-dist-${{ github.ref_name }}.tar.gz
+          tag_name: ${{ env.TAG }}
+          name: ${{ env.TAG }}
+          files: filamind-screen-dist-${{ env.TAG }}.tar.gz
           body_path: NOTES.md
 
   # Build the arm64 .deb (the native touch app) and attach it to the Release under a stable asset
@@ -51,10 +67,13 @@ jobs:
     env:
       CARGO_NET_RETRY: '10'
       CARGO_HTTP_MULTIPLEXING: 'false'
+      TAG: ${{ github.event.inputs.tag || github.ref_name }}
     permissions:
       contents: write
     steps:
       - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.inputs.tag || github.ref_name }}
       - uses: actions/setup-node@v6
         with:
           node-version: 20
@@ -81,5 +100,5 @@ jobs:
       # which the arm64 runner may lack; omitting body leaves the CHANGELOG notes untouched).
       - uses: softprops/action-gh-release@v3
         with:
-          tag_name: ${{ github.ref_name }}
+          tag_name: ${{ env.TAG }}
           files: frontend/filamind-screen-arm64.deb
