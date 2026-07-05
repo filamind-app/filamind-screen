@@ -2,6 +2,16 @@
 
 All notable changes to FilaMind screen are documented here. Format: `## [version]` sections (parsed by the release workflow).
 
+## [0.5.1]
+
+### Fixed
+
+- **The native install no longer asks you to run a sudo command by hand.** When the host permissions
+  the `.deb` install needs aren't in place yet, the installer now grants them automatically through
+  FilaMind Flow's passwordless self-heal and continues - instead of stopping and printing a
+  `sudo bash … install.sh sudoers` line. If the base permissions are missing entirely, it points you
+  at updating FilaMind Flow rather than at a shell command.
+
 ## [0.5.0]
 
 ### Added
