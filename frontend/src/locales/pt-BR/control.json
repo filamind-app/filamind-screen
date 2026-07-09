@@ -7,6 +7,9 @@
   "estop": "Parada de emergência",
   "safeOff": "Gravações ativadas",
   "safeOn": "Modo seguro",
+  "down": "O Klipper não está em execução",
+  "restart": "Reiniciar",
+  "firmwareRestart": "Reiniciar firmware",
   "blocked": {
     "offline": "Impressora não está ativa",
     "safe": "Modo seguro está ativado",

@@ -7,6 +7,9 @@
   "estop": "Acil durdurma",
   "safeOff": "Yazma etkin",
   "safeOn": "Güvenli mod",
+  "down": "Klipper çalışmıyor",
+  "restart": "Yeniden başlat",
+  "firmwareRestart": "Aygıt yazılımını yeniden başlat",
   "blocked": {
     "offline": "Yazıcı çevrimiçi değil",
     "safe": "Güvenli mod açık",

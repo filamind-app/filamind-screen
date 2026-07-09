@@ -16,6 +16,8 @@
   "tune": "Ajustar",
   "files": "Archivos",
   "console": "Consola",
+  "temp": "Calentar",
+  "filament": "Filamento",
   "layer": "Capa",
   "eta": "ETA"
 }

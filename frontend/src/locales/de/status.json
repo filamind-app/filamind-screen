@@ -16,6 +16,8 @@
   "tune": "Anpassen",
   "files": "Dateien",
   "console": "Konsole",
+  "temp": "Heizen",
+  "filament": "Filament",
   "layer": "Schicht",
   "eta": "Restzeit"
 }

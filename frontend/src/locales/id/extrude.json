@@ -1,0 +1,12 @@
+{
+  "title": "Filamen",
+  "back": "Kembali",
+  "distance": "Panjang (mm)",
+  "speed": "Kecepatan (mm/s)",
+  "extrude": "Ekstrusi",
+  "retract": "Retraksi",
+  "load": "Muat filamen",
+  "unload": "Keluarkan filamen",
+  "cold": "Hotend di bawah {t}° — panaskan dulu.",
+  "heat": "Panaskan"
+}

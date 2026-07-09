@@ -1,0 +1,12 @@
+{
+  "title": "耗材",
+  "back": "返回",
+  "distance": "长度（mm）",
+  "speed": "速度（mm/s）",
+  "extrude": "挤出",
+  "retract": "回抽",
+  "load": "进料",
+  "unload": "退料",
+  "cold": "热端温度低于 {t}°，请先加热。",
+  "heat": "加热"
+}

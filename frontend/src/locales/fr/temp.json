@@ -1,0 +1,20 @@
+{
+  "title": "Température",
+  "back": "Retour",
+  "sensors": "Capteurs",
+  "none": "Aucun chauffage détecté pour l'instant.",
+  "off": "Éteint",
+  "range": "{min}–{max}",
+  "cancel": "Annuler",
+  "backspace": "Effacer un chiffre",
+  "preset": {
+    "pla": "PLA",
+    "petg": "PETG",
+    "abs": "ABS"
+  },
+  "known": {
+    "extruder": "Buse",
+    "extruder1": "Buse 2",
+    "heater_bed": "Plateau"
+  }
+}

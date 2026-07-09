@@ -1,0 +1,12 @@
+{
+  "title": "Filament",
+  "back": "Geri",
+  "distance": "Uzunluk (mm)",
+  "speed": "Hız (mm/s)",
+  "extrude": "Ekstrüde et",
+  "retract": "Geri çek",
+  "load": "Filament yükle",
+  "unload": "Filament çıkar",
+  "cold": "Hotend {t}° altında — önce ısıtın.",
+  "heat": "Isıt"
+}

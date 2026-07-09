@@ -1,0 +1,12 @@
+{
+  "title": "線材",
+  "back": "返回",
+  "distance": "長度（mm）",
+  "speed": "速度（mm/s）",
+  "extrude": "擠出",
+  "retract": "回抽",
+  "load": "進料",
+  "unload": "退料",
+  "cold": "熱端低於 {t}°，請先加熱。",
+  "heat": "加熱"
+}

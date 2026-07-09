@@ -1,0 +1,20 @@
+{
+  "title": "Temperatura",
+  "back": "Atrás",
+  "sensors": "Sensores",
+  "none": "Aún no se han detectado calentadores.",
+  "off": "Apagado",
+  "range": "{min}–{max}",
+  "cancel": "Cancelar",
+  "backspace": "Borrar dígito",
+  "preset": {
+    "pla": "PLA",
+    "petg": "PETG",
+    "abs": "ABS"
+  },
+  "known": {
+    "extruder": "Fusor",
+    "extruder1": "Fusor 2",
+    "heater_bed": "Cama"
+  }
+}

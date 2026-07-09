@@ -7,6 +7,9 @@
   "estop": "Dừng khẩn cấp",
   "safeOff": "Đã bật ghi",
   "safeOn": "Chế độ an toàn",
+  "down": "Klipper không hoạt động",
+  "restart": "Khởi động lại",
+  "firmwareRestart": "Khởi động lại firmware",
   "blocked": {
     "offline": "Máy in không trực tuyến",
     "safe": "Chế độ an toàn đang bật",

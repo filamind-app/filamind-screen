@@ -7,6 +7,9 @@
   "estop": "緊急停止",
   "safeOff": "已啟用寫入",
   "safeOn": "安全模式",
+  "down": "Klipper 未運作",
+  "restart": "重新啟動",
+  "firmwareRestart": "重啟韌體",
   "blocked": {
     "offline": "印表機未上線",
     "safe": "安全模式已開啟",

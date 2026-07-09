@@ -16,6 +16,8 @@
   "tune": "Strojenie",
   "files": "Pliki",
   "console": "Konsola",
+  "temp": "Grzanie",
+  "filament": "Filament",
   "layer": "Warstwa",
   "eta": "ETA"
 }

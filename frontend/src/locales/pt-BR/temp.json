@@ -1,0 +1,20 @@
+{
+  "title": "Temperatura",
+  "back": "Voltar",
+  "sensors": "Sensores",
+  "none": "Nenhum aquecedor detectado ainda.",
+  "off": "Desligar",
+  "range": "{min}–{max}",
+  "cancel": "Cancelar",
+  "backspace": "Apagar dígito",
+  "preset": {
+    "pla": "PLA",
+    "petg": "PETG",
+    "abs": "ABS"
+  },
+  "known": {
+    "extruder": "Hotend",
+    "extruder1": "Hotend 2",
+    "heater_bed": "Mesa"
+  }
+}

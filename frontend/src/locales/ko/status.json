@@ -16,6 +16,8 @@
   "tune": "튜닝",
   "files": "파일",
   "console": "콘솔",
+  "temp": "가열",
+  "filament": "필라멘트",
   "layer": "레이어",
   "eta": "남음"
 }

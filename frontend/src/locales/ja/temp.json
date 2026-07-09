@@ -1,0 +1,20 @@
+{
+  "title": "温度",
+  "back": "戻る",
+  "sensors": "センサー",
+  "none": "ヒーターはまだ検出されていません。",
+  "off": "オフ",
+  "range": "{min}–{max}",
+  "cancel": "キャンセル",
+  "backspace": "1桁削除",
+  "preset": {
+    "pla": "PLA",
+    "petg": "PETG",
+    "abs": "ABS"
+  },
+  "known": {
+    "extruder": "ホットエンド",
+    "extruder1": "ホットエンド2",
+    "heater_bed": "ベッド"
+  }
+}

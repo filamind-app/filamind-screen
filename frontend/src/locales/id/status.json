@@ -16,6 +16,8 @@
   "tune": "Setel",
   "files": "Berkas",
   "console": "Konsol",
+  "temp": "Panaskan",
+  "filament": "Filamen",
   "layer": "Lapisan",
   "eta": "ETA"
 }

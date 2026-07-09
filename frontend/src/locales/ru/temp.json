@@ -1,0 +1,20 @@
+{
+  "title": "Температура",
+  "back": "Назад",
+  "sensors": "Датчики",
+  "none": "Нагреватели пока не обнаружены.",
+  "off": "Выкл",
+  "range": "{min}–{max}",
+  "cancel": "Отмена",
+  "backspace": "Удалить цифру",
+  "preset": {
+    "pla": "PLA",
+    "petg": "PETG",
+    "abs": "ABS"
+  },
+  "known": {
+    "extruder": "Хотэнд",
+    "extruder1": "Хотэнд 2",
+    "heater_bed": "Стол"
+  }
+}

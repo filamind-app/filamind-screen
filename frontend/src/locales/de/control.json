@@ -7,6 +7,9 @@
   "estop": "Not-Aus",
   "safeOff": "Schreiben aktiviert",
   "safeOn": "Sicherer Modus",
+  "down": "Klipper läuft nicht",
+  "restart": "Neustart",
+  "firmwareRestart": "Firmware-Neustart",
   "blocked": {
     "offline": "Drucker nicht aktiv",
     "safe": "Sicherer Modus ist an",

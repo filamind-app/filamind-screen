@@ -16,6 +16,8 @@
   "tune": "调整",
   "files": "文件",
   "console": "控制台",
+  "temp": "加热",
+  "filament": "耗材",
   "layer": "层",
   "eta": "剩余"
 }

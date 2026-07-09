@@ -7,6 +7,9 @@
   "estop": "緊急停止",
   "safeOff": "書き込み有効",
   "safeOn": "セーフモード",
+  "down": "Klipperが動作していません",
+  "restart": "再起動",
+  "firmwareRestart": "ファームウェア再起動",
   "blocked": {
     "offline": "プリンターがオフライン",
     "safe": "セーフモードが有効です",

@@ -2,6 +2,26 @@
 
 All notable changes to FilaMind screen are documented here. Format: `## [version]` sections (parsed by the release workflow).
 
+## [0.7.0]
+
+### Added
+
+- **Temperature control.** A new Heat tool lists every heater the printer actually has (discovered
+  live - multi-extruder, chamber, bed) with tap-to-set targets on an on-screen number pad,
+  range-checked against the printer's own configured limits, plus one-tap PLA / PETG / ABS presets
+  and an all-off button. Bare temperature sensors show read-only below. The Status temperature
+  tiles now open it directly.
+- **Filament tool.** Extrude / retract with length and speed presets, guarded by the printer's own
+  cold-extrusion floor (with a one-tap heat-up when below it), and load / unload buttons when the
+  printer defines those macros.
+- **Recovery from shutdown.** When Klipper is down (after an emergency stop or an error) a recovery
+  strip appears on every tab with the printer's message and Restart / Firmware-restart buttons - the
+  screen can bring its own printer back instead of freezing until another UI helps.
+- **Print takeover.** Starting a print from anywhere (a slicer upload, another UI) switches the
+  screen to the job face automatically, like a printer display should.
+- The idle Control tab now offers Temperature / Filament / Move shortcuts instead of three lonely
+  buttons.
+
 ## [0.6.0]
 
 ### Fixed

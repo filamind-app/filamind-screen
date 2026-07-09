@@ -1,0 +1,12 @@
+{
+  "title": "Filament",
+  "back": "Retour",
+  "distance": "Longueur (mm)",
+  "speed": "Vitesse (mm/s)",
+  "extrude": "Extruder",
+  "retract": "Rétracter",
+  "load": "Charger le filament",
+  "unload": "Décharger le filament",
+  "cold": "La buse est sous {t}° — chauffez-la d'abord.",
+  "heat": "Chauffer"
+}

@@ -1,0 +1,20 @@
+{
+  "title": "Sıcaklık",
+  "back": "Geri",
+  "sensors": "Sensörler",
+  "none": "Henüz ısıtıcı bildirilmedi.",
+  "off": "Kapalı",
+  "range": "{min}–{max}",
+  "cancel": "İptal",
+  "backspace": "Rakam sil",
+  "preset": {
+    "pla": "PLA",
+    "petg": "PETG",
+    "abs": "ABS"
+  },
+  "known": {
+    "extruder": "Hotend",
+    "extruder1": "Hotend 2",
+    "heater_bed": "Tabla"
+  }
+}
