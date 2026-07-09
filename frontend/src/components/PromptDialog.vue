@@ -141,11 +141,13 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
   z-index: 60;
 }
 .prompt {
-  width: min(560px, 94vw);
+  width: min(35rem, 94vw);
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 .prompt:focus {
   outline: none;

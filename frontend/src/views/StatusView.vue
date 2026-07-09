@@ -179,11 +179,15 @@ const tiles = computed<Tile[]>(() => [
   display: flex;
   flex-direction: column;
   gap: 1.1rem;
+  height: 100%;
+  min-height: 0;
 }
 .job {
   display: flex;
   gap: 1.1rem;
   align-items: stretch;
+  flex: 1;
+  min-height: 0;
 }
 .ring-wrap {
   flex-shrink: 0;
@@ -206,15 +210,19 @@ const tiles = computed<Tile[]>(() => [
   stroke-width: 9;
   transition: stroke-dashoffset 0.4s ease;
 }
+/* SVG text sizes are USER UNITS (the 0..100 viewBox), not rem: inside a viewBox'd SVG a rem
+   font-size resolves to px BEFORE the viewBox transform, so it would scale with the SQUARE of
+   the root font size while the rem-sized ring scales linearly - drifting out of proportion on
+   every panel except the reference. Plain units scale with the ring itself. */
 .ring-pct {
   fill: var(--fm-text);
-  font-size: 1.25rem;
+  font-size: 20px;
   font-weight: 600;
   font-family: var(--font-display, system-ui);
 }
 .ring-sub {
   fill: var(--fm-text-muted);
-  font-size: 0.55rem;
+  font-size: 8.8px;
 }
 .file {
   margin-top: 0.3rem;
@@ -272,9 +280,11 @@ const tiles = computed<Tile[]>(() => [
   color: var(--fm-text-muted);
   margin-inline-start: 0.2rem;
 }
+/* Auto-fit: 5 across when there's room, wrapping to 2 rows on narrow panels instead of
+   crushing the buttons below a usable touch size. */
 .actions {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(min(8.5rem, 100%), 1fr));
   gap: 0.55rem;
 }
 .action {

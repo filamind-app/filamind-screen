@@ -149,18 +149,27 @@ const rows = computed<Row[]>(() => [
 </template>
 
 <style scoped>
+/* 2x2 card grid: all four tuners visible at once inside the height budget (a stacked column
+   always scrolled, and scrolled-off controls read as missing on a kiosk panel). */
 .tune {
-  display: flex;
-  flex-direction: column;
-  gap: 0.9rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: min-content;
+  align-content: start;
+  gap: 0.75rem;
+  height: 100%;
+  min-height: 0;
 }
 .head {
+  grid-column: 1 / -1;
   display: flex;
   align-items: center;
   gap: 0.75rem;
 }
 .back {
   min-width: 3rem;
+  min-height: 3rem;
+  padding: 0;
   font-size: 1.6rem;
   line-height: 1;
 }
@@ -195,6 +204,11 @@ const rows = computed<Row[]>(() => [
   grid-template-columns: repeat(5, 1fr);
   gap: 0.5rem;
 }
+.row-btns .touch-btn {
+  min-height: 2.75rem;
+  padding: 0.3rem 0.4rem;
+  font-size: 0.95rem;
+}
 .reset {
   font-size: 1.3rem;
   color: var(--fm-text-muted);
@@ -203,6 +217,7 @@ const rows = computed<Row[]>(() => [
   opacity: 0.45;
 }
 .err {
+  grid-column: 1 / -1;
   margin: 0;
   color: var(--fm-danger);
 }

@@ -148,11 +148,14 @@ function onDismissBanner(): void {
       </template>
     </div>
 
+    <!-- While a tool overlay is open the content is the tool, not the tab's panel - the ARIA
+         role/label follow suit so assistive tech and the visual state agree. -->
     <main
       :id="`panel-${tab}`"
       class="content"
-      role="tabpanel"
-      :aria-labelledby="`tab-${tab}`"
+      :role="tool ? 'region' : 'tabpanel'"
+      :aria-labelledby="tool ? undefined : `tab-${tab}`"
+      :aria-label="tool ? t(tool + '.title') : undefined"
       tabindex="0"
     >
       <component :is="active" @navigate="onNavigate" @close="tool = null" />
@@ -164,10 +167,10 @@ function onDismissBanner(): void {
         :id="`tab-${tb.id}`"
         :key="tb.id"
         class="tab"
-        :class="{ active: tab === tb.id }"
+        :class="{ active: tab === tb.id && !tool }"
         type="button"
         role="tab"
-        :aria-selected="tab === tb.id"
+        :aria-selected="tab === tb.id && !tool"
         :aria-controls="`panel-${tb.id}`"
         :tabindex="tab === tb.id ? 0 : -1"
         @click="selectTab(tb.id)"
@@ -205,6 +208,11 @@ function onDismissBanner(): void {
   gap: 0.6rem;
   font-family: var(--font-display);
 }
+/* Scale with the rem canvas (the width/height attributes are only a pre-CSS hint). */
+.brand img {
+  width: 1.625rem;
+  height: 1.625rem;
+}
 .brand-name {
   color: var(--fm-text);
   font-size: 1.15rem;
@@ -224,10 +232,10 @@ function onDismissBanner(): void {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  min-height: 44px;
+  min-height: 2.75rem;
   padding: 0 0.85rem;
   border: 0;
-  border-radius: 12px;
+  border-radius: 0.75rem;
   background: var(--fm-danger);
   color: #fff;
   font-weight: 700;
@@ -237,10 +245,19 @@ function onDismissBanner(): void {
 .estop-mini:active {
   filter: brightness(0.9);
 }
+/* Height-budgeted: views lay themselves out inside the available space (no page scroll on a
+   kiosk panel - scrolled-off controls read as "missing"); lists scroll internally instead. */
 .content {
   flex: 1;
-  padding: 1.25rem;
-  overflow: auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  overflow: hidden;
+}
+.content > :deep(*) {
+  flex: 1;
+  min-height: 0;
 }
 .tabs {
   display: grid;
@@ -255,9 +272,9 @@ function onDismissBanner(): void {
   flex-direction: column;
   align-items: center;
   gap: 0.2rem;
-  min-height: 68px;
+  min-height: 4.25rem;
   border: 0;
-  border-radius: 14px;
+  border-radius: 0.875rem;
   background: transparent;
   color: var(--fm-text-muted);
   cursor: pointer;
@@ -311,8 +328,8 @@ function onDismissBanner(): void {
   background: transparent;
   color: var(--fm-text-muted);
   font-size: 1.1rem;
-  min-width: 44px;
-  min-height: 44px;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
   cursor: pointer;
 }
 
@@ -337,7 +354,7 @@ function onDismissBanner(): void {
   left: 50%;
   transform: translate(-50%, -50%);
   padding: 0.9rem 1.4rem;
-  border-radius: 16px;
+  border-radius: 1rem;
   background: var(--fm-primary);
   color: var(--fm-primary-contrast, #fff);
   font-size: 1.3rem;
