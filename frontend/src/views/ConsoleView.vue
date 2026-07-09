@@ -68,8 +68,7 @@ onUnmounted(() => off?.())
     <div ref="logEl" class="log">
       <p v-if="!lines.length" class="muted">{{ t('console.empty') }}</p>
       <pre v-for="l in lines" :key="l.id" class="line" :class="l.kind"
-        >{{ l.kind === 'sent' ? '> ' : '' }}{{ l.text }}</pre
-      >
+        >{{ l.kind === 'sent' ? '> ' : '' }}{{ l.text }}</pre>
     </div>
 
     <form class="entry" @submit.prevent="send">
