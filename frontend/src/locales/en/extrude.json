@@ -1,0 +1,12 @@
+{
+  "title": "Filament",
+  "back": "Back",
+  "distance": "Length (mm)",
+  "speed": "Speed (mm/s)",
+  "extrude": "Extrude",
+  "retract": "Retract",
+  "load": "Load filament",
+  "unload": "Unload filament",
+  "cold": "Hotend is below {t}° — heat it first.",
+  "heat": "Heat up"
+}

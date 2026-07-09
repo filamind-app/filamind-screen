@@ -1,0 +1,20 @@
+{
+  "title": "Temperature",
+  "back": "Back",
+  "sensors": "Sensors",
+  "none": "No heaters reported yet.",
+  "off": "Off",
+  "range": "{min}–{max}",
+  "cancel": "Cancel",
+  "backspace": "Delete digit",
+  "preset": {
+    "pla": "PLA",
+    "petg": "PETG",
+    "abs": "ABS"
+  },
+  "known": {
+    "extruder": "Hotend",
+    "extruder1": "Hotend 2",
+    "heater_bed": "Bed"
+  }
+}

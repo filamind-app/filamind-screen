@@ -7,6 +7,9 @@
   "estop": "Noodstop",
   "safeOff": "Schrijven ingeschakeld",
   "safeOn": "Veilige modus",
+  "down": "Klipper is niet actief",
+  "restart": "Herstarten",
+  "firmwareRestart": "Firmware herstarten",
   "blocked": {
     "offline": "Printer niet actief",
     "safe": "Veilige modus staat aan",

@@ -1,0 +1,12 @@
+{
+  "title": "Filamento",
+  "back": "Indietro",
+  "distance": "Lunghezza (mm)",
+  "speed": "Velocità (mm/s)",
+  "extrude": "Estrudi",
+  "retract": "Ritrai",
+  "load": "Carica filamento",
+  "unload": "Scarica filamento",
+  "cold": "L'hotend è sotto i {t}°: riscaldalo prima.",
+  "heat": "Riscalda"
+}

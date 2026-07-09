@@ -1,0 +1,20 @@
+{
+  "title": "Температура",
+  "back": "Назад",
+  "sensors": "Датчики",
+  "none": "Нагрівачів поки не виявлено.",
+  "off": "Вимк.",
+  "range": "{min}–{max}",
+  "cancel": "Скасувати",
+  "backspace": "Видалити цифру",
+  "preset": {
+    "pla": "PLA",
+    "petg": "PETG",
+    "abs": "ABS"
+  },
+  "known": {
+    "extruder": "Хотенд",
+    "extruder1": "Хотенд 2",
+    "heater_bed": "Стіл"
+  }
+}

@@ -16,6 +16,8 @@
   "tune": "Afstellen",
   "files": "Bestanden",
   "console": "Console",
+  "temp": "Verwarmen",
+  "filament": "Filament",
   "layer": "Laag",
   "eta": "ETA"
 }

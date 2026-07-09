@@ -1,0 +1,20 @@
+{
+  "title": "तापमान",
+  "back": "वापस",
+  "sensors": "सेंसर",
+  "none": "अभी तक कोई हीटर नहीं मिला।",
+  "off": "बंद",
+  "range": "{min}–{max}",
+  "cancel": "रद्द करें",
+  "backspace": "अंक हटाएँ",
+  "preset": {
+    "pla": "PLA",
+    "petg": "PETG",
+    "abs": "ABS"
+  },
+  "known": {
+    "extruder": "हॉटएंड",
+    "extruder1": "हॉटएंड 2",
+    "heater_bed": "बेड"
+  }
+}

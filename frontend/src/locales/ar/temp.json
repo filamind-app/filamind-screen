@@ -1,0 +1,20 @@
+{
+  "title": "درجة الحرارة",
+  "back": "رجوع",
+  "sensors": "المستشعرات",
+  "none": "لا توجد سخّانات حتى الآن.",
+  "off": "إيقاف",
+  "range": "{min}–{max}",
+  "cancel": "إلغاء",
+  "backspace": "حذف رقم",
+  "preset": {
+    "pla": "PLA",
+    "petg": "PETG",
+    "abs": "ABS"
+  },
+  "known": {
+    "extruder": "الفوهة",
+    "extruder1": "الفوهة 2",
+    "heater_bed": "السرير"
+  }
+}

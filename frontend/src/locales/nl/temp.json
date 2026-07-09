@@ -1,0 +1,20 @@
+{
+  "title": "Temperatuur",
+  "back": "Terug",
+  "sensors": "Sensoren",
+  "none": "Nog geen verwarmers gemeld.",
+  "off": "Uit",
+  "range": "{min}–{max}",
+  "cancel": "Annuleren",
+  "backspace": "Cijfer wissen",
+  "preset": {
+    "pla": "PLA",
+    "petg": "PETG",
+    "abs": "ABS"
+  },
+  "known": {
+    "extruder": "Hotend",
+    "extruder1": "Hotend 2",
+    "heater_bed": "Bed"
+  }
+}

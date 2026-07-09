@@ -1,0 +1,12 @@
+{
+  "title": "Filamento",
+  "back": "Atrás",
+  "distance": "Longitud (mm)",
+  "speed": "Velocidad (mm/s)",
+  "extrude": "Extruir",
+  "retract": "Retraer",
+  "load": "Cargar filamento",
+  "unload": "Descargar filamento",
+  "cold": "El fusor está por debajo de {t}°: caliéntalo primero.",
+  "heat": "Calentar"
+}

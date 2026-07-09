@@ -1,0 +1,12 @@
+{
+  "title": "Sợi nhựa",
+  "back": "Quay lại",
+  "distance": "Chiều dài (mm)",
+  "speed": "Tốc độ (mm/s)",
+  "extrude": "Đùn nhựa",
+  "retract": "Rút lại",
+  "load": "Nạp sợi nhựa",
+  "unload": "Tháo sợi nhựa",
+  "cold": "Đầu nóng đang dưới {t}°, hãy gia nhiệt trước.",
+  "heat": "Gia nhiệt"
+}

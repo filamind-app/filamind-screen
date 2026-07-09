@@ -1,0 +1,20 @@
+{
+  "title": "Nhiệt độ",
+  "back": "Quay lại",
+  "sensors": "Cảm biến",
+  "none": "Chưa phát hiện bộ gia nhiệt nào.",
+  "off": "Tắt",
+  "range": "{min}–{max}",
+  "cancel": "Hủy",
+  "backspace": "Xóa số",
+  "preset": {
+    "pla": "PLA",
+    "petg": "PETG",
+    "abs": "ABS"
+  },
+  "known": {
+    "extruder": "Đầu nóng",
+    "extruder1": "Đầu nóng 2",
+    "heater_bed": "Bàn in"
+  }
+}

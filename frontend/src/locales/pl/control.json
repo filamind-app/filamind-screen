@@ -7,6 +7,9 @@
   "estop": "Zatrzymanie awaryjne",
   "safeOff": "Zapis włączony",
   "safeOn": "Tryb bezpieczny",
+  "down": "Klipper nie działa",
+  "restart": "Restart",
+  "firmwareRestart": "Restart firmware",
   "blocked": {
     "offline": "Drukarka nieaktywna",
     "safe": "Tryb bezpieczny jest włączony",

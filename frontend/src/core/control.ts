@@ -27,5 +27,16 @@ export const control = {
     logger.warn('emergency-stop')
     return connector.call('printer.emergency_stop')
   },
+  // Recovery actions INTENTIONALLY bypass the gate (like emergency stop, and logged): they are
+  // exactly what brings Klipper back when it is shutdown/error - the one state where the gate is
+  // closed. Without them the screen would need another UI to recover its own printer.
+  restartKlipper: (): Promise<unknown> => {
+    logger.warn('klipper-restart')
+    return connector.call('printer.restart')
+  },
+  firmwareRestart: (): Promise<unknown> => {
+    logger.warn('firmware-restart')
+    return connector.call('printer.firmware_restart')
+  },
   setSafeMode: (on: boolean) => arbiter.setSafeMode(on),
 }

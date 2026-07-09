@@ -16,6 +16,8 @@
   "tune": "Tinh chỉnh",
   "files": "Tệp",
   "console": "Bảng điều khiển",
+  "temp": "Nhiệt độ",
+  "filament": "Sợi nhựa",
   "layer": "Lớp",
   "eta": "Còn lại"
 }

@@ -7,6 +7,9 @@
   "estop": "Arresto di emergenza",
   "safeOff": "Scritture abilitate",
   "safeOn": "Modalità sicura",
+  "down": "Klipper non è in esecuzione",
+  "restart": "Riavvia",
+  "firmwareRestart": "Riavvia firmware",
   "blocked": {
     "offline": "Stampante non attiva",
     "safe": "La modalità sicura è attiva",

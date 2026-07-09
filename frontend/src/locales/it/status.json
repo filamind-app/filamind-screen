@@ -16,6 +16,8 @@
   "tune": "Regola",
   "files": "File",
   "console": "Console",
+  "temp": "Riscalda",
+  "filament": "Filamento",
   "layer": "Strato",
   "eta": "ETA"
 }

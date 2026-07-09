@@ -16,6 +16,8 @@
   "tune": "Régler",
   "files": "Fichiers",
   "console": "Console",
+  "temp": "Chauffe",
+  "filament": "Filament",
   "layer": "Couche",
   "eta": "ETA"
 }

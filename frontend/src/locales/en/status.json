@@ -16,6 +16,8 @@
   "tune": "Tune",
   "files": "Files",
   "console": "Console",
+  "temp": "Heat",
+  "filament": "Filament",
   "layer": "Layer",
   "eta": "ETA"
 }

@@ -1,0 +1,20 @@
+{
+  "title": "온도",
+  "back": "뒤로",
+  "sensors": "센서",
+  "none": "아직 감지된 히터가 없습니다.",
+  "off": "끄기",
+  "range": "{min}–{max}",
+  "cancel": "취소",
+  "backspace": "숫자 삭제",
+  "preset": {
+    "pla": "PLA",
+    "petg": "PETG",
+    "abs": "ABS"
+  },
+  "known": {
+    "extruder": "핫엔드",
+    "extruder1": "핫엔드 2",
+    "heater_bed": "베드"
+  }
+}

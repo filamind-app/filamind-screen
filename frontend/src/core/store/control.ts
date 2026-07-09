@@ -37,6 +37,9 @@ export const useControlStore = defineStore('control', () => {
     cancel: () => run(control.cancel),
     startPrint: (filename: string) => run(() => control.startPrint(filename)),
     emergencyStop: () => void control.emergencyStop().catch(() => undefined),
+    // Recovery from shutdown/error (ungated in core/control.ts; run() still tracks busy/error).
+    restartKlipper: () => run(control.restartKlipper),
+    firmwareRestart: () => run(control.firmwareRestart),
     toggleSafeMode: () => control.setSafeMode(!safeMode.value),
   }
 })

@@ -7,6 +7,9 @@
   "estop": "Emergency stop",
   "safeOff": "Writes enabled",
   "safeOn": "Safe mode",
+  "down": "Klipper is not running",
+  "restart": "Restart",
+  "firmwareRestart": "Firmware restart",
   "blocked": {
     "offline": "Printer not live",
     "safe": "Safe mode is on",

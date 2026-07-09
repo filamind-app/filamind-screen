@@ -1,0 +1,20 @@
+{
+  "title": "Temperatur",
+  "back": "Zurück",
+  "sensors": "Sensoren",
+  "none": "Noch keine Heizelemente gemeldet.",
+  "off": "Aus",
+  "range": "{min}–{max}",
+  "cancel": "Abbrechen",
+  "backspace": "Ziffer löschen",
+  "preset": {
+    "pla": "PLA",
+    "petg": "PETG",
+    "abs": "ABS"
+  },
+  "known": {
+    "extruder": "Hotend",
+    "extruder1": "Hotend 2",
+    "heater_bed": "Heizbett"
+  }
+}

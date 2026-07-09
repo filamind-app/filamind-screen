@@ -7,6 +7,9 @@
   "estop": "비상 정지",
   "safeOff": "쓰기 허용됨",
   "safeOn": "안전 모드",
+  "down": "Klipper가 실행 중이 아닙니다",
+  "restart": "재시작",
+  "firmwareRestart": "펌웨어 재시작",
   "blocked": {
     "offline": "프린터 연결 안 됨",
     "safe": "안전 모드가 켜져 있음",

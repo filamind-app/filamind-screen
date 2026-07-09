@@ -10,9 +10,20 @@ const { t, te } = useI18n()
 const store = useSessionStore()
 const ctl = useControlStore()
 
-// Switch the shell tab (Move / Tune / Files / Console jump to where those tools live).
+// Switch the shell tab (Move / Tune / Files / Console / Temp / Filament tools).
 const emit = defineEmits<{
-  navigate: [to: 'status' | 'control' | 'settings' | 'move' | 'tune' | 'files' | 'console']
+  navigate: [
+    to:
+      | 'status'
+      | 'control'
+      | 'settings'
+      | 'move'
+      | 'tune'
+      | 'files'
+      | 'console'
+      | 'temp'
+      | 'filament',
+  ]
 }>()
 
 interface Heater {
@@ -82,6 +93,15 @@ const actions = computed<Action[]>(() => [
         run: () => ctl.pause(),
         disabled: !printing.value || ctl.busy,
       },
+  { key: 'temp', label: t('status.temp'), icon: '🌡', run: () => emit('navigate', 'temp') },
+  {
+    key: 'filament',
+    label: t('status.filament'),
+    icon: '🧵',
+    run: () => emit('navigate', 'filament'),
+    // Feeding filament into a RUNNING job ruins it; a paused one is the filament-change moment.
+    disabled: printing.value,
+  },
   { key: 'tune', label: t('status.tune'), icon: '🎚', run: () => emit('navigate', 'tune') },
   { key: 'move', label: t('status.move'), icon: '✥', run: () => emit('navigate', 'move') },
   { key: 'files', label: t('status.files'), icon: '📁', run: () => emit('navigate', 'files') },
@@ -94,6 +114,8 @@ interface Tile {
   icon: string
   value: string
   sub?: string
+  /** Tapping a tile opens the tool that controls it. */
+  to: 'temp' | 'tune'
 }
 const tiles = computed<Tile[]>(() => [
   {
@@ -102,6 +124,7 @@ const tiles = computed<Tile[]>(() => [
     icon: '🔥',
     value: fmt(ext.value?.temperature),
     sub: `/ ${fmt(ext.value?.target)}`,
+    to: 'temp',
   },
   {
     key: 'bed',
@@ -109,9 +132,24 @@ const tiles = computed<Tile[]>(() => [
     icon: '🛏',
     value: fmt(bed.value?.temperature),
     sub: `/ ${fmt(bed.value?.target)}`,
+    to: 'temp',
   },
-  { key: 'fan', label: t('status.fan'), icon: '🌀', value: `${fanPct.value}`, sub: '%' },
-  { key: 'speed', label: t('status.speed'), icon: '⏱', value: `${speedPct.value}`, sub: '%' },
+  {
+    key: 'fan',
+    label: t('status.fan'),
+    icon: '🌀',
+    value: `${fanPct.value}`,
+    sub: '%',
+    to: 'tune',
+  },
+  {
+    key: 'speed',
+    label: t('status.speed'),
+    icon: '⏱',
+    value: `${speedPct.value}`,
+    sub: '%',
+    to: 'tune',
+  },
 ])
 </script>
 
@@ -146,14 +184,20 @@ const tiles = computed<Tile[]>(() => [
       </div>
 
       <div class="tiles">
-        <div v-for="tile in tiles" :key="tile.key" class="tile touch-card">
+        <button
+          v-for="tile in tiles"
+          :key="tile.key"
+          class="tile touch-card"
+          type="button"
+          @click="emit('navigate', tile.to)"
+        >
           <div class="tile-label">
             <span aria-hidden="true">{{ tile.icon }}</span> {{ tile.label }}
           </div>
           <div class="tile-value">
             {{ tile.value }}<span class="tile-sub">{{ tile.sub }}</span>
           </div>
-        </div>
+        </button>
       </div>
     </div>
 
@@ -264,6 +308,12 @@ const tiles = computed<Tile[]>(() => [
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: flex-start;
+  text-align: start;
+  cursor: pointer;
+}
+.tile:active {
+  filter: brightness(0.92);
 }
 .tile-label {
   font-size: 0.85rem;
@@ -280,11 +330,11 @@ const tiles = computed<Tile[]>(() => [
   color: var(--fm-text-muted);
   margin-inline-start: 0.2rem;
 }
-/* Auto-fit: 5 across when there's room, wrapping to 2 rows on narrow panels instead of
-   crushing the buttons below a usable touch size. */
+/* Auto-fit: all 7 actions in one row at the reference canvas (7x8.3rem + 6 gaps = 61.4rem in a
+   62rem content area), wrapping on narrow panels instead of crushing below a usable touch size. */
 .actions {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(8.5rem, 100%), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(8.3rem, 100%), 1fr));
   gap: 0.55rem;
 }
 .action {

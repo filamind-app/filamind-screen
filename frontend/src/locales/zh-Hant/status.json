@@ -16,6 +16,8 @@
   "tune": "調整",
   "files": "檔案",
   "console": "主控台",
+  "temp": "加熱",
+  "filament": "線材",
   "layer": "層",
   "eta": "剩餘"
 }

@@ -1,0 +1,12 @@
+{
+  "title": "Filament",
+  "back": "Terug",
+  "distance": "Lengte (mm)",
+  "speed": "Snelheid (mm/s)",
+  "extrude": "Extruderen",
+  "retract": "Terugtrekken",
+  "load": "Filament laden",
+  "unload": "Filament verwijderen",
+  "cold": "Hotend is onder {t}° – eerst opwarmen.",
+  "heat": "Opwarmen"
+}

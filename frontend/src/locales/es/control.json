@@ -7,6 +7,9 @@
   "estop": "Parada de emergencia",
   "safeOff": "Escritura habilitada",
   "safeOn": "Modo seguro",
+  "down": "Klipper no está en ejecución",
+  "restart": "Reiniciar",
+  "firmwareRestart": "Reiniciar firmware",
   "blocked": {
     "offline": "Impresora no activa",
     "safe": "El modo seguro está activado",

@@ -1,0 +1,20 @@
+{
+  "title": "Suhu",
+  "back": "Kembali",
+  "sensors": "Sensor",
+  "none": "Belum ada pemanas yang terdeteksi.",
+  "off": "Mati",
+  "range": "{min}–{max}",
+  "cancel": "Batal",
+  "backspace": "Hapus digit",
+  "preset": {
+    "pla": "PLA",
+    "petg": "PETG",
+    "abs": "ABS"
+  },
+  "known": {
+    "extruder": "Hotend",
+    "extruder1": "Hotend 2",
+    "heater_bed": "Bed"
+  }
+}

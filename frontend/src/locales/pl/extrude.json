@@ -1,0 +1,12 @@
+{
+  "title": "Filament",
+  "back": "Wstecz",
+  "distance": "Długość (mm)",
+  "speed": "Prędkość (mm/s)",
+  "extrude": "Ekstruduj",
+  "retract": "Wycofaj",
+  "load": "Załaduj filament",
+  "unload": "Rozładuj filament",
+  "cold": "Hotend ma mniej niż {t}° — najpierw go rozgrzej.",
+  "heat": "Rozgrzej"
+}

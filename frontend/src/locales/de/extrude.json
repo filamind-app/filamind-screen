@@ -1,0 +1,12 @@
+{
+  "title": "Filament",
+  "back": "Zurück",
+  "distance": "Länge (mm)",
+  "speed": "Geschwindigkeit (mm/s)",
+  "extrude": "Extrudieren",
+  "retract": "Zurückziehen",
+  "load": "Filament laden",
+  "unload": "Filament entladen",
+  "cold": "Hotend ist unter {t}° – bitte erst aufheizen.",
+  "heat": "Aufheizen"
+}

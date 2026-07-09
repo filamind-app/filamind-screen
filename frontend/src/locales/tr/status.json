@@ -16,6 +16,8 @@
   "tune": "Ayar",
   "files": "Dosyalar",
   "console": "Konsol",
+  "temp": "Isıt",
+  "filament": "Filament",
   "layer": "Katman",
   "eta": "ETA"
 }

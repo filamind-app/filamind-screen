@@ -1,0 +1,20 @@
+{
+  "title": "Temperatura",
+  "back": "Wstecz",
+  "sensors": "Czujniki",
+  "none": "Nie wykryto jeszcze grzałek.",
+  "off": "Wył.",
+  "range": "{min}–{max}",
+  "cancel": "Anuluj",
+  "backspace": "Usuń cyfrę",
+  "preset": {
+    "pla": "PLA",
+    "petg": "PETG",
+    "abs": "ABS"
+  },
+  "known": {
+    "extruder": "Hotend",
+    "extruder1": "Hotend 2",
+    "heater_bed": "Stół"
+  }
+}

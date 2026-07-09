@@ -10,6 +10,9 @@ const session = useSessionStore()
 const ctl = useControlStore()
 const { canWrite, blockedReason } = useWriteGuard()
 
+// Jump to the tools that do the actual daily work (the shell routes these).
+const emit = defineEmits<{ navigate: [to: 'temp' | 'filament' | 'move'] }>()
+
 interface PrintStats {
   state?: string
 }
@@ -74,6 +77,30 @@ onUnmounted(() => {
         @click="onCancel"
       >
         ⏹ {{ confirmingCancel ? t('control.cancelConfirm') : t('control.cancel') }}
+      </button>
+      <button
+        v-if="!isPrinting && !isPaused"
+        class="touch-btn"
+        type="button"
+        @click="emit('navigate', 'temp')"
+      >
+        🌡 {{ t('status.temp') }}
+      </button>
+      <button
+        v-if="!isPrinting && !isPaused"
+        class="touch-btn"
+        type="button"
+        @click="emit('navigate', 'filament')"
+      >
+        🧵 {{ t('status.filament') }}
+      </button>
+      <button
+        v-if="!isPrinting && !isPaused"
+        class="touch-btn"
+        type="button"
+        @click="emit('navigate', 'move')"
+      >
+        ✥ {{ t('status.move') }}
       </button>
     </div>
 

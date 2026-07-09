@@ -1,11 +1,6 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-import {
-  FULL_CONTROL,
-  mergeSubscriptions,
-  moonrakerDbPersistence,
-  roamSettings,
-} from '@filamind-app/core'
+import { moonrakerDbPersistence, roamSettings } from '@filamind-app/core'
 
 import App from './App.vue'
 import './assets/styles/main.css'
@@ -13,18 +8,16 @@ import { i18n, detectLocale, setLocale, initLocaleSync } from './core/i18n'
 import { initTheme } from './core/theme'
 import { settingsStore } from './core/settings'
 import { session, connector } from './core/session'
+import { baseSubscriptions, watchHeaterDiscovery } from './core/heaters'
 
 async function bootstrap(): Promise<void> {
   await settingsStore.hydrate()
   initTheme()
 
-  // Fixed touch UI: the control baseline plus the heaters the status view shows.
-  session.setSubscriptions(
-    mergeSubscriptions(FULL_CONTROL, {
-      extruder: ['temperature', 'target'],
-      heater_bed: ['temperature', 'target'],
-    }),
-  )
+  // The control baseline plus the `heaters` discovery object; the discovery watcher then
+  // subscribes whatever heaters/sensors THIS printer actually has (multi-extruder, chamber...).
+  session.setSubscriptions(baseSubscriptions())
+  watchHeaterDiscovery()
 
   // Roam settings across surfaces via the printer's Moonraker DB (another surface can reconfigure this screen).
   roamSettings(settingsStore, moonrakerDbPersistence(connector), session.live)

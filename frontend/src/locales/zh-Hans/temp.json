@@ -1,0 +1,20 @@
+{
+  "title": "温度",
+  "back": "返回",
+  "sensors": "传感器",
+  "none": "暂未检测到加热器。",
+  "off": "关闭",
+  "range": "{min}–{max}",
+  "cancel": "取消",
+  "backspace": "退格",
+  "preset": {
+    "pla": "PLA",
+    "petg": "PETG",
+    "abs": "ABS"
+  },
+  "known": {
+    "extruder": "热端",
+    "extruder1": "热端 2",
+    "heater_bed": "热床"
+  }
+}

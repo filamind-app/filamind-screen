@@ -11,12 +11,16 @@ import MoveView from '@/views/MoveView.vue'
 import TuneView from '@/views/TuneView.vue'
 import FilesView from '@/views/FilesView.vue'
 import ConsoleView from '@/views/ConsoleView.vue'
+import TempView from '@/views/TempView.vue'
+import ExtrudeView from '@/views/ExtrudeView.vue'
 import { remoteNav, remoteBanner, remoteLocating, dismissBanner } from '@/core/remote'
 import { useControlStore } from '@/core/store/control'
+import { useSessionStore } from '@/core/store/session'
 import { connector } from '@/core/session'
 
 const { t } = useI18n()
 const ctl = useControlStore()
+const sess = useSessionStore()
 
 // Show which printer this panel drives: its Moonraker hostname. Falls back to the product name until
 // the host answers (and if it never does, e.g. a cold boot before Klipper is up).
@@ -34,8 +38,8 @@ const brandName = computed(() => printerName.value || 'FilaMind')
 type Tab = 'status' | 'control' | 'settings'
 // Tools are full-screen overlays launched from a tab (e.g. Status' action bar), not bottom-nav tabs.
 // Kept separate from `tab` so the bottom nav stays a clean 3-way and its roving tabindex is intact.
-type Tool = 'move' | 'tune' | 'files' | 'console'
-const TOOLS: readonly Tool[] = ['move', 'tune', 'files', 'console']
+type Tool = 'move' | 'tune' | 'files' | 'console' | 'temp' | 'filament'
+const TOOLS: readonly Tool[] = ['move', 'tune', 'files', 'console', 'temp', 'filament']
 const tab = ref<Tab>('status')
 const tool = ref<Tool | null>(null)
 
@@ -58,9 +62,41 @@ const toolViews: Record<Tool, Component> = {
   tune: TuneView,
   files: FilesView,
   console: ConsoleView,
+  temp: TempView,
+  filament: ExtrudeView,
 }
 // The tool overlay takes over the content area when open; otherwise the active tab's view shows.
 const active = computed<Component>(() => (tool.value ? toolViews[tool.value] : views[tab.value]))
+// Each tool's i18n title (the filament tool's catalog namespace is `extrude`, not its id).
+const toolLabelKeys: Record<Tool, string> = {
+  move: 'move.title',
+  tune: 'tune.title',
+  files: 'files.title',
+  console: 'console.title',
+  temp: 'temp.title',
+  filament: 'extrude.title',
+}
+
+// Print takeover: when a print starts (from ANY surface - a slicer upload, another UI), the
+// screen jumps to the job face and drops any open tool, like a printer display should. It stays
+// there after completion until the user navigates away.
+const printState = computed(
+  () => sess.object<{ state?: string }>('print_stats')?.state ?? 'standby',
+)
+watch(printState, (now, was) => {
+  if (now === 'printing' && was !== 'printing' && was !== 'paused') {
+    tool.value = null
+    tab.value = 'status'
+  }
+})
+
+// Recovery: when Klipper is shutdown/error the write gate is closed by design - these two
+// actions are the way back, so they surface on every tab with the printer's own message.
+const needsRecovery = computed(() => sess.trust === 'shutdown' || sess.trust === 'error')
+const recoveryMsg = computed(() => {
+  const m = sess.object<{ state_message?: string }>('webhooks')?.state_message ?? ''
+  return m.split('\n')[0] ?? ''
+})
 
 // A view (e.g. the Status action bar's Move / Tune) asks the shell to switch tab OR open a tool.
 function onNavigate(to: Tab | Tool): void {
@@ -123,6 +159,28 @@ function onDismissBanner(): void {
       </div>
     </header>
 
+    <!-- Klipper down: the gate is closed, so the recovery actions live here, on every tab. -->
+    <div v-if="needsRecovery" class="recovery" role="alert">
+      <span class="recovery-icon" aria-hidden="true">⚠</span>
+      <span class="recovery-msg">{{ recoveryMsg || t('control.down') }}</span>
+      <button
+        class="touch-btn recovery-btn"
+        type="button"
+        :disabled="ctl.busy"
+        @click="ctl.restartKlipper()"
+      >
+        {{ t('control.restart') }}
+      </button>
+      <button
+        class="touch-btn recovery-btn"
+        type="button"
+        :disabled="ctl.busy"
+        @click="ctl.firmwareRestart()"
+      >
+        {{ t('control.firmwareRestart') }}
+      </button>
+    </div>
+
     <!-- Always mounted (v-show) so the aria-live region pre-exists and the first message is announced. -->
     <div
       v-show="remoteBanner"
@@ -155,7 +213,7 @@ function onDismissBanner(): void {
       class="content"
       :role="tool ? 'region' : 'tabpanel'"
       :aria-labelledby="tool ? undefined : `tab-${tab}`"
-      :aria-label="tool ? t(tool + '.title') : undefined"
+      :aria-label="tool ? t(toolLabelKeys[tool]) : undefined"
       tabindex="0"
     >
       <component :is="active" @navigate="onNavigate" @close="tool = null" />
@@ -288,6 +346,34 @@ function onDismissBanner(): void {
 }
 .tab-label {
   font-size: 0.95rem;
+}
+
+/* Klipper-down recovery strip: message + the two restart actions. */
+.recovery {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 1rem;
+  background: var(--fm-surface-2);
+  border-bottom: 1px solid var(--fm-border);
+  border-inline-start: 4px solid var(--fm-danger);
+}
+.recovery-icon {
+  font-size: 1.1rem;
+}
+.recovery-msg {
+  flex: 1;
+  color: var(--fm-text);
+  font-size: 0.95rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.recovery-btn {
+  min-height: 2.75rem;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.9rem;
+  white-space: nowrap;
 }
 
 /* Remote-control message banner (pushed from another surface). */
