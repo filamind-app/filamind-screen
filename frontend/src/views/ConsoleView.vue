@@ -68,7 +68,8 @@ onUnmounted(() => off?.())
     <div ref="logEl" class="log">
       <p v-if="!lines.length" class="muted">{{ t('console.empty') }}</p>
       <pre v-for="l in lines" :key="l.id" class="line" :class="l.kind"
-        >{{ l.kind === 'sent' ? '> ' : '' }}{{ l.text }}</pre>
+        >{{ l.kind === 'sent' ? '> ' : '' }}{{ l.text }}</pre
+      >
     </div>
 
     <form class="entry" @submit.prevent="send">
@@ -124,7 +125,7 @@ onUnmounted(() => off?.())
   overflow: auto;
   background: var(--fm-surface);
   border: 1px solid var(--fm-border);
-  border-radius: 12px;
+  border-radius: 0.75rem;
   padding: 0.6rem 0.75rem;
   min-height: 8rem;
 }
@@ -149,14 +150,14 @@ onUnmounted(() => off?.())
 }
 .input {
   flex: 1;
-  min-height: 44px;
+  min-height: 2.75rem;
   padding: 0 0.8rem;
   font-family: var(--font-mono);
   font-size: 1rem;
   color: var(--fm-text);
   background: var(--fm-surface-2);
   border: 1px solid var(--fm-border);
-  border-radius: 12px;
+  border-radius: 0.75rem;
 }
 .input:disabled {
   opacity: 0.45;

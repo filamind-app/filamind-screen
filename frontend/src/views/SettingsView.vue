@@ -57,6 +57,9 @@ async function chooseLocale(code: string): Promise<void> {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  height: 100%;
+  min-height: 0;
+  overflow-y: auto; /* settings grow over time - the list scrolls, the shell chrome doesn't */
 }
 .block {
   padding: 1.25rem;
@@ -72,7 +75,7 @@ async function chooseLocale(code: string): Promise<void> {
 }
 .themes {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(min(8rem, 100%), 1fr));
   gap: 0.75rem;
 }
 .swatch {
@@ -81,7 +84,7 @@ async function chooseLocale(code: string): Promise<void> {
   align-items: center;
   gap: 0.6rem;
   padding: 1rem;
-  border-radius: 16px;
+  border-radius: 1rem;
   background: var(--fm-surface-2);
   border: 3px solid var(--fm-border);
   cursor: pointer;
@@ -104,9 +107,9 @@ async function chooseLocale(code: string): Promise<void> {
 }
 .lang-select {
   width: 100%;
-  min-height: 56px;
+  min-height: 3.5rem;
   padding: 0 1rem;
-  border-radius: 16px;
+  border-radius: 1rem;
   background: var(--fm-surface-2);
   color: var(--fm-text);
   border: 1px solid var(--fm-border);

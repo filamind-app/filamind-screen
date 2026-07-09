@@ -68,17 +68,31 @@ function disableMotors(): void {
         ‹
       </button>
       <h2 class="title">{{ t('move.title') }}</h2>
-    </header>
-
-    <!-- Live position -->
-    <div class="pos touch-card">
-      <span class="pos-label">{{ t('move.position') }}</span>
-      <span class="pos-axes">
+      <!-- Live position, inline so the pad gets the vertical room -->
+      <span class="pos-axes" :aria-label="t('move.position')">
         <span v-for="a in AXES" :key="a.char" class="pos-axis">
           <b>{{ a.char }}</b> {{ axisValue(a.i, a.char, a.dp) }}
         </span>
       </span>
-      <span v-if="!anyHomed" class="pos-hint">{{ t('move.notHomed') }}</span>
+    </header>
+    <p v-if="!anyHomed" class="pos-hint">{{ t('move.notHomed') }}</p>
+
+    <!-- Step size (compact segmented row above the pad) -->
+    <div class="steps">
+      <span class="steps-label">{{ t('move.step') }}</span>
+      <div class="steps-row">
+        <button
+          v-for="s in STEPS"
+          :key="s"
+          class="touch-btn step"
+          :class="{ on: step === s }"
+          type="button"
+          :aria-pressed="step === s"
+          @click="step = s"
+        >
+          {{ s }}
+        </button>
+      </div>
     </div>
 
     <div class="pads">
@@ -139,24 +153,6 @@ function disableMotors(): void {
       </div>
     </div>
 
-    <!-- Step size -->
-    <div class="steps">
-      <span class="steps-label">{{ t('move.step') }}</span>
-      <div class="steps-row">
-        <button
-          v-for="s in STEPS"
-          :key="s"
-          class="touch-btn step"
-          :class="{ on: step === s }"
-          type="button"
-          :aria-pressed="step === s"
-          @click="step = s"
-        >
-          {{ s }}
-        </button>
-      </div>
-    </div>
-
     <!-- Homing + disable -->
     <div class="home-row">
       <button
@@ -179,10 +175,14 @@ function disableMotors(): void {
 </template>
 
 <style scoped>
+/* No-scroll layout: fixed-height head/steps/home rows, the pads take ALL remaining height and the
+   XY pad is sized by that height (a width-driven square would overflow vertically on every panel). */
 .move {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.75rem;
+  height: 100%;
+  min-height: 0;
 }
 .head {
   display: flex;
@@ -191,6 +191,8 @@ function disableMotors(): void {
 }
 .back {
   min-width: 3rem;
+  min-height: 3rem;
+  padding: 0;
   font-size: 1.6rem;
   line-height: 1;
 }
@@ -200,22 +202,13 @@ function disableMotors(): void {
   font-size: 1.25rem;
   color: var(--fm-text);
 }
-.pos {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.4rem 1rem;
-  padding: 0.75rem 0.9rem;
-}
-.pos-label {
-  color: var(--fm-text-muted);
-  font-size: 0.85rem;
-}
 .pos-axes {
   display: flex;
+  flex: 1;
+  justify-content: flex-end;
   gap: 1rem;
   font-family: var(--font-mono);
-  font-size: 1.05rem;
+  font-size: 1rem;
   color: var(--fm-text);
 }
 .pos-axis b {
@@ -224,14 +217,16 @@ function disableMotors(): void {
   margin-inline-end: 0.2rem;
 }
 .pos-hint {
+  margin: 0;
   color: var(--fm-warning);
   font-size: 0.8rem;
 }
 .pads {
-  display: grid;
-  grid-template-columns: 3fr 1fr;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  justify-content: center;
   gap: 1rem;
-  align-items: center;
 }
 .xy {
   display: grid;
@@ -239,6 +234,14 @@ function disableMotors(): void {
   grid-template-rows: repeat(3, 1fr);
   gap: 0.6rem;
   aspect-ratio: 1;
+  height: 100%;
+  max-width: 72%;
+}
+/* Pad buttons size from the grid tracks, not the global touch minimum - on a small panel the
+   pad IS the touch budget, and a forced 4rem row would overflow it. */
+.pads .jog {
+  min-height: 0;
+  padding: 0;
 }
 .jog {
   font-size: 1.2rem;
@@ -270,11 +273,13 @@ function disableMotors(): void {
   grid-template-rows: repeat(2, 1fr);
   gap: 0.6rem;
   height: 100%;
+  flex: 0 0 20%;
 }
+/* Compact segmented step selector - one slim row so the pad keeps the height. */
 .steps {
   display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
+  align-items: center;
+  gap: 0.6rem;
 }
 .steps-label {
   color: var(--fm-text-muted);
@@ -282,8 +287,13 @@ function disableMotors(): void {
 }
 .steps-row {
   display: grid;
+  flex: 1;
   grid-template-columns: repeat(4, 1fr);
   gap: 0.6rem;
+}
+.step {
+  min-height: 2.75rem;
+  padding: 0.25rem 0.5rem;
 }
 .step.on {
   background: var(--fm-primary);
@@ -294,6 +304,10 @@ function disableMotors(): void {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 0.6rem;
+}
+.home-row .touch-btn {
+  min-height: 3.25rem;
+  padding: 0.4rem 0.5rem;
 }
 .disable {
   color: var(--fm-warning);

@@ -36,6 +36,14 @@
 }
 
 @layer base {
+  /* ONE design canvas for every panel size: 1rem is derived from the viewport so the whole
+     rem-authored layout scales as a uniform canvas - identical composition on a 3-inch panel
+     and a 10-inch one. Reference: 16px at 1024x600 (1.5625vw = 16/1024, 2.6667vh = 16/600);
+     the min() keeps the full canvas visible on any aspect ratio, and the clamp bounds keep
+     text legible on tiny panels and sane on very large ones. */
+  html {
+    font-size: clamp(9px, min(1.5625vw, 2.6667vh), 28px);
+  }
   html,
   body,
   #app {
@@ -46,7 +54,7 @@
     background: var(--fm-bg, #0e0f12);
     color: var(--fm-text, #f3ecd8);
     font-family: var(--font-sans);
-    font-size: 18px; /* touch-first base size */
+    font-size: 1.125rem; /* touch-first base size (18px at the 1024x600 reference) */
     -webkit-font-smoothing: antialiased;
     /* a fixed on-printer panel - no text selection / overscroll bounce */
     user-select: none;
@@ -62,16 +70,16 @@
 @utility touch-card {
   background: var(--fm-surface);
   border: 1px solid var(--fm-border);
-  border-radius: 18px;
+  border-radius: 1.125rem;
 }
 @utility touch-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  min-height: 64px;
+  min-height: 4rem;
   padding: 0.9rem 1.4rem;
-  border-radius: 16px;
+  border-radius: 1rem;
   font-size: 1.05rem;
   background: var(--fm-surface-2);
   color: var(--fm-text);

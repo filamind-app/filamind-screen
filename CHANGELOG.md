@@ -2,6 +2,26 @@
 
 All notable changes to FilaMind screen are documented here. Format: `## [version]` sections (parsed by the release workflow).
 
+## [0.6.0]
+
+### Fixed
+
+- **The UI now always fits the physical screen.** The window was hard-coded to 1024x600, and on the
+  kiosk (a bare display server with no window manager) the fullscreen request is never honored - so
+  on a smaller panel (e.g. 800x480) the app rendered past the screen edges and the whole bottom tab
+  bar was physically off-screen. The app now sizes and positions itself to the actual display at
+  startup, on every panel size, with or without a window manager.
+- **One unified layout on every screen size.** The interface is now a single proportional canvas:
+  its base unit derives from the viewport (reference 16px at 1024x600, bounded for legibility), so
+  a 3-inch panel and a 10-inch one show the identical composition - the same screens, just scaled.
+  Previously everything was fixed-density, designed only for 1024x600.
+- **No more scrolled-away or crushed controls.** Each screen now lays out inside the visible height
+  (lists scroll internally; controls never do): the Move screen was restructured so the jog pad is
+  sized by the available height (it used to grow past the screen on every panel), the Status action
+  row wraps instead of crushing its buttons on narrow panels, the four tuning cards sit in a 2x2
+  grid, and dialogs cap their height. The bottom tab highlight also no longer points at a stale tab
+  while a tool screen is open.
+
 ## [0.5.3]
 
 ### Fixed
