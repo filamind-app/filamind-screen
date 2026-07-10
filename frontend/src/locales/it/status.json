@@ -18,6 +18,7 @@
   "console": "Console",
   "temp": "Riscalda",
   "filament": "Filamento",
+  "macros": "Macro",
   "layer": "Strato",
   "eta": "ETA"
 }

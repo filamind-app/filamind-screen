@@ -7,5 +7,21 @@
     "anubis": "Anubis",
     "light": "Claro",
     "dark": "Oscuro"
-  }
+  },
+  "display": "Pantalla",
+  "density": "Densidad",
+  "densityName": {
+    "comfortable": "Cómoda",
+    "compact": "Compacta"
+  },
+  "motifs": "Motivos decorativos",
+  "motifName": {
+    "off": "Desactivados",
+    "subtle": "Sutiles",
+    "full": "Completos"
+  },
+  "reducedMotion": "Animaciones",
+  "motionOn": "Activadas",
+  "motionReduced": "Reducidas",
+  "version": "Versión de la app"
 }

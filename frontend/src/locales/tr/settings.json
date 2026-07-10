@@ -7,5 +7,21 @@
     "anubis": "Anubis",
     "light": "Açık",
     "dark": "Koyu"
-  }
+  },
+  "display": "Görünüm",
+  "density": "Yoğunluk",
+  "densityName": {
+    "comfortable": "Rahat",
+    "compact": "Sıkışık"
+  },
+  "motifs": "Dekoratif motifler",
+  "motifName": {
+    "off": "Kapalı",
+    "subtle": "Hafif",
+    "full": "Tam"
+  },
+  "reducedMotion": "Animasyonlar",
+  "motionOn": "Açık",
+  "motionReduced": "Azaltılmış",
+  "version": "Uygulama sürümü"
 }

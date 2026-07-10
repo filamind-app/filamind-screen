@@ -99,4 +99,39 @@ describe('TuneView', () => {
     const w = mountView()
     expect(stepBtn(w, 0, '+5').attributes('disabled')).toBeDefined()
   })
+
+  it('tapping a value opens the numpad and sets the absolute speed', async () => {
+    const w = mountView()
+    await w.findAll('button.row-value')[0]!.trigger('click') // speed value
+    const pad = w.find('.numpad')
+    expect(pad.exists()).toBe(true)
+    const key = (label: string) => pad.findAll('button.key').find((b) => b.text() === label)!
+    await key('1').trigger('click')
+    await key('5').trigger('click')
+    await key('0').trigger('click')
+    await key('✓').trigger('click')
+    expect(state.runGcode).toHaveBeenCalledWith('M220 S150')
+  })
+
+  it('numpad fan entry converts percent to the 0-255 scale', async () => {
+    const w = mountView()
+    await w.findAll('button.row-value')[2]!.trigger('click') // fan (z has no tappable value)
+    const pad = w.find('.numpad')
+    const key = (label: string) => pad.findAll('button.key').find((b) => b.text() === label)!
+    await key('5').trigger('click')
+    await key('0').trigger('click')
+    await key('✓').trigger('click')
+    expect(state.runGcode).toHaveBeenCalledWith('M106 S128')
+  })
+
+  it('numpad refuses an out-of-range flow value', async () => {
+    const w = mountView()
+    await w.findAll('button.row-value')[1]!.trigger('click') // flow, max 200
+    const pad = w.find('.numpad')
+    const key = (label: string) => pad.findAll('button.key').find((b) => b.text() === label)!
+    await key('9').trigger('click')
+    await key('9').trigger('click')
+    await key('9').trigger('click')
+    expect(key('✓').attributes('disabled')).toBeDefined()
+  })
 })

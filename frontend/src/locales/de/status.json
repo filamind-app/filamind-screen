@@ -18,6 +18,7 @@
   "console": "Konsole",
   "temp": "Heizen",
   "filament": "Filament",
+  "macros": "Makros",
   "layer": "Schicht",
   "eta": "Restzeit"
 }

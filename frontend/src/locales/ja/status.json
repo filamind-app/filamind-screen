@@ -18,6 +18,7 @@
   "console": "コンソール",
   "temp": "加熱",
   "filament": "フィラメント",
+  "macros": "マクロ",
   "layer": "レイヤー",
   "eta": "残り"
 }

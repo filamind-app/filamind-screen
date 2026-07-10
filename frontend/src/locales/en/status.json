@@ -18,6 +18,7 @@
   "console": "Console",
   "temp": "Heat",
   "filament": "Filament",
+  "macros": "Macros",
   "layer": "Layer",
   "eta": "ETA"
 }

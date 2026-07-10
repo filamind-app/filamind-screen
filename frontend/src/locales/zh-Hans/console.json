@@ -4,5 +4,6 @@
   "placeholder": "输入 g-code…",
   "send": "发送",
   "clear": "清除",
-  "empty": "暂无输出"
+  "empty": "暂无输出",
+  "recent": "最近命令"
 }

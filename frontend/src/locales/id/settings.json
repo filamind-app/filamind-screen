@@ -7,5 +7,21 @@
     "anubis": "Anubis",
     "light": "Terang",
     "dark": "Gelap"
-  }
+  },
+  "display": "Tampilan",
+  "density": "Kepadatan",
+  "densityName": {
+    "comfortable": "Nyaman",
+    "compact": "Ringkas"
+  },
+  "motifs": "Motif dekoratif",
+  "motifName": {
+    "off": "Nonaktif",
+    "subtle": "Halus",
+    "full": "Penuh"
+  },
+  "reducedMotion": "Animasi",
+  "motionOn": "Aktif",
+  "motionReduced": "Dikurangi",
+  "version": "Versi aplikasi"
 }

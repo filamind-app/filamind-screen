@@ -7,5 +7,21 @@
     "anubis": "Anubis",
     "light": "Licht",
     "dark": "Donker"
-  }
+  },
+  "display": "Weergave",
+  "density": "Dichtheid",
+  "densityName": {
+    "comfortable": "Comfortabel",
+    "compact": "Compact"
+  },
+  "motifs": "Decoratieve motieven",
+  "motifName": {
+    "off": "Uit",
+    "subtle": "Subtiel",
+    "full": "Volledig"
+  },
+  "reducedMotion": "Animaties",
+  "motionOn": "Aan",
+  "motionReduced": "Verminderd",
+  "version": "App-versie"
 }

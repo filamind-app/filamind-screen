@@ -4,5 +4,6 @@
   "placeholder": "g-code 입력…",
   "send": "전송",
   "clear": "지우기",
-  "empty": "출력 없음"
+  "empty": "출력 없음",
+  "recent": "최근 명령어"
 }

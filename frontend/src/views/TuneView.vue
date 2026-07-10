@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+import NumPad from '@/components/NumPad.vue'
 import { useSessionStore } from '@/core/store/session'
 import { useControlStore } from '@/core/store/control'
 import { useWriteGuard } from '@/core/useWriteGuard'
@@ -60,6 +61,8 @@ interface Row {
   fmtStep: (d: number) => string
   apply: (d: number) => void
   reset: () => void
+  /** Absolute entry via the on-screen numpad (rows without it are nudge-only, e.g. Z). */
+  abs?: { min: number; max: number; set: (v: number) => void }
 }
 const rows = computed<Row[]>(() => [
   {
@@ -70,6 +73,7 @@ const rows = computed<Row[]>(() => [
     fmtStep: fmtPct,
     apply: setSpeed,
     reset: () => send('M220 S100'),
+    abs: { min: 10, max: 300, set: (v) => send(`M220 S${Math.round(v)}`) },
   },
   {
     key: 'flow',
@@ -79,6 +83,7 @@ const rows = computed<Row[]>(() => [
     fmtStep: fmtPct,
     apply: setFlow,
     reset: () => send('M221 S100'),
+    abs: { min: 50, max: 200, set: (v) => send(`M221 S${Math.round(v)}`) },
   },
   {
     key: 'zoff',
@@ -97,8 +102,21 @@ const rows = computed<Row[]>(() => [
     fmtStep: fmtPct,
     apply: setFan,
     reset: () => send('M106 S0'),
+    abs: { min: 0, max: 100, set: (v) => send(`M106 S${Math.round((v * 255) / 100)}`) },
   },
 ])
+
+/** Row being edited via the on-screen numpad (tap a value); the cards yield the space meanwhile. */
+const editing = ref<Row | null>(null)
+function confirmAbs(v: number): void {
+  editing.value?.abs?.set(v)
+  editing.value = null
+}
+// If writes get blocked mid-entry (disconnect, safe mode), close the pad instead of letting
+// OK silently discard the value.
+watch(canWrite, (ok) => {
+  if (!ok) editing.value = null
+})
 </script>
 
 <template>
@@ -115,34 +133,57 @@ const rows = computed<Row[]>(() => [
       <h2 class="title">{{ t('tune.title') }}</h2>
     </header>
 
-    <div v-for="r in rows" :key="r.key" class="row touch-card">
-      <div class="row-head">
-        <span class="row-label">{{ r.label }}</span>
-        <span class="row-value">{{ r.value }}</span>
+    <template v-if="!editing">
+      <div v-for="r in rows" :key="r.key" class="row touch-card">
+        <div class="row-head">
+          <span class="row-label">{{ r.label }}</span>
+          <!-- Tap the value for direct numpad entry (rows without an absolute range stay text). -->
+          <button
+            v-if="r.abs"
+            class="row-value tappable"
+            type="button"
+            :disabled="!canWrite"
+            @click="editing = r"
+          >
+            {{ r.value }}
+          </button>
+          <span v-else class="row-value">{{ r.value }}</span>
+        </div>
+        <div class="row-btns">
+          <button
+            v-for="d in r.steps"
+            :key="d"
+            class="touch-btn step"
+            type="button"
+            :disabled="!canWrite"
+            :title="canWrite ? '' : blockedReason"
+            @click="r.apply(d)"
+          >
+            {{ r.fmtStep(d) }}
+          </button>
+          <button
+            class="touch-btn reset"
+            type="button"
+            :disabled="!canWrite"
+            :aria-label="t('tune.reset')"
+            @click="r.reset()"
+          >
+            ⟲
+          </button>
+        </div>
       </div>
-      <div class="row-btns">
-        <button
-          v-for="d in r.steps"
-          :key="d"
-          class="touch-btn step"
-          type="button"
-          :disabled="!canWrite"
-          :title="canWrite ? '' : blockedReason"
-          @click="r.apply(d)"
-        >
-          {{ r.fmtStep(d) }}
-        </button>
-        <button
-          class="touch-btn reset"
-          type="button"
-          :disabled="!canWrite"
-          :aria-label="t('tune.reset')"
-          @click="r.reset()"
-        >
-          ⟲
-        </button>
-      </div>
-    </div>
+    </template>
+
+    <NumPad
+      v-if="editing?.abs"
+      class="pad"
+      :label="editing.label"
+      :min="editing.abs.min"
+      :max="editing.abs.max"
+      unit="%"
+      @confirm="confirmAbs"
+      @close="editing = null"
+    />
 
     <p v-if="ctl.lastError" class="err" role="alert">{{ t('control.error.' + ctl.lastError) }}</p>
   </div>
@@ -198,6 +239,20 @@ const rows = computed<Row[]>(() => [
   font-family: var(--font-mono);
   font-size: 1.4rem;
   color: var(--fm-text);
+}
+/* Tap-to-type affordance on the values with an absolute range. */
+button.row-value.tappable {
+  border: 0;
+  background: var(--fm-surface-2);
+  border-radius: 0.5rem;
+  padding: 0.1rem 0.5rem;
+  cursor: pointer;
+}
+button.row-value.tappable:disabled {
+  opacity: 0.45;
+}
+.pad {
+  grid-column: 1 / -1;
 }
 .row-btns {
   display: grid;

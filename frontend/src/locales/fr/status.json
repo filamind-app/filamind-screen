@@ -18,6 +18,7 @@
   "console": "Console",
   "temp": "Chauffe",
   "filament": "Filament",
+  "macros": "Macros",
   "layer": "Couche",
   "eta": "ETA"
 }

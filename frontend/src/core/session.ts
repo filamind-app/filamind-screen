@@ -20,6 +20,14 @@ function defaultWsUrl(): string {
 
 const appVersion = typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSION__ : '0.0.0'
 
+/** Moonraker's HTTP origin (thumbnails, file downloads) - the WS url with the scheme swapped
+ *  and the /websocket path dropped. */
+export function moonrakerHttpBase(): string {
+  return defaultWsUrl()
+    .replace(/^ws/, 'http')
+    .replace(/\/websocket$/, '')
+}
+
 export const connector = new MoonrakerClient({ url: defaultWsUrl() })
 
 // notify_gcode_response tee. FilaMindSession owns the connector's single callback sink (it parses

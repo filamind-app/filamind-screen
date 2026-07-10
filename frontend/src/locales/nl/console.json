@@ -4,5 +4,6 @@
   "placeholder": "Voer g-code in…",
   "send": "Verzenden",
   "clear": "Wissen",
-  "empty": "Nog geen uitvoer"
+  "empty": "Nog geen uitvoer",
+  "recent": "Recente commando's"
 }

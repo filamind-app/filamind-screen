@@ -7,5 +7,21 @@
     "anubis": "아누비스",
     "light": "라이트",
     "dark": "다크"
-  }
+  },
+  "display": "디스플레이",
+  "density": "표시 밀도",
+  "densityName": {
+    "comfortable": "여유롭게",
+    "compact": "좁게"
+  },
+  "motifs": "장식 문양",
+  "motifName": {
+    "off": "없음",
+    "subtle": "은은함",
+    "full": "풍성함"
+  },
+  "reducedMotion": "애니메이션",
+  "motionOn": "켜짐",
+  "motionReduced": "줄임",
+  "version": "앱 버전"
 }

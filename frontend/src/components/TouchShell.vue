@@ -13,6 +13,7 @@ import FilesView from '@/views/FilesView.vue'
 import ConsoleView from '@/views/ConsoleView.vue'
 import TempView from '@/views/TempView.vue'
 import ExtrudeView from '@/views/ExtrudeView.vue'
+import MacrosView from '@/views/MacrosView.vue'
 import { remoteNav, remoteBanner, remoteLocating, dismissBanner } from '@/core/remote'
 import { useControlStore } from '@/core/store/control'
 import { useSessionStore } from '@/core/store/session'
@@ -38,8 +39,8 @@ const brandName = computed(() => printerName.value || 'FilaMind')
 type Tab = 'status' | 'control' | 'settings'
 // Tools are full-screen overlays launched from a tab (e.g. Status' action bar), not bottom-nav tabs.
 // Kept separate from `tab` so the bottom nav stays a clean 3-way and its roving tabindex is intact.
-type Tool = 'move' | 'tune' | 'files' | 'console' | 'temp' | 'filament'
-const TOOLS: readonly Tool[] = ['move', 'tune', 'files', 'console', 'temp', 'filament']
+type Tool = 'move' | 'tune' | 'files' | 'console' | 'temp' | 'filament' | 'macros'
+const TOOLS: readonly Tool[] = ['move', 'tune', 'files', 'console', 'temp', 'filament', 'macros']
 const tab = ref<Tab>('status')
 const tool = ref<Tool | null>(null)
 
@@ -64,6 +65,7 @@ const toolViews: Record<Tool, Component> = {
   console: ConsoleView,
   temp: TempView,
   filament: ExtrudeView,
+  macros: MacrosView,
 }
 // The tool overlay takes over the content area when open; otherwise the active tab's view shows.
 const active = computed<Component>(() => (tool.value ? toolViews[tool.value] : views[tab.value]))
@@ -75,6 +77,7 @@ const toolLabelKeys: Record<Tool, string> = {
   console: 'console.title',
   temp: 'temp.title',
   filament: 'extrude.title',
+  macros: 'macros.title',
 }
 
 // Print takeover: when a print starts (from ANY surface - a slicer upload, another UI), the

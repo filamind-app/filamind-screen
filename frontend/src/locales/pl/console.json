@@ -4,5 +4,6 @@
   "placeholder": "Wpisz g-code…",
   "send": "Wyślij",
   "clear": "Wyczyść",
-  "empty": "Brak wyjścia"
+  "empty": "Brak wyjścia",
+  "recent": "Ostatnie polecenia"
 }

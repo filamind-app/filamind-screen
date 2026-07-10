@@ -7,5 +7,21 @@
     "anubis": "Anubis",
     "light": "Sáng",
     "dark": "Tối"
-  }
+  },
+  "display": "Hiển thị",
+  "density": "Mật độ",
+  "densityName": {
+    "comfortable": "Thoải mái",
+    "compact": "Gọn"
+  },
+  "motifs": "Họa tiết trang trí",
+  "motifName": {
+    "off": "Tắt",
+    "subtle": "Nhẹ",
+    "full": "Đầy đủ"
+  },
+  "reducedMotion": "Hoạt ảnh",
+  "motionOn": "Bật",
+  "motionReduced": "Giảm",
+  "version": "Phiên bản ứng dụng"
 }

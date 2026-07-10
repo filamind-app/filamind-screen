@@ -4,5 +4,6 @@
   "placeholder": "Enter g-code…",
   "send": "Send",
   "clear": "Clear",
-  "empty": "No output yet"
+  "empty": "No output yet",
+  "recent": "Recent commands"
 }

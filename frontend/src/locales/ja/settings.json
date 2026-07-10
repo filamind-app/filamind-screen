@@ -7,5 +7,21 @@
     "anubis": "アヌビス",
     "light": "ライト",
     "dark": "ダーク"
-  }
+  },
+  "display": "表示",
+  "density": "密度",
+  "densityName": {
+    "comfortable": "ゆったり",
+    "compact": "コンパクト"
+  },
+  "motifs": "装飾モチーフ",
+  "motifName": {
+    "off": "オフ",
+    "subtle": "控えめ",
+    "full": "フル"
+  },
+  "reducedMotion": "アニメーション",
+  "motionOn": "オン",
+  "motionReduced": "軽減",
+  "version": "アプリのバージョン"
 }
