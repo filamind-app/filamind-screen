@@ -1,1 +1,0 @@
-var e={title:{t:0,b:{t:2,i:[{t:3}],s:`控制台`}},back:{t:0,b:{t:2,i:[{t:3}],s:`返回`}},placeholder:{t:0,b:{t:2,i:[{t:3}],s:`输入 g-code…`}},send:{t:0,b:{t:2,i:[{t:3}],s:`发送`}},clear:{t:0,b:{t:2,i:[{t:3}],s:`清除`}},empty:{t:0,b:{t:2,i:[{t:3}],s:`暂无输出`}}};export{e as default};

@@ -1,1 +1,0 @@
-var e={title:{t:0,b:{t:2,i:[{t:3}],s:`Dosyalar`}},back:{t:0,b:{t:2,i:[{t:3}],s:`Geri`}},refresh:{t:0,b:{t:2,i:[{t:3}],s:`Yenile`}},loading:{t:0,b:{t:2,i:[{t:3}],s:`Yükleniyor…`}},empty:{t:0,b:{t:2,i:[{t:3}],s:`Yazdırılabilir dosya yok`}},print:{t:0,b:{t:2,i:[{t:3}],s:`Yazdır`}},busy:{t:0,b:{t:2,i:[{t:3}],s:`Zaten bir baskı sürüyor`}}};export{e as default};

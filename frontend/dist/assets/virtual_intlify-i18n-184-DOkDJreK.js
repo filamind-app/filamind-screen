@@ -1,1 +1,0 @@
-var e={title:{t:0,b:{t:2,i:[{t:3}],s:`وحدة الأوامر`}},back:{t:0,b:{t:2,i:[{t:3}],s:`رجوع`}},placeholder:{t:0,b:{t:2,i:[{t:3}],s:`أدخل أمر g-code…`}},send:{t:0,b:{t:2,i:[{t:3}],s:`إرسال`}},clear:{t:0,b:{t:2,i:[{t:3}],s:`مسح`}},empty:{t:0,b:{t:2,i:[{t:3}],s:`لا يوجد إخراج بعد`}}};export{e as default};

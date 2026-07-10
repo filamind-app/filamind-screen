@@ -1,0 +1,1 @@
+var e={title:{t:0,b:{t:2,i:[{t:3}],s:`Makra`}},back:{t:0,b:{t:2,i:[{t:3}],s:`Wstecz`}},empty:{t:0,b:{t:2,i:[{t:3}],s:`Ta drukarka nie ma zdefiniowanych makr użytkownika.`}}};export{e as default};

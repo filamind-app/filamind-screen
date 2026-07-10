@@ -1,1 +1,0 @@
-var e={title:{t:0,b:{t:2,i:[{t:3}],s:`Bestanden`}},back:{t:0,b:{t:2,i:[{t:3}],s:`Terug`}},refresh:{t:0,b:{t:2,i:[{t:3}],s:`Vernieuwen`}},loading:{t:0,b:{t:2,i:[{t:3}],s:`Laden…`}},empty:{t:0,b:{t:2,i:[{t:3}],s:`Geen printbare bestanden`}},print:{t:0,b:{t:2,i:[{t:3}],s:`Printen`}},busy:{t:0,b:{t:2,i:[{t:3}],s:`Er loopt al een print`}}};export{e as default};

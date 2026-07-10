@@ -1,0 +1,1 @@
+var e={title:{t:0,b:{t:2,i:[{t:3}],s:`文件`}},back:{t:0,b:{t:2,i:[{t:3}],s:`返回`}},refresh:{t:0,b:{t:2,i:[{t:3}],s:`刷新`}},up:{t:0,b:{t:2,i:[{t:3}],s:`上级`}},loading:{t:0,b:{t:2,i:[{t:3}],s:`加载中…`}},empty:{t:0,b:{t:2,i:[{t:3}],s:`没有可打印的文件`}},print:{t:0,b:{t:2,i:[{t:3}],s:`打印`}},busy:{t:0,b:{t:2,i:[{t:3}],s:`已有打印任务正在进行`}}};export{e as default};

@@ -1,1 +1,0 @@
-var e={title:{t:0,b:{t:2,i:[{t:3}],s:`Konsola`}},back:{t:0,b:{t:2,i:[{t:3}],s:`Wstecz`}},placeholder:{t:0,b:{t:2,i:[{t:3}],s:`Wpisz g-code…`}},send:{t:0,b:{t:2,i:[{t:3}],s:`Wyślij`}},clear:{t:0,b:{t:2,i:[{t:3}],s:`Wyczyść`}},empty:{t:0,b:{t:2,i:[{t:3}],s:`Brak wyjścia`}}};export{e as default};

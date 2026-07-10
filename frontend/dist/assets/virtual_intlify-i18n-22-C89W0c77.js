@@ -1,0 +1,1 @@
+var e={title:{t:0,b:{t:2,i:[{t:3}],s:`檔案`}},back:{t:0,b:{t:2,i:[{t:3}],s:`返回`}},refresh:{t:0,b:{t:2,i:[{t:3}],s:`重新整理`}},up:{t:0,b:{t:2,i:[{t:3}],s:`上一層`}},loading:{t:0,b:{t:2,i:[{t:3}],s:`載入中…`}},empty:{t:0,b:{t:2,i:[{t:3}],s:`沒有可列印的檔案`}},print:{t:0,b:{t:2,i:[{t:3}],s:`列印`}},busy:{t:0,b:{t:2,i:[{t:3}],s:`已有列印工作進行中`}}};export{e as default};

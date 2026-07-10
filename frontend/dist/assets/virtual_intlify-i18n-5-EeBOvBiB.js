@@ -1,0 +1,1 @@
+var e={title:{t:0,b:{t:2,i:[{t:3}],s:`매크로`}},back:{t:0,b:{t:2,i:[{t:3}],s:`뒤로`}},empty:{t:0,b:{t:2,i:[{t:3}],s:`이 프린터에 정의된 사용자 매크로가 없습니다.`}}};export{e as default};

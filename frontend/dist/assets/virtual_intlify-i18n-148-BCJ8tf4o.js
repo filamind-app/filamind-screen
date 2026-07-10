@@ -1,1 +1,0 @@
-var e={title:{t:0,b:{t:2,i:[{t:3}],s:`Konsol`}},back:{t:0,b:{t:2,i:[{t:3}],s:`Kembali`}},placeholder:{t:0,b:{t:2,i:[{t:3}],s:`Masukkan g-code…`}},send:{t:0,b:{t:2,i:[{t:3}],s:`Kirim`}},clear:{t:0,b:{t:2,i:[{t:3}],s:`Hapus`}},empty:{t:0,b:{t:2,i:[{t:3}],s:`Belum ada keluaran`}}};export{e as default};

@@ -1,1 +1,0 @@
-var e={title:{t:0,b:{t:2,i:[{t:3}],s:`Arquivos`}},back:{t:0,b:{t:2,i:[{t:3}],s:`Voltar`}},refresh:{t:0,b:{t:2,i:[{t:3}],s:`Atualizar`}},loading:{t:0,b:{t:2,i:[{t:3}],s:`Carregando…`}},empty:{t:0,b:{t:2,i:[{t:3}],s:`Nenhum arquivo imprimível`}},print:{t:0,b:{t:2,i:[{t:3}],s:`Imprimir`}},busy:{t:0,b:{t:2,i:[{t:3}],s:`Já há uma impressão em andamento`}}};export{e as default};

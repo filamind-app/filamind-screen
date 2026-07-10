@@ -1,0 +1,1 @@
+var e={title:{t:0,b:{t:2,i:[{t:3}],s:`Console`}},back:{t:0,b:{t:2,i:[{t:3}],s:`Terug`}},placeholder:{t:0,b:{t:2,i:[{t:3}],s:`Voer g-code in…`}},send:{t:0,b:{t:2,i:[{t:3}],s:`Verzenden`}},clear:{t:0,b:{t:2,i:[{t:3}],s:`Wissen`}},empty:{t:0,b:{t:2,i:[{t:3}],s:`Nog geen uitvoer`}},recent:{t:0,b:{t:2,i:[{t:3}],s:`Recente commando's`}}};export{e as default};

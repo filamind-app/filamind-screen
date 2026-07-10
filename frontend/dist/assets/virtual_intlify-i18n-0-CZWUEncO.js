@@ -1,1 +1,0 @@
-var e={title:{t:0,b:{t:2,i:[{t:3}],s:`파일`}},back:{t:0,b:{t:2,i:[{t:3}],s:`뒤로`}},refresh:{t:0,b:{t:2,i:[{t:3}],s:`새로고침`}},loading:{t:0,b:{t:2,i:[{t:3}],s:`불러오는 중…`}},empty:{t:0,b:{t:2,i:[{t:3}],s:`출력 가능한 파일 없음`}},print:{t:0,b:{t:2,i:[{t:3}],s:`출력`}},busy:{t:0,b:{t:2,i:[{t:3}],s:`이미 출력 중입니다`}}};export{e as default};
