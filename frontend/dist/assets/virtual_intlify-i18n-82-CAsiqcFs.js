@@ -1,0 +1,1 @@
+var e={title:{t:0,b:{t:2,i:[{t:3}],s:`Macros`}},back:{t:0,b:{t:2,i:[{t:3}],s:`Retour`}},empty:{t:0,b:{t:2,i:[{t:3}],s:`Cette imprimante ne définit aucune macro utilisateur.`}}};export{e as default};

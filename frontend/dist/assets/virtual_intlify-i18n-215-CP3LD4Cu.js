@@ -1,0 +1,1 @@
+var e={title:{t:0,b:{t:2,i:[{t:3}],s:`Bảng điều khiển`}},back:{t:0,b:{t:2,i:[{t:3}],s:`Quay lại`}},placeholder:{t:0,b:{t:2,i:[{t:3}],s:`Nhập lệnh g-code…`}},send:{t:0,b:{t:2,i:[{t:3}],s:`Gửi`}},clear:{t:0,b:{t:2,i:[{t:3}],s:`Xóa`}},empty:{t:0,b:{t:2,i:[{t:3}],s:`Chưa có kết quả`}},recent:{t:0,b:{t:2,i:[{t:3}],s:`Lệnh gần đây`}}};export{e as default};

@@ -1,0 +1,1 @@
+var e={title:{t:0,b:{t:2,i:[{t:3}],s:`Makrolar`}},back:{t:0,b:{t:2,i:[{t:3}],s:`Geri`}},empty:{t:0,b:{t:2,i:[{t:3}],s:`Bu yazıcıda tanımlı kullanıcı makrosu yok.`}}};export{e as default};

@@ -1,1 +1,0 @@
-var e={theme:{t:0,b:{t:2,i:[{t:3}],s:`Thema`}},language:{t:0,b:{t:2,i:[{t:3}],s:`Taal`}},themeName:{tutankhamun:{t:0,b:{t:2,i:[{t:3}],s:`Tutankhamun`}},horus:{t:0,b:{t:2,i:[{t:3}],s:`Horus`}},anubis:{t:0,b:{t:2,i:[{t:3}],s:`Anubis`}},light:{t:0,b:{t:2,i:[{t:3}],s:`Licht`}},dark:{t:0,b:{t:2,i:[{t:3}],s:`Donker`}}}};export{e as default};

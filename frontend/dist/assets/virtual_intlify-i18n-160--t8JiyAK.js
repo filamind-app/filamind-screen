@@ -1,0 +1,1 @@
+var e={title:{t:0,b:{t:2,i:[{t:3}],s:`宏`}},back:{t:0,b:{t:2,i:[{t:3}],s:`返回`}},empty:{t:0,b:{t:2,i:[{t:3}],s:`此打印机未定义用户宏。`}}};export{e as default};

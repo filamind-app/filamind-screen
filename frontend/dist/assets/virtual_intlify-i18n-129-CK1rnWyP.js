@@ -1,0 +1,1 @@
+var e={title:{t:0,b:{t:2,i:[{t:3}],s:`Macro`}},back:{t:0,b:{t:2,i:[{t:3}],s:`Quay lại`}},empty:{t:0,b:{t:2,i:[{t:3}],s:`Máy in này chưa định nghĩa macro người dùng nào.`}}};export{e as default};

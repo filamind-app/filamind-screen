@@ -1,1 +1,0 @@
-var e={theme:{t:0,b:{t:2,i:[{t:3}],s:`الثيم`}},language:{t:0,b:{t:2,i:[{t:3}],s:`اللغة`}},themeName:{tutankhamun:{t:0,b:{t:2,i:[{t:3}],s:`توت عنخ آمون`}},horus:{t:0,b:{t:2,i:[{t:3}],s:`حورس`}},anubis:{t:0,b:{t:2,i:[{t:3}],s:`أنوبيس`}},light:{t:0,b:{t:2,i:[{t:3}],s:`فاتح`}},dark:{t:0,b:{t:2,i:[{t:3}],s:`داكن`}}}};export{e as default};

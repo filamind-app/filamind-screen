@@ -1,0 +1,1 @@
+var e={title:{t:0,b:{t:2,i:[{t:3}],s:`巨集`}},back:{t:0,b:{t:2,i:[{t:3}],s:`返回`}},empty:{t:0,b:{t:2,i:[{t:3}],s:`此印表機未定義任何使用者巨集。`}}};export{e as default};

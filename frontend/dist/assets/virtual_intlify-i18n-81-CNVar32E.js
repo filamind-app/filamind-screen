@@ -1,1 +1,0 @@
-var e={title:{t:0,b:{t:2,i:[{t:3}],s:`Konsol`}},back:{t:0,b:{t:2,i:[{t:3}],s:`Geri`}},placeholder:{t:0,b:{t:2,i:[{t:3}],s:`g-code girin…`}},send:{t:0,b:{t:2,i:[{t:3}],s:`Gönder`}},clear:{t:0,b:{t:2,i:[{t:3}],s:`Temizle`}},empty:{t:0,b:{t:2,i:[{t:3}],s:`Henüz çıktı yok`}}};export{e as default};

@@ -1,1 +1,0 @@
-var e={title:{t:0,b:{t:2,i:[{t:3}],s:`コンソール`}},back:{t:0,b:{t:2,i:[{t:3}],s:`戻る`}},placeholder:{t:0,b:{t:2,i:[{t:3}],s:`g-codeを入力…`}},send:{t:0,b:{t:2,i:[{t:3}],s:`送信`}},clear:{t:0,b:{t:2,i:[{t:3}],s:`クリア`}},empty:{t:0,b:{t:2,i:[{t:3}],s:`出力はまだありません`}}};export{e as default};

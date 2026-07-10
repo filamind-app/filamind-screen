@@ -1,1 +1,0 @@
-var e={title:{t:0,b:{t:2,i:[{t:3}],s:`File`}},back:{t:0,b:{t:2,i:[{t:3}],s:`Kembali`}},refresh:{t:0,b:{t:2,i:[{t:3}],s:`Segarkan`}},loading:{t:0,b:{t:2,i:[{t:3}],s:`Memuat…`}},empty:{t:0,b:{t:2,i:[{t:3}],s:`Tidak ada file g-code`}},print:{t:0,b:{t:2,i:[{t:3}],s:`Cetak`}},busy:{t:0,b:{t:2,i:[{t:3}],s:`Pencetakan sedang berjalan`}}};export{e as default};

@@ -1,0 +1,1 @@
+var e={title:{t:0,b:{t:2,i:[{t:3}],s:`Tệp in`}},back:{t:0,b:{t:2,i:[{t:3}],s:`Quay lại`}},refresh:{t:0,b:{t:2,i:[{t:3}],s:`Làm mới`}},up:{t:0,b:{t:2,i:[{t:3}],s:`Lên`}},loading:{t:0,b:{t:2,i:[{t:3}],s:`Đang tải…`}},empty:{t:0,b:{t:2,i:[{t:3}],s:`Không có tệp in được`}},print:{t:0,b:{t:2,i:[{t:3}],s:`In`}},busy:{t:0,b:{t:2,i:[{t:3}],s:`Đang có bản in chạy`}}};export{e as default};

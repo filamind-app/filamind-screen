@@ -1,1 +1,0 @@
-var e={theme:{t:0,b:{t:2,i:[{t:3}],s:`Giao diện`}},language:{t:0,b:{t:2,i:[{t:3}],s:`Ngôn ngữ`}},themeName:{tutankhamun:{t:0,b:{t:2,i:[{t:3}],s:`Tutankhamun`}},horus:{t:0,b:{t:2,i:[{t:3}],s:`Horus`}},anubis:{t:0,b:{t:2,i:[{t:3}],s:`Anubis`}},light:{t:0,b:{t:2,i:[{t:3}],s:`Sáng`}},dark:{t:0,b:{t:2,i:[{t:3}],s:`Tối`}}}};export{e as default};

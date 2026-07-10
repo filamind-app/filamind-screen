@@ -1,0 +1,1 @@
+var e={title:{t:0,b:{t:2,i:[{t:3}],s:`Makros`}},back:{t:0,b:{t:2,i:[{t:3}],s:`Zurück`}},empty:{t:0,b:{t:2,i:[{t:3}],s:`Dieser Drucker definiert keine Benutzermakros.`}}};export{e as default};

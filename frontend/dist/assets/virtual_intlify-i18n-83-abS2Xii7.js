@@ -1,1 +1,0 @@
-var e={theme:{t:0,b:{t:2,i:[{t:3}],s:`主題`}},language:{t:0,b:{t:2,i:[{t:3}],s:`語言`}},themeName:{tutankhamun:{t:0,b:{t:2,i:[{t:3}],s:`圖坦卡門`}},horus:{t:0,b:{t:2,i:[{t:3}],s:`荷魯斯`}},anubis:{t:0,b:{t:2,i:[{t:3}],s:`阿努比斯`}},light:{t:0,b:{t:2,i:[{t:3}],s:`淺色`}},dark:{t:0,b:{t:2,i:[{t:3}],s:`深色`}}}};export{e as default};
