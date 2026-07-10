@@ -1,0 +1,1 @@
+var e={title:{t:0,b:{t:2,i:[{t:3}],s:`Aviso da impressora`}},close:{t:0,b:{t:2,i:[{t:3}],s:`Fechar`}},reopen:{t:0,b:{t:2,i:[{t:3}],s:`Aviso pendente`}}};export{e as default};

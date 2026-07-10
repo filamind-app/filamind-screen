@@ -1,0 +1,1 @@
+var e={title:{t:0,b:{t:2,i:[{t:3}],s:`Invite de l'imprimante`}},close:{t:0,b:{t:2,i:[{t:3}],s:`Fermer`}},reopen:{t:0,b:{t:2,i:[{t:3}],s:`Invite en attente`}}};export{e as default};

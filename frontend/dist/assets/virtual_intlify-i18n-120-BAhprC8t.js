@@ -1,0 +1,1 @@
+var e={title:{t:0,b:{t:2,i:[{t:3}],s:`Yazıcı bildirimi`}},close:{t:0,b:{t:2,i:[{t:3}],s:`Kapat`}},reopen:{t:0,b:{t:2,i:[{t:3}],s:`Bekleyen istem`}}};export{e as default};
