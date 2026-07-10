@@ -7,5 +7,21 @@
     "anubis": "阿努比斯",
     "light": "浅色",
     "dark": "深色"
-  }
+  },
+  "display": "显示",
+  "density": "密度",
+  "densityName": {
+    "comfortable": "舒适",
+    "compact": "紧凑"
+  },
+  "motifs": "装饰图案",
+  "motifName": {
+    "off": "关闭",
+    "subtle": "淡雅",
+    "full": "丰富"
+  },
+  "reducedMotion": "动画",
+  "motionOn": "开启",
+  "motionReduced": "减弱",
+  "version": "应用版本"
 }

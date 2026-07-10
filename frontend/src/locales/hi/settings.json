@@ -7,5 +7,21 @@
     "anubis": "Anubis",
     "light": "हल्का",
     "dark": "गहरा"
-  }
+  },
+  "display": "डिस्प्ले",
+  "density": "घनत्व",
+  "densityName": {
+    "comfortable": "आरामदायक",
+    "compact": "कॉम्पैक्ट"
+  },
+  "motifs": "सजावटी आकृतियाँ",
+  "motifName": {
+    "off": "बंद",
+    "subtle": "हल्का",
+    "full": "पूर्ण"
+  },
+  "reducedMotion": "एनिमेशन",
+  "motionOn": "चालू",
+  "motionReduced": "कम",
+  "version": "ऐप वर्शन"
 }

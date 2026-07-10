@@ -94,4 +94,17 @@ describe('ConsoleView', () => {
     w.unmount()
     expect(state.gcodeListener).toBeNull()
   })
+
+  it('remembers sent commands as tap-to-refill chips, deduped and newest first', async () => {
+    const w = mountView()
+    for (const cmd of ['M114', 'M105', 'M114']) {
+      await w.find('input').setValue(cmd)
+      await w.find('form').trigger('submit')
+      await flushPromises()
+    }
+    const chips = w.findAll('button.chip').map((c) => c.text())
+    expect(chips).toEqual(['M114', 'M105'])
+    await w.findAll('button.chip')[1]!.trigger('click')
+    expect((w.find('input').element as HTMLInputElement).value).toBe('M105')
+  })
 })

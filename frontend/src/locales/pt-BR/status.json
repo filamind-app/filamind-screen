@@ -18,6 +18,7 @@
   "console": "Console",
   "temp": "Aquecer",
   "filament": "Filamento",
+  "macros": "Macros",
   "layer": "Camada",
   "eta": "ETA"
 }

@@ -18,6 +18,7 @@
   "console": "Console",
   "temp": "Verwarmen",
   "filament": "Filament",
+  "macros": "Macro's",
   "layer": "Laag",
   "eta": "ETA"
 }

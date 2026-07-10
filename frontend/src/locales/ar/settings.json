@@ -7,5 +7,21 @@
     "anubis": "أنوبيس",
     "light": "فاتح",
     "dark": "داكن"
-  }
+  },
+  "display": "العرض",
+  "density": "كثافة العرض",
+  "densityName": {
+    "comfortable": "مريح",
+    "compact": "مضغوط"
+  },
+  "motifs": "الزخارف",
+  "motifName": {
+    "off": "إيقاف",
+    "subtle": "خفيفة",
+    "full": "كاملة"
+  },
+  "reducedMotion": "الرسوم المتحركة",
+  "motionOn": "تشغيل",
+  "motionReduced": "مخفّفة",
+  "version": "إصدار التطبيق"
 }

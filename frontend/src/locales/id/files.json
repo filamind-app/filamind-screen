@@ -2,6 +2,7 @@
   "title": "File",
   "back": "Kembali",
   "refresh": "Segarkan",
+  "up": "Naik",
   "loading": "Memuat…",
   "empty": "Tidak ada file g-code",
   "print": "Cetak",

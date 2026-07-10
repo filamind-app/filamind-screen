@@ -12,6 +12,12 @@ async function chooseLocale(code: string): Promise<void> {
   await setLocale(code)
   settings.patch({ locale: code })
 }
+
+// Display options the settings model already carries (theme.ts applies them to the DOM).
+const DENSITIES = ['comfortable', 'compact'] as const
+const MOTIFS = ['off', 'subtle', 'full'] as const
+
+const appVersion = typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSION__ : '0.0.0'
 </script>
 
 <template>
@@ -48,6 +54,70 @@ async function chooseLocale(code: string): Promise<void> {
       >
         <option v-for="l in shippedLocales" :key="l.code" :value="l.code">{{ l.name }}</option>
       </select>
+    </section>
+
+    <section class="block touch-card">
+      <h2 class="block-title">{{ t('settings.display') }}</h2>
+      <div class="opt-row">
+        <span class="opt-label">{{ t('settings.density') }}</span>
+        <div class="seg">
+          <button
+            v-for="d in DENSITIES"
+            :key="d"
+            class="seg-btn"
+            :class="{ on: settings.state.density === d }"
+            type="button"
+            :aria-pressed="settings.state.density === d"
+            @click="settings.patch({ density: d })"
+          >
+            {{ t('settings.densityName.' + d) }}
+          </button>
+        </div>
+      </div>
+      <div class="opt-row">
+        <span class="opt-label">{{ t('settings.motifs') }}</span>
+        <div class="seg">
+          <button
+            v-for="m in MOTIFS"
+            :key="m"
+            class="seg-btn"
+            :class="{ on: settings.state.motifDensity === m }"
+            type="button"
+            :aria-pressed="settings.state.motifDensity === m"
+            @click="settings.patch({ motifDensity: m })"
+          >
+            {{ t('settings.motifName.' + m) }}
+          </button>
+        </div>
+      </div>
+      <div class="opt-row">
+        <span class="opt-label">{{ t('settings.reducedMotion') }}</span>
+        <div class="seg">
+          <button
+            class="seg-btn"
+            :class="{ on: !settings.state.reducedMotion }"
+            type="button"
+            :aria-pressed="!settings.state.reducedMotion"
+            @click="settings.patch({ reducedMotion: false })"
+          >
+            {{ t('settings.motionOn') }}
+          </button>
+          <button
+            class="seg-btn"
+            :class="{ on: settings.state.reducedMotion }"
+            type="button"
+            :aria-pressed="settings.state.reducedMotion"
+            @click="settings.patch({ reducedMotion: true })"
+          >
+            {{ t('settings.motionReduced') }}
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="block touch-card about">
+      <span class="opt-label">{{ t('settings.version') }}</span>
+      <span class="version">v{{ appVersion }}</span>
     </section>
   </div>
 </template>
@@ -114,5 +184,42 @@ async function chooseLocale(code: string): Promise<void> {
   color: var(--fm-text);
   border: 1px solid var(--fm-border);
   font-size: 1.05rem;
+}
+.opt-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.opt-label {
+  flex: 1;
+  color: var(--fm-text);
+  font-size: 1rem;
+}
+.seg {
+  display: flex;
+  gap: 0.35rem;
+}
+.seg-btn {
+  min-height: 2.75rem;
+  padding: 0.25rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--fm-border);
+  background: var(--fm-surface-2);
+  color: var(--fm-text-muted);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.seg-btn.on {
+  background: var(--fm-primary);
+  color: var(--fm-primary-contrast);
+  border-color: transparent;
+}
+.about {
+  flex-direction: row;
+  align-items: center;
+}
+.version {
+  font-family: var(--font-mono);
+  color: var(--fm-text-muted);
 }
 </style>

@@ -18,6 +18,7 @@
   "console": "콘솔",
   "temp": "가열",
   "filament": "필라멘트",
+  "macros": "매크로",
   "layer": "레이어",
   "eta": "남음"
 }

@@ -11,7 +11,16 @@ const ctl = useControlStore()
 const { canWrite, blockedReason } = useWriteGuard()
 
 // Jump to the tools that do the actual daily work (the shell routes these).
-const emit = defineEmits<{ navigate: [to: 'temp' | 'filament' | 'move'] }>()
+const emit = defineEmits<{ navigate: [to: 'temp' | 'filament' | 'move' | 'macros'] }>()
+
+// Capability-gated: only printers that define user macros get the shortcut.
+const hasMacros = computed(() => {
+  const settings =
+    session.object<{ settings?: Record<string, unknown> }>('configfile')?.settings ?? {}
+  return Object.keys(settings).some(
+    (k) => k.startsWith('gcode_macro ') && !k.slice('gcode_macro '.length).startsWith('_'),
+  )
+})
 
 interface PrintStats {
   state?: string
@@ -101,6 +110,14 @@ onUnmounted(() => {
         @click="emit('navigate', 'move')"
       >
         ✥ {{ t('status.move') }}
+      </button>
+      <button
+        v-if="!isPrinting && !isPaused && hasMacros"
+        class="touch-btn"
+        type="button"
+        @click="emit('navigate', 'macros')"
+      >
+        ▤ {{ t('status.macros') }}
       </button>
     </div>
 

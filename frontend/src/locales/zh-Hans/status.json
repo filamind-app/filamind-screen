@@ -18,6 +18,7 @@
   "console": "控制台",
   "temp": "加热",
   "filament": "耗材",
+  "macros": "宏",
   "layer": "层",
   "eta": "剩余"
 }

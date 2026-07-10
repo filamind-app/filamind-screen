@@ -4,5 +4,6 @@
   "placeholder": "g-code girin…",
   "send": "Gönder",
   "clear": "Temizle",
-  "empty": "Henüz çıktı yok"
+  "empty": "Henüz çıktı yok",
+  "recent": "Son komutlar"
 }

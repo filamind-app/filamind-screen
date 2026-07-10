@@ -4,5 +4,6 @@
   "placeholder": "Masukkan g-code…",
   "send": "Kirim",
   "clear": "Hapus",
-  "empty": "Belum ada keluaran"
+  "empty": "Belum ada keluaran",
+  "recent": "Perintah terbaru"
 }

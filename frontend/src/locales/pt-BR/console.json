@@ -4,5 +4,6 @@
   "placeholder": "Digite g-code…",
   "send": "Enviar",
   "clear": "Limpar",
-  "empty": "Nenhuma saída ainda"
+  "empty": "Nenhuma saída ainda",
+  "recent": "Comandos recentes"
 }

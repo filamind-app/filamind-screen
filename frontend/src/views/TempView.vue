@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import NumPad from '@/components/NumPad.vue'
 import { useHeaters, heaterRange, type HeaterRow } from '@/core/heaters'
@@ -26,6 +26,11 @@ const editing = ref<HeaterRow | null>(null)
 const editRange = computed(() =>
   editing.value ? heaterRange(editing.value.name) : { min: 0, max: 300 },
 )
+// If writes get blocked mid-entry (disconnect, safe mode), close the pad instead of letting
+// OK silently discard the value.
+watch(canWrite, (ok) => {
+  if (!ok) editing.value = null
+})
 
 // The heater name is quoted: discovered names can contain a space ("heater_generic chamber"),
 // which would otherwise split into a malformed command. Klipper accepts the quoted full name.

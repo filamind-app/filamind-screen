@@ -7,5 +7,21 @@
     "anubis": "Anubis",
     "light": "Hell",
     "dark": "Dunkel"
-  }
+  },
+  "display": "Anzeige",
+  "density": "Dichte",
+  "densityName": {
+    "comfortable": "Komfortabel",
+    "compact": "Kompakt"
+  },
+  "motifs": "Dekorative Motive",
+  "motifName": {
+    "off": "Aus",
+    "subtle": "Dezent",
+    "full": "Voll"
+  },
+  "reducedMotion": "Animationen",
+  "motionOn": "Ein",
+  "motionReduced": "Reduziert",
+  "version": "App-Version"
 }

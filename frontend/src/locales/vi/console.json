@@ -4,5 +4,6 @@
   "placeholder": "Nhập lệnh g-code…",
   "send": "Gửi",
   "clear": "Xóa",
-  "empty": "Chưa có kết quả"
+  "empty": "Chưa có kết quả",
+  "recent": "Lệnh gần đây"
 }

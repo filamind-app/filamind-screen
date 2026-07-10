@@ -24,6 +24,15 @@ const input = ref('')
 const logEl = ref<HTMLElement | null>(null)
 let seq = 0
 
+// Recent commands, tap-to-refill - retyping on a touch panel is the console's real pain.
+const history = ref<string[]>([])
+function remember(cmd: string): void {
+  history.value = [cmd, ...history.value.filter((c) => c !== cmd)].slice(0, 6)
+}
+function recall(cmd: string): void {
+  input.value = cmd
+}
+
 function push(kind: 'sent' | 'recv', text: string): void {
   lines.value.push({ id: seq++, kind, text })
   // Keep the buffer bounded - a long print can emit thousands of lines.
@@ -38,6 +47,7 @@ async function send(): Promise<void> {
   if (!cmd || !canWrite.value) return
   input.value = ''
   push('sent', cmd)
+  remember(cmd)
   await ctl.runGcode(cmd)
 }
 
@@ -69,6 +79,20 @@ onUnmounted(() => off?.())
       <p v-if="!lines.length" class="muted">{{ t('console.empty') }}</p>
       <pre v-for="l in lines" :key="l.id" class="line" :class="l.kind"
         >{{ l.kind === 'sent' ? '> ' : '' }}{{ l.text }}</pre>
+    </div>
+
+    <!-- Tap a recent command to refill the input (typing is the pain on a touch panel). -->
+    <div v-if="history.length" class="recent" :aria-label="t('console.recent')">
+      <button
+        v-for="c in history"
+        :key="c"
+        class="chip"
+        type="button"
+        :title="c"
+        @click="recall(c)"
+      >
+        {{ c }}
+      </button>
     </div>
 
     <form class="entry" @submit.prevent="send">
@@ -142,6 +166,28 @@ onUnmounted(() => off?.())
 }
 .line.sent {
   color: var(--fm-primary);
+}
+.recent {
+  display: flex;
+  gap: 0.4rem;
+  overflow-x: auto;
+  flex-shrink: 0;
+}
+.chip {
+  flex-shrink: 0;
+  max-width: 11rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-height: 2.25rem;
+  padding: 0.15rem 0.7rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--fm-text-muted);
+  background: var(--fm-surface-2);
+  border: 1px solid var(--fm-border);
+  border-radius: 999px;
+  cursor: pointer;
 }
 .entry {
   display: flex;

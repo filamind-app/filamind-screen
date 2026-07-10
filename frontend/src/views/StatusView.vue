@@ -10,7 +10,7 @@ const { t, te } = useI18n()
 const store = useSessionStore()
 const ctl = useControlStore()
 
-// Switch the shell tab (Move / Tune / Files / Console / Temp / Filament tools).
+// Switch the shell tab (Move / Tune / Files / Console / Temp / Filament / Macros tools).
 const emit = defineEmits<{
   navigate: [
     to:
@@ -22,7 +22,8 @@ const emit = defineEmits<{
       | 'files'
       | 'console'
       | 'temp'
-      | 'filament',
+      | 'filament'
+      | 'macros',
   ]
 }>()
 
@@ -54,6 +55,15 @@ const printing = computed(() => stats.value.state === 'printing')
 const paused = computed(() => stats.value.state === 'paused')
 const active = computed(() => printing.value || paused.value)
 
+// The Macros shortcut only exists when this printer defines user macros (capability-gated).
+const hasMacros = computed(() => {
+  const settings =
+    store.object<{ settings?: Record<string, unknown> }>('configfile')?.settings ?? {}
+  return Object.keys(settings).some(
+    (k) => k.startsWith('gcode_macro ') && !k.slice('gcode_macro '.length).startsWith('_'),
+  )
+})
+
 const stateLabel = computed(() => {
   const key = `status.state.${stats.value.state ?? 'standby'}`
   return te(key) ? t(key) : (stats.value.state ?? '-')
@@ -83,30 +93,49 @@ interface Action {
   run: () => void
   disabled?: boolean
 }
-const actions = computed<Action[]>(() => [
-  paused.value
-    ? { key: 'resume', label: t('control.resume'), icon: '▶', run: () => ctl.resume() }
-    : {
-        key: 'pause',
-        label: t('control.pause'),
-        icon: '⏸',
-        run: () => ctl.pause(),
-        disabled: !printing.value || ctl.busy,
-      },
-  { key: 'temp', label: t('status.temp'), icon: '🌡', run: () => emit('navigate', 'temp') },
-  {
-    key: 'filament',
-    label: t('status.filament'),
-    icon: '🧵',
-    run: () => emit('navigate', 'filament'),
-    // Feeding filament into a RUNNING job ruins it; a paused one is the filament-change moment.
-    disabled: printing.value,
-  },
-  { key: 'tune', label: t('status.tune'), icon: '🎚', run: () => emit('navigate', 'tune') },
-  { key: 'move', label: t('status.move'), icon: '✥', run: () => emit('navigate', 'move') },
-  { key: 'files', label: t('status.files'), icon: '📁', run: () => emit('navigate', 'files') },
-  { key: 'console', label: t('status.console'), icon: '⌨', run: () => emit('navigate', 'console') },
-])
+const actions = computed<Action[]>(() => {
+  const list: Action[] = [
+    paused.value
+      ? { key: 'resume', label: t('control.resume'), icon: '▶', run: () => ctl.resume() }
+      : {
+          key: 'pause',
+          label: t('control.pause'),
+          icon: '⏸',
+          run: () => ctl.pause(),
+          disabled: !printing.value || ctl.busy,
+        },
+    { key: 'temp', label: t('status.temp'), icon: '🌡', run: () => emit('navigate', 'temp') },
+    {
+      key: 'filament',
+      label: t('status.filament'),
+      icon: '🧵',
+      run: () => emit('navigate', 'filament'),
+      // Feeding filament into a RUNNING job ruins it; a paused one is the filament-change moment.
+      disabled: printing.value,
+    },
+    { key: 'tune', label: t('status.tune'), icon: '🎚', run: () => emit('navigate', 'tune') },
+    { key: 'move', label: t('status.move'), icon: '✥', run: () => emit('navigate', 'move') },
+    { key: 'files', label: t('status.files'), icon: '📁', run: () => emit('navigate', 'files') },
+    {
+      key: 'console',
+      label: t('status.console'),
+      icon: '⌨',
+      run: () => emit('navigate', 'console'),
+    },
+  ]
+  // Capability-gated: only printers that define user macros get the shortcut - and not while a
+  // job is RUNNING (a park/level macro mid-print ruins it; paused is the macro moment).
+  if (hasMacros.value) {
+    list.splice(4, 0, {
+      key: 'macros',
+      label: t('status.macros'),
+      icon: '▤',
+      run: () => emit('navigate', 'macros'),
+      disabled: printing.value,
+    })
+  }
+  return list
+})
 
 interface Tile {
   key: string
@@ -330,11 +359,11 @@ const tiles = computed<Tile[]>(() => [
   color: var(--fm-text-muted);
   margin-inline-start: 0.2rem;
 }
-/* Auto-fit: all 7 actions in one row at the reference canvas (7x8.3rem + 6 gaps = 61.4rem in a
-   62rem content area), wrapping on narrow panels instead of crushing below a usable touch size. */
+/* Auto-fit: up to 8 actions (with the macros shortcut) in one row at the 62rem content canvas
+   (8x7.25rem + 7 gaps = 61.85rem), wrapping only when translations run long. */
 .actions {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(8.3rem, 100%), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(7.25rem, 100%), 1fr));
   gap: 0.55rem;
 }
 .action {

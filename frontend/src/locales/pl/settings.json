@@ -7,5 +7,21 @@
     "anubis": "Anubis",
     "light": "Jasny",
     "dark": "Ciemny"
-  }
+  },
+  "display": "Wyświetlanie",
+  "density": "Gęstość",
+  "densityName": {
+    "comfortable": "Komfortowa",
+    "compact": "Kompaktowa"
+  },
+  "motifs": "Elementy ozdobne",
+  "motifName": {
+    "off": "Wyłączone",
+    "subtle": "Subtelne",
+    "full": "Pełne"
+  },
+  "reducedMotion": "Animacje",
+  "motionOn": "Włączone",
+  "motionReduced": "Ograniczone",
+  "version": "Wersja aplikacji"
 }

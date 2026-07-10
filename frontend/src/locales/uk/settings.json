@@ -7,5 +7,21 @@
     "anubis": "Анубіс",
     "light": "Світла",
     "dark": "Темна"
-  }
+  },
+  "display": "Дисплей",
+  "density": "Щільність",
+  "densityName": {
+    "comfortable": "Комфортна",
+    "compact": "Компактна"
+  },
+  "motifs": "Декоративні мотиви",
+  "motifName": {
+    "off": "Вимкнено",
+    "subtle": "Стримані",
+    "full": "Повні"
+  },
+  "reducedMotion": "Анімації",
+  "motionOn": "Увімкнено",
+  "motionReduced": "Зменшені",
+  "version": "Версія застосунку"
 }

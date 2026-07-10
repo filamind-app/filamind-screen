@@ -4,5 +4,6 @@
   "placeholder": "Saisir un g-code…",
   "send": "Envoyer",
   "clear": "Effacer",
-  "empty": "Aucune sortie pour l'instant"
+  "empty": "Aucune sortie pour l'instant",
+  "recent": "Commandes récentes"
 }

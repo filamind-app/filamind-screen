@@ -4,5 +4,6 @@
   "placeholder": "G-Code eingeben…",
   "send": "Senden",
   "clear": "Löschen",
-  "empty": "Noch keine Ausgabe"
+  "empty": "Noch keine Ausgabe",
+  "recent": "Letzte Befehle"
 }

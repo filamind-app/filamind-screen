@@ -7,5 +7,21 @@
     "anubis": "Анубис",
     "light": "Светлая",
     "dark": "Тёмная"
-  }
+  },
+  "display": "Экран",
+  "density": "Плотность",
+  "densityName": {
+    "comfortable": "Комфортная",
+    "compact": "Компактная"
+  },
+  "motifs": "Декоративные узоры",
+  "motifName": {
+    "off": "Выкл.",
+    "subtle": "Слегка",
+    "full": "Полностью"
+  },
+  "reducedMotion": "Анимация",
+  "motionOn": "Вкл.",
+  "motionReduced": "Уменьшенная",
+  "version": "Версия приложения"
 }

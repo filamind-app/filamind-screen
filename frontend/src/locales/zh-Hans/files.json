@@ -2,6 +2,7 @@
   "title": "文件",
   "back": "返回",
   "refresh": "刷新",
+  "up": "上级",
   "loading": "加载中…",
   "empty": "没有可打印的文件",
   "print": "打印",

@@ -2,6 +2,23 @@
 
 All notable changes to FilaMind screen are documented here. Format: `## [version]` sections (parsed by the release workflow).
 
+## [0.8.0]
+
+### Added
+
+- **Macros.** A new tool lists every user macro the printer defines (internal underscore-prefixed
+  helpers stay hidden) as one-tap buttons; the shortcut appears on Status and Control only when the
+  printer actually has macros.
+- **Real file browsing.** The Files tool now walks folders, and starting a print goes through a
+  confirm card showing what the slicer promised: estimated time, filament, and the embedded
+  thumbnail.
+- **Type a value anywhere.** Speed, flow, and fan in the Tune tool accept direct entry on the
+  on-screen number pad (tap the value) - range-checked, alongside the existing nudge buttons.
+- **Console recall.** Recently sent commands appear as tap-to-refill chips - no retyping on a
+  touch panel.
+- **Display settings.** Density, decorative motifs, and reduced animations are now on the Settings
+  tab (the model always supported them), plus the app version.
+
 ## [0.7.0]
 
 ### Added

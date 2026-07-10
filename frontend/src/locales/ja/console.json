@@ -4,5 +4,6 @@
   "placeholder": "g-codeを入力…",
   "send": "送信",
   "clear": "クリア",
-  "empty": "出力はまだありません"
+  "empty": "出力はまだありません",
+  "recent": "最近のコマンド"
 }
