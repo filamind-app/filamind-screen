@@ -1,7 +1,6 @@
 {
   "hotend": "Nozül",
   "bed": "Tabla",
-  "print": "Baskı",
   "state": {
     "standby": "Beklemede",
     "printing": "Baskı sürüyor",
@@ -12,13 +11,6 @@
   },
   "fan": "Fan",
   "speed": "Hız",
-  "move": "Hareket",
-  "tune": "Ayar",
-  "files": "Dosyalar",
-  "console": "Konsol",
-  "temp": "Isıt",
-  "filament": "Filament",
-  "macros": "Makrolar",
   "layer": "Katman",
   "eta": "ETA"
 }

@@ -23,5 +23,9 @@
   "reducedMotion": "Animaciones",
   "motionOn": "Activadas",
   "motionReduced": "Reducidas",
-  "version": "Versión de la app"
+  "version": "Versión de la app",
+  "safeMode": "Modo seguro",
+  "safeModeOn": "Activadas",
+  "safeModeOff": "Desactivado",
+  "safeModeHint": "Bloquea todos los controles de la impresora hasta que se desactive."
 }

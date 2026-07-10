@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import Icon from '@/components/AppIcon.vue'
 
 // On-screen numeric entry for a keyboard-less printer panel. Renders as an in-view card (not a
 // modal): the caller shows/hides it and receives the confirmed value; out-of-range entry is
@@ -61,11 +62,17 @@ const DIGITS = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
         :aria-label="t('temp.backspace')"
         @click="backspace"
       >
-        ⌫
+        <Icon name="backspace" size="1.4rem" />
       </button>
       <button class="touch-btn key" type="button" @click="press('0')">0</button>
-      <button class="touch-btn-primary key ok" type="button" :disabled="!valid" @click="confirm">
-        ✓
+      <button
+        class="touch-btn-primary key ok"
+        type="button"
+        :disabled="!valid"
+        :aria-label="t('temp.ok')"
+        @click="confirm"
+      >
+        <Icon name="check" size="1.4rem" />
       </button>
     </div>
     <button class="touch-btn cancel" type="button" @click="emit('close')">
@@ -78,13 +85,13 @@ const DIGITS = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
 .numpad {
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
-  padding: 0.9rem;
+  gap: var(--sp-2);
+  padding: var(--sp-3);
 }
 .pad-head {
   display: flex;
   align-items: baseline;
-  gap: 0.75rem;
+  gap: var(--sp-3);
 }
 .pad-label {
   color: var(--fm-text-muted);
@@ -109,11 +116,11 @@ const DIGITS = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
 .pad-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 0.5rem;
+  gap: var(--sp-2);
 }
 .key {
   min-height: 3rem;
-  padding: 0.2rem;
+  padding: var(--sp-1);
   font-size: 1.15rem;
   font-weight: 600;
 }
@@ -121,8 +128,8 @@ const DIGITS = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
   opacity: 0.45;
 }
 .cancel {
-  min-height: 2.75rem;
-  padding: 0.3rem;
+  min-height: var(--touch);
+  padding: var(--sp-1);
   font-size: 0.95rem;
 }
 </style>

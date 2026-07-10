@@ -1,7 +1,6 @@
 {
   "hotend": "Hotend",
   "bed": "Bed",
-  "print": "Print",
   "state": {
     "standby": "Standby",
     "printing": "Printing",
@@ -12,13 +11,6 @@
   },
   "fan": "Fan",
   "speed": "Speed",
-  "move": "Move",
-  "tune": "Tune",
-  "files": "Files",
-  "console": "Console",
-  "temp": "Heat",
-  "filament": "Filament",
-  "macros": "Macros",
   "layer": "Layer",
   "eta": "ETA"
 }

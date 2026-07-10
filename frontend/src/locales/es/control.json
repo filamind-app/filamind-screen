@@ -1,22 +1,20 @@
 {
-  "home": "Posición de inicio",
   "pause": "Pausar",
   "resume": "Reanudar",
   "cancel": "Cancelar",
   "cancelConfirm": "¿Confirmar cancelación?",
   "estop": "Parada de emergencia",
-  "safeOff": "Escritura habilitada",
-  "safeOn": "Modo seguro",
   "down": "Klipper no está en ejecución",
   "restart": "Reiniciar",
   "firmwareRestart": "Reiniciar firmware",
   "blocked": {
     "offline": "Impresora no activa",
-    "safe": "El modo seguro está activado",
-    "busy": "Hay una acción en curso"
+    "safe": "El modo seguro está activado"
   },
   "error": {
-    "refused": "Rechazada — impresora no activa",
-    "failed": "La acción falló"
+    "refusedSafe": "Rechazado - el modo seguro está activado",
+    "refusedOffline": "Rechazada — impresora no activa",
+    "failed": "La acción falló",
+    "estopFailed": "Falló la parada de emergencia - la impresora no la recibió"
   }
 }

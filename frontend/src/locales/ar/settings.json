@@ -23,5 +23,9 @@
   "reducedMotion": "الرسوم المتحركة",
   "motionOn": "تشغيل",
   "motionReduced": "مخفّفة",
-  "version": "إصدار التطبيق"
+  "version": "إصدار التطبيق",
+  "safeMode": "الوضع الآمن",
+  "safeModeOn": "تشغيل",
+  "safeModeOff": "إيقاف",
+  "safeModeHint": "يحظر جميع أوامر التحكم بالطابعة حتى يتم إيقافه."
 }

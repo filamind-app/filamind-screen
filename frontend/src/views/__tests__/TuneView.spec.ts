@@ -109,7 +109,7 @@ describe('TuneView', () => {
     await key('1').trigger('click')
     await key('5').trigger('click')
     await key('0').trigger('click')
-    await key('✓').trigger('click')
+    await pad.find('button.ok').trigger('click')
     expect(state.runGcode).toHaveBeenCalledWith('M220 S150')
   })
 
@@ -120,7 +120,7 @@ describe('TuneView', () => {
     const key = (label: string) => pad.findAll('button.key').find((b) => b.text() === label)!
     await key('5').trigger('click')
     await key('0').trigger('click')
-    await key('✓').trigger('click')
+    await pad.find('button.ok').trigger('click')
     expect(state.runGcode).toHaveBeenCalledWith('M106 S128')
   })
 
@@ -132,6 +132,6 @@ describe('TuneView', () => {
     await key('9').trigger('click')
     await key('9').trigger('click')
     await key('9').trigger('click')
-    expect(key('✓').attributes('disabled')).toBeDefined()
+    expect(pad.find('button.ok').attributes('disabled')).toBeDefined()
   })
 })

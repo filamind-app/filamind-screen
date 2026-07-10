@@ -23,5 +23,9 @@
   "reducedMotion": "アニメーション",
   "motionOn": "オン",
   "motionReduced": "軽減",
-  "version": "アプリのバージョン"
+  "version": "アプリのバージョン",
+  "safeMode": "セーフモード",
+  "safeModeOn": "オン",
+  "safeModeOff": "オフ",
+  "safeModeHint": "オフにするまで、プリンターのすべての操作をブロックします。"
 }

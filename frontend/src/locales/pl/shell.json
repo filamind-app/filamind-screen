@@ -2,7 +2,6 @@
   "nav": "Sekcje",
   "tab": {
     "status": "Status",
-    "control": "Sterowanie",
     "settings": "Ustawienia"
   },
   "trust": {
@@ -14,7 +13,6 @@
   },
   "remote": {
     "here": "Ten ekran",
-    "dismiss": "Odrzuć komunikat",
-    "warning": "Ostrzeżenie"
+    "dismiss": "Odrzuć komunikat"
   }
 }

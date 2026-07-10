@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import Icon from '@/components/AppIcon.vue'
+import ToolHeader from '@/components/ToolHeader.vue'
 import { useSessionStore } from '@/core/store/session'
 import { useControlStore } from '@/core/store/control'
 import { useWriteGuard } from '@/core/useWriteGuard'
@@ -58,23 +60,14 @@ function disableMotors(): void {
 
 <template>
   <div class="move">
-    <header class="head">
-      <button
-        class="back touch-btn"
-        type="button"
-        :aria-label="t('move.back')"
-        @click="emit('close')"
-      >
-        ‹
-      </button>
-      <h2 class="title">{{ t('move.title') }}</h2>
+    <ToolHeader :title="t('move.title')" :back-label="t('move.back')" @close="emit('close')">
       <!-- Live position, inline so the pad gets the vertical room -->
-      <span class="pos-axes" :aria-label="t('move.position')">
+      <span class="pos-axes" dir="ltr" :aria-label="t('move.position')">
         <span v-for="a in AXES" :key="a.char" class="pos-axis">
           <b>{{ a.char }}</b> {{ axisValue(a.i, a.char, a.dp) }}
         </span>
       </span>
-    </header>
+    </ToolHeader>
     <p v-if="!anyHomed" class="pos-hint">{{ t('move.notHomed') }}</p>
 
     <!-- Step size (compact segmented row above the pad) -->
@@ -95,7 +88,9 @@ function disableMotors(): void {
       </div>
     </div>
 
-    <div class="pads">
+    <!-- Pinned LTR: the pad maps PHYSICAL machine axes - in an RTL locale a mirrored grid would
+         put X- on the right and jog the toolhead opposite to the tapped direction. -->
+    <div class="pads" dir="ltr">
       <!-- XY jog pad -->
       <div class="xy">
         <button
@@ -122,7 +117,7 @@ function disableMotors(): void {
           :aria-label="t('move.homeAll')"
           @click="ctl.home()"
         >
-          ⌂
+          <Icon name="home" size="1.6rem" />
         </button>
         <button
           class="touch-btn jog right"
@@ -169,8 +164,6 @@ function disableMotors(): void {
         {{ t('move.disable') }}
       </button>
     </div>
-
-    <p v-if="ctl.lastError" class="err" role="alert">{{ t('control.error.' + ctl.lastError) }}</p>
   </div>
 </template>
 
@@ -180,27 +173,9 @@ function disableMotors(): void {
 .move {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: var(--sp-3);
   height: 100%;
   min-height: 0;
-}
-.head {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-.back {
-  min-width: 3rem;
-  min-height: 3rem;
-  padding: 0;
-  font-size: 1.6rem;
-  line-height: 1;
-}
-.title {
-  margin: 0;
-  font-family: var(--font-display, system-ui);
-  font-size: 1.25rem;
-  color: var(--fm-text);
 }
 .pos-axes {
   display: flex;
@@ -226,13 +201,13 @@ function disableMotors(): void {
   min-height: 0;
   display: flex;
   justify-content: center;
-  gap: 1rem;
+  gap: var(--sp-4);
 }
 .xy {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
-  gap: 0.6rem;
+  gap: var(--sp-2);
   aspect-ratio: 1;
   height: 100%;
   max-width: 72%;
@@ -258,7 +233,6 @@ function disableMotors(): void {
 .home {
   grid-column: 2;
   grid-row: 2;
-  font-size: 1.5rem;
 }
 .right {
   grid-column: 3;
@@ -271,7 +245,7 @@ function disableMotors(): void {
 .z {
   display: grid;
   grid-template-rows: repeat(2, 1fr);
-  gap: 0.6rem;
+  gap: var(--sp-2);
   height: 100%;
   flex: 0 0 20%;
 }
@@ -279,21 +253,21 @@ function disableMotors(): void {
 .steps {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: var(--sp-2);
 }
 .steps-label {
   color: var(--fm-text-muted);
-  font-size: 0.85rem;
+  font-size: var(--fs-caption);
 }
 .steps-row {
   display: grid;
   flex: 1;
   grid-template-columns: repeat(4, 1fr);
-  gap: 0.6rem;
+  gap: var(--sp-2);
 }
 .step {
-  min-height: 2.75rem;
-  padding: 0.25rem 0.5rem;
+  min-height: var(--touch);
+  padding: var(--sp-1) var(--sp-2);
 }
 .step.on {
   background: var(--fm-primary);
@@ -303,20 +277,16 @@ function disableMotors(): void {
 .home-row {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 0.6rem;
+  gap: var(--sp-2);
 }
 .home-row .touch-btn {
   min-height: 3.25rem;
-  padding: 0.4rem 0.5rem;
+  padding: var(--sp-1) var(--sp-2);
 }
 .disable {
   color: var(--fm-warning);
 }
 .touch-btn:disabled {
   opacity: 0.45;
-}
-.err {
-  margin: 0;
-  color: var(--fm-danger);
 }
 </style>

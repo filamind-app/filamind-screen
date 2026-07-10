@@ -2,7 +2,6 @@
   "nav": "區段",
   "tab": {
     "status": "狀態",
-    "control": "控制",
     "settings": "設定"
   },
   "trust": {
@@ -14,7 +13,6 @@
   },
   "remote": {
     "here": "此螢幕",
-    "dismiss": "關閉訊息",
-    "warning": "警告"
+    "dismiss": "關閉訊息"
   }
 }

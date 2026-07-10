@@ -1,7 +1,6 @@
 {
   "hotend": "ホットエンド",
   "bed": "ベッド",
-  "print": "印刷",
   "state": {
     "standby": "待機中",
     "printing": "印刷中",
@@ -12,13 +11,6 @@
   },
   "fan": "ファン",
   "speed": "速度",
-  "move": "移動",
-  "tune": "調整",
-  "files": "ファイル",
-  "console": "コンソール",
-  "temp": "加熱",
-  "filament": "フィラメント",
-  "macros": "マクロ",
   "layer": "レイヤー",
   "eta": "残り"
 }

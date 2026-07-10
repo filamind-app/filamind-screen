@@ -2,6 +2,58 @@
 
 All notable changes to FilaMind screen are documented here. Format: `## [version]` sections (parsed by the release workflow).
 
+## [0.9.0]
+
+### Changed
+
+- **A coherent design system.** One typographic scale (with oversized, glanceable numerals on the
+  live tiles), a single 4pt spacing scale, two corner radii, and a 44px reference touch floor now
+  drive every dimension - replacing the ad-hoc values that made screens feel uncoordinated. The
+  compact density setting now genuinely tightens spacing everywhere, and the motif setting draws a
+  real (subtle/full) ornament.
+- **A themed line-icon set.** Every emoji and text glyph is replaced by a single SVG icon set that
+  recolors with the theme and renders identically on kiosk fonts; directional glyphs mirror in RTL
+  by construction.
+- **Navigation: a slim side rail.** Every tool - job face, temperature, filament, move, tune,
+  files, macros, console, settings - is a first-class, always-visible destination. The bottom tab
+  bar (and the extra hop through a Control tab) is gone, returning its height to the content; the
+  Control tab's actions moved where they belong (cancel to the job face, safe mode to Settings,
+  homing was already in Move).
+- **Toasts instead of inline errors.** Failures now surface as auto-closing, tap-to-dismiss toasts
+  (three severities) instead of red paragraphs that shifted the layout and never went away.
+- **Shared screen primitives.** One tool header (direction-aware back button), one empty-state
+  pattern with an icon and guidance, used by every screen - ending the per-screen drift.
+- **Concurrent writes.** The control store now tracks writes as a refcount instead of dropping
+  every call issued while another is in flight - required for panels that drive several controls.
+
+### Fixed
+
+- **Per-call write outcomes.** Actions that branch on success (prompt buttons, starting a print)
+  now read their own call's result instead of a shared last-error that a concurrent write could
+  overwrite or clear; a failed print start keeps the confirm card open.
+- **Emergency-stop failures are never silent.** If the printer does not receive the E-STOP (e.g.
+  connection already down), a persistent error toast says so instead of nothing changing on screen.
+- **Pause/Cancel stay armed during other writes.** The write guard no longer folds the in-flight
+  refcount into `canWrite`, so a long-running command cannot lock the job face's stop controls.
+- **Refusals name their cause.** A safe-mode refusal now reads "safe mode is on" instead of
+  "printer not live", and the job face shows a visible reason line when its actions are blocked.
+- **Unambiguous safe-mode toggle.** The Settings row uses the same two-button On/Off segmented
+  pattern as every other option (with a hint line), replacing a single button whose borrowed label
+  read inverted in several languages.
+- **Klipper prompts survive a stray tap.** A backdrop tap or Escape now tucks the prompt away
+  behind a re-open chip instead of discarding it (the macro is still waiting for an answer), and
+  prompt buttons disable while their g-code is in flight so a double-tap cannot run it twice.
+- **Sticky failure toasts for destructive actions.** Failed pause/resume/cancel and heaters-off
+  stay on screen until acknowledged instead of auto-closing.
+- **RTL correctness.** The XY jog pad is pinned to the physical axis layout (a mirrored grid
+  jogged X the wrong way), and console output/input and file names render LTR like other
+  technical strings.
+- **Icon-set completion.** The jog pad's home key and the number pad's backspace/OK use the themed
+  icon set; extrude/retract use new arrow icons instead of emoji arrows.
+- **Cleanup.** Dead per-view header/error CSS left by the shared-primitives migration is removed,
+  along with orphaned locale keys in all 19 languages; the architecture doc's component tree
+  matches the code again.
+
 ## [0.8.0]
 
 ### Added

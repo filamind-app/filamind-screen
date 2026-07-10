@@ -23,5 +23,9 @@
   "reducedMotion": "Animations",
   "motionOn": "On",
   "motionReduced": "Reduced",
-  "version": "App version"
+  "version": "App version",
+  "safeMode": "Safe mode",
+  "safeModeOn": "On",
+  "safeModeOff": "Off",
+  "safeModeHint": "Blocks all printer controls until switched off."
 }

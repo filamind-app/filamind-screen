@@ -23,5 +23,9 @@
   "reducedMotion": "Animazioni",
   "motionOn": "Attive",
   "motionReduced": "Ridotte",
-  "version": "Versione app"
+  "version": "Versione app",
+  "safeMode": "Modalità sicura",
+  "safeModeOn": "Attive",
+  "safeModeOff": "Disattivato",
+  "safeModeHint": "Blocca tutti i controlli della stampante finché non viene disattivata."
 }

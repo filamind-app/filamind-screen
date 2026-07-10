@@ -1,7 +1,6 @@
 {
   "hotend": "Đầu phun",
   "bed": "Bàn in",
-  "print": "In",
   "state": {
     "standby": "Chờ",
     "printing": "Đang in",
@@ -12,13 +11,6 @@
   },
   "fan": "Quạt",
   "speed": "Tốc độ",
-  "move": "Di chuyển",
-  "tune": "Tinh chỉnh",
-  "files": "Tệp",
-  "console": "Bảng điều khiển",
-  "temp": "Nhiệt độ",
-  "filament": "Sợi nhựa",
-  "macros": "Macro",
   "layer": "Lớp",
   "eta": "Còn lại"
 }

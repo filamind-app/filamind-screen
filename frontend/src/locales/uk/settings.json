@@ -23,5 +23,9 @@
   "reducedMotion": "Анімації",
   "motionOn": "Увімкнено",
   "motionReduced": "Зменшені",
-  "version": "Версія застосунку"
+  "version": "Версія застосунку",
+  "safeMode": "Безпечний режим",
+  "safeModeOn": "Увімкнено",
+  "safeModeOff": "Вимк.",
+  "safeModeHint": "Блокує всі команди принтера, доки не буде вимкнено."
 }

@@ -1,7 +1,6 @@
 {
   "hotend": "Hotend",
   "bed": "Mesa",
-  "print": "Impressão",
   "state": {
     "standby": "Em espera",
     "printing": "Imprimindo",
@@ -12,13 +11,6 @@
   },
   "fan": "Ventilador",
   "speed": "Velocidade",
-  "move": "Mover",
-  "tune": "Ajustar",
-  "files": "Arquivos",
-  "console": "Console",
-  "temp": "Aquecer",
-  "filament": "Filamento",
-  "macros": "Macros",
   "layer": "Camada",
   "eta": "ETA"
 }

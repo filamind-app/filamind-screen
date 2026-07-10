@@ -1,7 +1,6 @@
 {
   "hotend": "Hotend",
   "bed": "Piano",
-  "print": "Stampa",
   "state": {
     "standby": "In attesa",
     "printing": "Stampa in corso",
@@ -12,13 +11,6 @@
   },
   "fan": "Ventola",
   "speed": "Velocità",
-  "move": "Muovi",
-  "tune": "Regola",
-  "files": "File",
-  "console": "Console",
-  "temp": "Riscalda",
-  "filament": "Filamento",
-  "macros": "Macro",
   "layer": "Strato",
   "eta": "ETA"
 }

@@ -23,5 +23,9 @@
   "reducedMotion": "애니메이션",
   "motionOn": "켜짐",
   "motionReduced": "줄임",
-  "version": "앱 버전"
+  "version": "앱 버전",
+  "safeMode": "안전 모드",
+  "safeModeOn": "켜짐",
+  "safeModeOff": "끔",
+  "safeModeHint": "끌 때까지 프린터의 모든 조작을 차단합니다."
 }

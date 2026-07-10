@@ -35,6 +35,38 @@
   --fm-text: #f4e7ce;
 }
 
+/* ---- Design tokens ------------------------------------------------------------------------
+   ONE type scale, ONE spacing scale, TWO radii, ONE touch floor - every dimension in the app
+   comes from these (ad-hoc values are what "uncoordinated" looks like). All rem, so the whole
+   system rides the uniform canvas. */
+:root {
+  /* Type scale: display = oversized glanceable numerals (readable at arm's length), then
+     title / body / caption. */
+  --fs-display: 2.4rem;
+  --fs-title: 1.25rem;
+  --fs-body: 1rem;
+  --fs-caption: 0.85rem;
+  /* 4pt spacing scale (1 step = 0.25rem at the reference canvas). */
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-6: 1.5rem;
+  /* Radii: cards vs pills. */
+  --r-card: 1rem;
+  --r-pill: 999px;
+  /* The hard touch floor (44px at the reference canvas). */
+  --touch: 2.75rem;
+}
+/* Density is a real effect: compact tightens the spacing scale everywhere. */
+:root[data-fm-density='compact'] {
+  --sp-1: 0.2rem;
+  --sp-2: 0.4rem;
+  --sp-3: 0.55rem;
+  --sp-4: 0.75rem;
+  --sp-6: 1.1rem;
+}
+
 @layer base {
   /* ONE design canvas for every panel size: 1rem is derived from the viewport so the whole
      rem-authored layout scales as a uniform canvas - identical composition on a 3-inch panel
@@ -66,21 +98,22 @@
   }
 }
 
-/* Big touch primitives. */
+/* Big touch primitives - every interactive element respects the --touch floor. */
 @utility touch-card {
   background: var(--fm-surface);
   border: 1px solid var(--fm-border);
-  border-radius: 1.125rem;
+  border-radius: var(--r-card);
 }
 @utility touch-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  min-height: 4rem;
-  padding: 0.9rem 1.4rem;
-  border-radius: 1rem;
-  font-size: 1.05rem;
+  gap: var(--sp-2);
+  min-height: var(--touch);
+  min-width: var(--touch);
+  padding: var(--sp-2) var(--sp-4);
+  border-radius: var(--r-card);
+  font-size: var(--fs-body);
   background: var(--fm-surface-2);
   color: var(--fm-text);
   border: 1px solid var(--fm-border);

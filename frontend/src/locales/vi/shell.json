@@ -2,7 +2,6 @@
   "nav": "Mục",
   "tab": {
     "status": "Trạng thái",
-    "control": "Điều khiển",
     "settings": "Cài đặt"
   },
   "trust": {
@@ -14,7 +13,6 @@
   },
   "remote": {
     "here": "Màn hình này",
-    "dismiss": "Bỏ qua thông báo",
-    "warning": "Cảnh báo"
+    "dismiss": "Bỏ qua thông báo"
   }
 }

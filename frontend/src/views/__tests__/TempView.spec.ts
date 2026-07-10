@@ -97,7 +97,8 @@ describe('TempView', () => {
   it('turns everything off with TURN_OFF_HEATERS', async () => {
     const w = mountView()
     await w.find('button.preset.off').trigger('click')
-    expect(state.runGcode).toHaveBeenCalledWith('TURN_OFF_HEATERS')
+    // sticky: a failed heaters-off must not vanish with an auto-closing toast.
+    expect(state.runGcode).toHaveBeenCalledWith('TURN_OFF_HEATERS', { sticky: true })
   })
 
   it('sets a tapped heater target through the numpad, range-checked (name quoted)', async () => {
@@ -111,7 +112,7 @@ describe('TempView', () => {
     await key('2').trigger('click')
     await key('1').trigger('click')
     await key('5').trigger('click')
-    await key('✓').trigger('click')
+    await pad.find('button.ok').trigger('click')
     expect(state.runGcode).toHaveBeenCalledWith(
       'SET_HEATER_TEMPERATURE HEATER="extruder" TARGET=215',
     )
@@ -131,7 +132,7 @@ describe('TempView', () => {
     const key = (label: string) => pad.findAll('button.key').find((b) => b.text() === label)!
     await key('6').trigger('click')
     await key('0').trigger('click')
-    await key('✓').trigger('click')
+    await pad.find('button.ok').trigger('click')
     expect(state.runGcode).toHaveBeenCalledWith(
       'SET_HEATER_TEMPERATURE HEATER="heater_generic chamber" TARGET=60',
     )
@@ -143,7 +144,7 @@ describe('TempView', () => {
     const pad = w.find('.numpad')
     const key = (label: string) => pad.findAll('button.key').find((b) => b.text() === label)!
     await key('0').trigger('click')
-    await key('✓').trigger('click')
+    await pad.find('button.ok').trigger('click')
     expect(state.runGcode).toHaveBeenCalledWith('SET_HEATER_TEMPERATURE HEATER="extruder" TARGET=0')
   })
 
@@ -155,7 +156,7 @@ describe('TempView', () => {
     await key('9').trigger('click')
     await key('9').trigger('click')
     await key('9').trigger('click') // 999 > extruder max_temp 300
-    expect(key('✓').attributes('disabled')).toBeDefined()
+    expect(pad.find('button.ok').attributes('disabled')).toBeDefined()
   })
 
   it('disables the controls when writes are blocked', () => {

@@ -1,22 +1,20 @@
 {
-  "home": "Alles homen",
   "pause": "Pauzeren",
   "resume": "Hervatten",
   "cancel": "Annuleren",
   "cancelConfirm": "Annuleren bevestigen?",
   "estop": "Noodstop",
-  "safeOff": "Schrijven ingeschakeld",
-  "safeOn": "Veilige modus",
   "down": "Klipper is niet actief",
   "restart": "Herstarten",
   "firmwareRestart": "Firmware herstarten",
   "blocked": {
     "offline": "Printer niet actief",
-    "safe": "Veilige modus staat aan",
-    "busy": "Er is een actie bezig"
+    "safe": "Veilige modus staat aan"
   },
   "error": {
-    "refused": "Geweigerd — printer niet actief",
-    "failed": "Actie mislukt"
+    "refusedSafe": "Geweigerd - veilige modus is ingeschakeld",
+    "refusedOffline": "Geweigerd — printer niet actief",
+    "failed": "Actie mislukt",
+    "estopFailed": "Noodstop mislukt - de printer heeft deze niet ontvangen"
   }
 }

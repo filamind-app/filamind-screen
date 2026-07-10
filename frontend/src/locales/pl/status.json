@@ -1,7 +1,6 @@
 {
   "hotend": "Dysza",
   "bed": "Stół",
-  "print": "Wydruk",
   "state": {
     "standby": "Gotowość",
     "printing": "Drukowanie",
@@ -12,13 +11,6 @@
   },
   "fan": "Wentylator",
   "speed": "Prędkość",
-  "move": "Ruch",
-  "tune": "Strojenie",
-  "files": "Pliki",
-  "console": "Konsola",
-  "temp": "Grzanie",
-  "filament": "Filament",
-  "macros": "Makra",
   "layer": "Warstwa",
   "eta": "ETA"
 }

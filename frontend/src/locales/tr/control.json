@@ -1,22 +1,20 @@
 {
-  "home": "Tümünü sıfırla",
   "pause": "Duraklat",
   "resume": "Devam et",
   "cancel": "İptal",
   "cancelConfirm": "İptal onaylansın mı?",
   "estop": "Acil durdurma",
-  "safeOff": "Yazma etkin",
-  "safeOn": "Güvenli mod",
   "down": "Klipper çalışmıyor",
   "restart": "Yeniden başlat",
   "firmwareRestart": "Aygıt yazılımını yeniden başlat",
   "blocked": {
     "offline": "Yazıcı çevrimiçi değil",
-    "safe": "Güvenli mod açık",
-    "busy": "Bir işlem devam ediyor"
+    "safe": "Güvenli mod açık"
   },
   "error": {
-    "refused": "Reddedildi — yazıcı çevrimiçi değil",
-    "failed": "İşlem başarısız"
+    "refusedSafe": "Reddedildi - güvenli mod açık",
+    "refusedOffline": "Reddedildi — yazıcı çevrimiçi değil",
+    "failed": "İşlem başarısız",
+    "estopFailed": "Acil durdurma başarısız - yazıcı komutu almadı"
   }
 }

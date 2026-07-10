@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import Icon from '@/components/AppIcon.vue'
+import ToolHeader from '@/components/ToolHeader.vue'
+import EmptyState from '@/components/EmptyState.vue'
 import { connector, moonrakerHttpBase } from '@/core/session'
 import { useSessionStore } from '@/core/store/session'
 import { useControlStore } from '@/core/store/control'
@@ -116,10 +119,19 @@ const fmtDuration = (s?: number): string => {
 }
 const fmtFilament = (mm?: number): string => (mm && mm > 0 ? `${(mm / 1000).toFixed(1)} m` : '-')
 
+/** In-flight guard: a double-tap must not queue the print twice. */
+const starting = ref(false)
 async function startSelected(): Promise<void> {
-  if (!selected.value || !canWrite.value || isPrinting.value) return
-  await ctl.startPrint(selected.value)
-  if (!ctl.lastError) emit('close')
+  if (!selected.value || !canWrite.value || isPrinting.value || starting.value) return
+  starting.value = true
+  try {
+    // Branch on THIS call's outcome, not the store's shared lastError (another concurrent flight
+    // could overwrite or clear it while startPrint is in flight).
+    const err = await ctl.startPrint(selected.value)
+    if (!err) emit('close')
+  } finally {
+    starting.value = false
+  }
 }
 
 function fmtSize(b?: number): string {
@@ -135,36 +147,43 @@ onMounted(load)
 
 <template>
   <div class="files">
-    <header class="head">
-      <button
-        class="back touch-btn"
-        type="button"
-        :aria-label="t('files.back')"
-        @click="emit('close')"
-      >
-        ‹
-      </button>
-      <h2 class="title">{{ t('files.title') }}</h2>
+    <ToolHeader :title="t('files.title')" :back-label="t('files.back')" @close="emit('close')">
       <!-- Paths render LTR even in RTL locales - bidi reordering visually corrupts them. -->
       <span v-if="path" class="crumb" dir="ltr" :title="path">/{{ path }}</span>
-      <button class="touch-btn refresh" type="button" :disabled="loading" @click="load()">
-        {{ t('files.refresh') }}
+      <button
+        class="touch-btn refresh"
+        type="button"
+        :aria-label="t('files.refresh')"
+        :disabled="loading"
+        @click="load()"
+      >
+        <Icon name="refresh" size="1.3rem" />
       </button>
-    </header>
+    </ToolHeader>
 
     <p v-if="loading" class="muted">{{ t('files.loading') }}</p>
     <p v-else-if="error" class="err" role="alert">{{ error }}</p>
-    <p v-else-if="!dirs.length && !files.length && !path" class="muted">{{ t('files.empty') }}</p>
+    <EmptyState
+      v-else-if="!dirs.length && !files.length && !path"
+      icon="files"
+      :text="t('files.empty')"
+    />
 
     <ul v-if="!loading && !error" class="list">
       <li v-if="path">
         <button class="file touch-card dir" type="button" @click="up">
-          <span class="file-name">‹ {{ t('files.up') }}</span>
+          <span class="file-name row-with-icon"
+            ><Icon name="up" size="1.1rem" /> {{ t('files.up') }}</span
+          >
         </button>
       </li>
       <li v-for="d in dirs" :key="'d-' + d.dirname">
         <button class="file touch-card dir" type="button" @click="enter(d.dirname)">
-          <span class="file-name">📁 {{ d.dirname }}</span>
+          <!-- Names render LTR even in RTL locales, like the crumb and the confirm card:
+               bidi reordering visually corrupts technical names. -->
+          <span class="file-name row-with-icon" dir="ltr"
+            ><Icon name="folder" size="1.1rem" /> {{ d.dirname }}</span
+          >
         </button>
       </li>
       <li v-for="f in files" :key="f.filename">
@@ -175,7 +194,7 @@ onMounted(load)
           :aria-pressed="selected === relOf(f.filename)"
           @click="select(f.filename)"
         >
-          <span class="file-name">{{ f.filename }}</span>
+          <span class="file-name" dir="ltr">{{ f.filename }}</span>
           <span class="file-meta"
             >{{ fmtSize(f.size)
             }}<template v-if="f.modified"> · {{ fmtDate(f.modified) }}</template></span
@@ -189,8 +208,9 @@ onMounted(load)
       <img v-if="thumbUrl" class="thumb" :src="thumbUrl" alt="" />
       <div class="confirm-info">
         <span class="confirm-name" dir="ltr" :title="selected">{{ selected }}</span>
-        <span class="confirm-meta">
-          ⏱ {{ fmtDuration(meta?.estimated_time) }} · 🧵 {{ fmtFilament(meta?.filament_total) }}
+        <span class="confirm-meta row-with-icon">
+          <Icon name="status" size="1rem" /> {{ fmtDuration(meta?.estimated_time) }}
+          <Icon name="filament" size="1rem" /> {{ fmtFilament(meta?.filament_total) }}
         </span>
       </div>
       <span v-if="isPrinting" class="muted">{{ t('files.busy') }}</span>
@@ -198,15 +218,13 @@ onMounted(load)
         v-else
         class="touch-btn-primary print"
         type="button"
-        :disabled="!canWrite"
+        :disabled="!canWrite || starting"
         :title="canWrite ? '' : blockedReason"
         @click="startSelected"
       >
-        ▶ {{ t('files.print') }}
+        <Icon name="play" size="1.2rem" /> {{ t('files.print') }}
       </button>
     </div>
-
-    <p v-if="ctl.lastError" class="err" role="alert">{{ t('control.error.' + ctl.lastError) }}</p>
   </div>
 </template>
 
@@ -214,29 +232,8 @@ onMounted(load)
 .files {
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+  gap: var(--sp-3);
   height: 100%;
-}
-.head {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-.back {
-  min-width: 3rem;
-  min-height: 3rem;
-  padding: 0;
-  font-size: 1.6rem;
-  line-height: 1;
-}
-:global([dir='rtl']) .back {
-  transform: scaleX(-1);
-}
-.title {
-  margin: 0;
-  font-family: var(--font-display, system-ui);
-  font-size: 1.25rem;
-  color: var(--fm-text);
 }
 .crumb {
   flex: 1;
@@ -246,10 +243,6 @@ onMounted(load)
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-.head .refresh {
-  margin-inline-start: auto;
-  font-size: 0.9rem;
 }
 .muted {
   margin: 0;
@@ -261,7 +254,7 @@ onMounted(load)
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--sp-2);
   overflow: auto;
   flex: 1;
   min-height: 0;
@@ -272,7 +265,7 @@ onMounted(load)
   flex-direction: column;
   align-items: flex-start;
   gap: 0.2rem;
-  padding: 0.75rem 0.9rem;
+  padding: var(--sp-3);
   text-align: start;
   cursor: pointer;
 }
@@ -287,6 +280,11 @@ onMounted(load)
   color: var(--fm-text);
   word-break: break-all;
 }
+.row-with-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
 .file-meta {
   font-size: 0.8rem;
   color: var(--fm-text-muted);
@@ -294,8 +292,8 @@ onMounted(load)
 .confirm {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.6rem 0.9rem;
+  gap: var(--sp-3);
+  padding: var(--sp-2) var(--sp-3);
 }
 .thumb {
   width: 4.5rem;
@@ -326,6 +324,9 @@ onMounted(load)
 .print {
   min-width: 8rem;
   font-weight: 700;
+}
+.print:disabled {
+  opacity: 0.45;
 }
 .err {
   margin: 0;

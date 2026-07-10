@@ -2,7 +2,6 @@
   "nav": "섹션",
   "tab": {
     "status": "상태",
-    "control": "제어",
     "settings": "설정"
   },
   "trust": {
@@ -14,7 +13,6 @@
   },
   "remote": {
     "here": "이 화면",
-    "dismiss": "메시지 닫기",
-    "warning": "경고"
+    "dismiss": "메시지 닫기"
   }
 }

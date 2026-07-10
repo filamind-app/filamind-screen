@@ -2,7 +2,6 @@
   "nav": "板块",
   "tab": {
     "status": "状态",
-    "control": "控制",
     "settings": "设置"
   },
   "trust": {
@@ -14,7 +13,6 @@
   },
   "remote": {
     "here": "本屏幕",
-    "dismiss": "关闭消息",
-    "warning": "警告"
+    "dismiss": "关闭消息"
   }
 }

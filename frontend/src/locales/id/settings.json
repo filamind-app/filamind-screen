@@ -23,5 +23,9 @@
   "reducedMotion": "Animasi",
   "motionOn": "Aktif",
   "motionReduced": "Dikurangi",
-  "version": "Versi aplikasi"
+  "version": "Versi aplikasi",
+  "safeMode": "Mode aman",
+  "safeModeOn": "Aktif",
+  "safeModeOff": "Nonaktif",
+  "safeModeHint": "Memblokir semua kontrol printer hingga dinonaktifkan."
 }

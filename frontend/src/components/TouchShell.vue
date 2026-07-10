@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { ref, computed, nextTick, onMounted, watch, type Component } from 'vue'
+import { ref, computed, onMounted, watch, type Component } from 'vue'
 import { useI18n } from 'vue-i18n'
 import TrustRibbon from '@/components/TrustRibbon.vue'
-import TabIcon from '@/components/TabIcon.vue'
+import Icon, { type IconName } from '@/components/AppIcon.vue'
 import PromptDialog from '@/components/PromptDialog.vue'
+import ToastHost from '@/components/ToastHost.vue'
 import StatusView from '@/views/StatusView.vue'
-import ControlView from '@/views/ControlView.vue'
 import SettingsView from '@/views/SettingsView.vue'
 import MoveView from '@/views/MoveView.vue'
 import TuneView from '@/views/TuneView.vue'
@@ -36,106 +36,114 @@ onMounted(async () => {
 })
 const brandName = computed(() => printerName.value || 'FilaMind')
 
-type Tab = 'status' | 'control' | 'settings'
-// Tools are full-screen overlays launched from a tab (e.g. Status' action bar), not bottom-nav tabs.
-// Kept separate from `tab` so the bottom nav stays a clean 3-way and its roving tabindex is intact.
-type Tool = 'move' | 'tune' | 'files' | 'console' | 'temp' | 'filament' | 'macros'
-const TOOLS: readonly Tool[] = ['move', 'tune', 'files', 'console', 'temp', 'filament', 'macros']
-const tab = ref<Tab>('status')
-const tool = ref<Tool | null>(null)
+// Every tool is a first-class destination on the side rail - no hidden overlay layer, no tab bar
+// eating the content height. The rail is a vertical WAI-ARIA tablist.
+type View =
+  'status' | 'temp' | 'filament' | 'move' | 'tune' | 'files' | 'macros' | 'console' | 'settings'
+const view = ref<View>('status')
 
-// A remote-control "navigate" command from another surface switches the active tab (and drops any
-// open tool - the remote asked for a specific tab).
-watch(remoteNav, (r) => {
-  if (r) {
-    tool.value = null
-    tab.value = r.view
-  }
-})
-const tabs: { id: Tab }[] = [{ id: 'status' }, { id: 'control' }, { id: 'settings' }]
-const views: Record<Tab, Component> = {
+const views: Record<View, Component> = {
   status: StatusView,
-  control: ControlView,
-  settings: SettingsView,
-}
-const toolViews: Record<Tool, Component> = {
+  temp: TempView,
+  filament: ExtrudeView,
   move: MoveView,
   tune: TuneView,
   files: FilesView,
-  console: ConsoleView,
-  temp: TempView,
-  filament: ExtrudeView,
   macros: MacrosView,
+  console: ConsoleView,
+  settings: SettingsView,
 }
-// The tool overlay takes over the content area when open; otherwise the active tab's view shows.
-const active = computed<Component>(() => (tool.value ? toolViews[tool.value] : views[tab.value]))
-// Each tool's i18n title (the filament tool's catalog namespace is `extrude`, not its id).
-const toolLabelKeys: Record<Tool, string> = {
+const viewLabelKeys: Record<View, string> = {
+  status: 'shell.tab.status',
+  temp: 'temp.title',
+  filament: 'extrude.title',
   move: 'move.title',
   tune: 'tune.title',
   files: 'files.title',
-  console: 'console.title',
-  temp: 'temp.title',
-  filament: 'extrude.title',
   macros: 'macros.title',
+  console: 'console.title',
+  settings: 'shell.tab.settings',
+}
+const viewIcons: Record<View, IconName> = {
+  status: 'status',
+  temp: 'heat',
+  filament: 'filament',
+  move: 'move',
+  tune: 'tune',
+  files: 'files',
+  macros: 'macros',
+  console: 'console',
+  settings: 'settings',
 }
 
+// The Macros destination only exists when this printer defines user macros.
+const hasMacros = computed(() => {
+  const settings = sess.object<{ settings?: Record<string, unknown> }>('configfile')?.settings ?? {}
+  return Object.keys(settings).some(
+    (k) => k.startsWith('gcode_macro ') && !k.slice('gcode_macro '.length).startsWith('_'),
+  )
+})
+const railViews = computed<View[]>(() => {
+  const all: View[] = [
+    'status',
+    'temp',
+    'filament',
+    'move',
+    'tune',
+    'files',
+    'macros',
+    'console',
+    'settings',
+  ]
+  return all.filter((v) => v !== 'macros' || hasMacros.value)
+})
+
+const active = computed<Component>(() => views[view.value])
+
+function go(to: string): void {
+  // Legacy remote/nav names from other surfaces map onto the rail.
+  const target = (to === 'control' ? 'status' : to) as View
+  if (target in views) view.value = target
+}
+
+// A remote-control "navigate" command from another surface switches the active view.
+watch(remoteNav, (r) => {
+  if (r) go(r.view)
+})
+
 // Print takeover: when a print starts (from ANY surface - a slicer upload, another UI), the
-// screen jumps to the job face and drops any open tool, like a printer display should. It stays
-// there after completion until the user navigates away.
+// screen jumps to the job face, like a printer display should. It stays there after completion
+// until the user navigates away.
 const printState = computed(
   () => sess.object<{ state?: string }>('print_stats')?.state ?? 'standby',
 )
 watch(printState, (now, was) => {
-  if (now === 'printing' && was !== 'printing' && was !== 'paused') {
-    tool.value = null
-    tab.value = 'status'
-  }
+  if (now === 'printing' && was !== 'printing' && was !== 'paused') view.value = 'status'
 })
 
 // Recovery: when Klipper is shutdown/error the write gate is closed by design - these two
-// actions are the way back, so they surface on every tab with the printer's own message.
+// actions are the way back, so they surface on every view with the printer's own message.
 const needsRecovery = computed(() => sess.trust === 'shutdown' || sess.trust === 'error')
 const recoveryMsg = computed(() => {
   const m = sess.object<{ state_message?: string }>('webhooks')?.state_message ?? ''
   return m.split('\n')[0] ?? ''
 })
 
-// A view (e.g. the Status action bar's Move / Tune) asks the shell to switch tab OR open a tool.
-function onNavigate(to: Tab | Tool): void {
-  if ((TOOLS as readonly string[]).includes(to)) {
-    tool.value = to as Tool
-    return
-  }
-  tool.value = null
-  tab.value = to as Tab
-}
-function selectTab(id: Tab): void {
-  tool.value = null
-  tab.value = id
-}
-
-// WAI-ARIA tabs keyboard support: arrows + Home/End move + focus the tab.
-function onTabKey(e: KeyboardEvent): void {
-  const i = tabs.findIndex((tb) => tb.id === tab.value)
+// Roving-tabindex keyboard support on the vertical rail: up/down + Home/End.
+function onRailKey(e: KeyboardEvent): void {
+  const list = railViews.value
+  const i = list.indexOf(view.value)
   let next = i
-  if (e.key === 'ArrowRight') next = (i + 1) % tabs.length
-  else if (e.key === 'ArrowLeft') next = (i - 1 + tabs.length) % tabs.length
+  if (e.key === 'ArrowDown') next = (i + 1) % list.length
+  else if (e.key === 'ArrowUp') next = (i - 1 + list.length) % list.length
   else if (e.key === 'Home') next = 0
-  else if (e.key === 'End') next = tabs.length - 1
+  else if (e.key === 'End') next = list.length - 1
   else return
   e.preventDefault()
-  const target = tabs[next]
+  const target = list[next]
   if (!target) return
-  selectTab(target.id)
-  void nextTick().then(() => document.getElementById(`tab-${target.id}`)?.focus())
-}
-
-// Dismissing the banner removes it from the DOM; move focus to the active tab so a keyboard/AT
-// user keeps their place instead of dropping to <body> (WCAG 2.4.3).
-function onDismissBanner(): void {
-  dismissBanner()
-  void nextTick().then(() => document.getElementById(`tab-${tab.value}`)?.focus())
+  view.value = target
+  document.getElementById(`rail-${target}`)?.focus()
 }
 </script>
 
@@ -143,12 +151,12 @@ function onDismissBanner(): void {
   <div class="shell" :class="{ locating: remoteLocating }">
     <header class="bar">
       <div class="brand">
-        <img src="/favicon.svg" width="26" height="26" alt="" />
+        <img src="/favicon.svg" alt="" />
         <span class="brand-name" :title="brandName">{{ brandName }}</span>
       </div>
       <div class="bar-right">
         <TrustRibbon />
-        <!-- E-STOP is reachable from every tab, not just Control; ungated like the in-tab one. -->
+        <!-- E-STOP is reachable from every view; ungated. -->
         <button
           class="estop-mini"
           type="button"
@@ -156,15 +164,15 @@ function onDismissBanner(): void {
           :title="t('control.estop')"
           @click="ctl.emergencyStop()"
         >
-          <span aria-hidden="true">⛔</span>
+          <Icon name="estop" size="1.3rem" />
           <span class="estop-label">{{ t('control.estop') }}</span>
         </button>
       </div>
     </header>
 
-    <!-- Klipper down: the gate is closed, so the recovery actions live here, on every tab. -->
+    <!-- Klipper down: the gate is closed, so the recovery actions live here, on every view. -->
     <div v-if="needsRecovery" class="recovery" role="alert">
-      <span class="recovery-icon" aria-hidden="true">⚠</span>
+      <Icon name="warning" size="1.2rem" />
       <span class="recovery-msg">{{ recoveryMsg || t('control.down') }}</span>
       <button
         class="touch-btn recovery-btn"
@@ -193,59 +201,60 @@ function onDismissBanner(): void {
       :aria-live="remoteBanner?.level === 'warn' ? 'assertive' : 'polite'"
     >
       <template v-if="remoteBanner">
-        <span v-if="remoteBanner.level === 'warn'" class="remote-icon" aria-hidden="true">⚠</span>
-        <span v-if="remoteBanner.level === 'warn'" class="sr-only">{{
-          t('shell.remote.warning')
-        }}</span>
+        <span v-if="remoteBanner.level === 'warn'" class="remote-icon" aria-hidden="true">
+          <Icon name="warning" size="1.1rem" />
+        </span>
         <span class="remote-msg">{{ remoteBanner.text }}</span>
         <button
           type="button"
           class="remote-dismiss"
           :aria-label="t('shell.remote.dismiss')"
-          @click="onDismissBanner"
+          @click="dismissBanner"
         >
-          ✕
+          <Icon name="close" size="1.1rem" />
         </button>
       </template>
     </div>
 
-    <!-- While a tool overlay is open the content is the tool, not the tab's panel - the ARIA
-         role/label follow suit so assistive tech and the visual state agree. -->
-    <main
-      :id="`panel-${tab}`"
-      class="content"
-      :role="tool ? 'region' : 'tabpanel'"
-      :aria-labelledby="tool ? undefined : `tab-${tab}`"
-      :aria-label="tool ? t(toolLabelKeys[tool]) : undefined"
-      tabindex="0"
-    >
-      <component :is="active" @navigate="onNavigate" @close="tool = null" />
-    </main>
-
-    <nav class="tabs" role="tablist" :aria-label="t('shell.nav')" @keydown="onTabKey">
-      <button
-        v-for="tb in tabs"
-        :id="`tab-${tb.id}`"
-        :key="tb.id"
-        class="tab"
-        :class="{ active: tab === tb.id && !tool }"
-        type="button"
-        role="tab"
-        :aria-selected="tab === tb.id && !tool"
-        :aria-controls="`panel-${tb.id}`"
-        :tabindex="tab === tb.id ? 0 : -1"
-        @click="selectTab(tb.id)"
+    <div class="body">
+      <!-- The rail: every tool is one tap away, always visible. -->
+      <nav
+        class="rail"
+        role="tablist"
+        aria-orientation="vertical"
+        :aria-label="t('shell.nav')"
+        @keydown="onRailKey"
       >
-        <TabIcon :name="tb.id" class="tab-icon" />
-        <span class="tab-label">{{ t('shell.tab.' + tb.id) }}</span>
-      </button>
-    </nav>
+        <button
+          v-for="v in railViews"
+          :id="`rail-${v}`"
+          :key="v"
+          class="rail-btn"
+          :class="{ active: view === v }"
+          type="button"
+          role="tab"
+          :aria-selected="view === v"
+          :aria-controls="`panel-${v}`"
+          :tabindex="view === v ? 0 : -1"
+          :title="t(viewLabelKeys[v])"
+          :aria-label="t(viewLabelKeys[v])"
+          @click="view = v"
+        >
+          <Icon :name="viewIcons[v]" size="1.5rem" />
+        </button>
+      </nav>
+
+      <main :id="`panel-${view}`" class="content" role="tabpanel" tabindex="0">
+        <component :is="active" @navigate="go" @close="view = 'status'" />
+      </main>
+    </div>
 
     <div v-show="remoteLocating" class="locate-badge" role="status" aria-live="polite">
-      <span aria-hidden="true">📍</span> {{ t('shell.remote.here') }}
+      {{ t('shell.remote.here') }}
     </div>
 
     <PromptDialog />
+    <ToastHost />
   </div>
 </template>
 
@@ -259,25 +268,24 @@ function onDismissBanner(): void {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.9rem 1.25rem;
+  padding: var(--sp-2) var(--sp-4);
   border-bottom: 1px solid var(--fm-border);
   background: var(--fm-surface);
 }
 .brand {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: var(--sp-2);
   font-family: var(--font-display);
 }
-/* Scale with the rem canvas (the width/height attributes are only a pre-CSS hint). */
 .brand img {
-  width: 1.625rem;
-  height: 1.625rem;
+  width: 1.6rem;
+  height: 1.6rem;
 }
 .brand-name {
   color: var(--fm-text);
-  font-size: 1.15rem;
-  letter-spacing: 0.5px;
+  font-size: var(--fs-title);
+  letter-spacing: 0.03em;
   max-width: 14rem;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -286,96 +294,102 @@ function onDismissBanner(): void {
 .bar-right {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: var(--sp-3);
 }
-/* Always-present emergency stop (every tab); ungated. */
+/* Always-present emergency stop; ungated. */
 .estop-mini {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  min-height: 2.75rem;
-  padding: 0 0.85rem;
+  gap: var(--sp-2);
+  min-height: var(--touch);
+  padding: 0 var(--sp-3);
   border: 0;
-  border-radius: 0.75rem;
+  border-radius: var(--r-pill);
   background: var(--fm-danger);
-  color: #fff;
+  color: var(--fm-primary-contrast, #fff);
   font-weight: 700;
-  font-size: 1rem;
+  font-size: var(--fs-body);
   cursor: pointer;
 }
 .estop-mini:active {
   filter: brightness(0.9);
 }
-/* Height-budgeted: views lay themselves out inside the available space (no page scroll on a
-   kiosk panel - scrolled-off controls read as "missing"); lists scroll internally instead. */
-.content {
+
+.body {
   flex: 1;
   min-height: 0;
   display: flex;
+}
+.rail {
+  display: flex;
   flex-direction: column;
-  padding: 1rem;
+  gap: var(--sp-1);
+  padding: var(--sp-2) var(--sp-1);
+  border-inline-end: 1px solid var(--fm-border);
+  background: var(--fm-surface);
+  overflow-y: auto;
+}
+.rail-btn {
+  min-width: 3.4rem;
+  min-height: var(--touch);
+  flex: 1;
+  max-height: 4rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: var(--r-card);
+  background: transparent;
+  color: var(--fm-text-muted);
+  cursor: pointer;
+}
+.rail-btn.active {
+  background: var(--fm-surface-2);
+  color: var(--fm-primary);
+  box-shadow: inset 3px 0 0 var(--fm-primary);
+}
+:global([dir='rtl']) .rail-btn.active {
+  box-shadow: inset -3px 0 0 var(--fm-primary);
+}
+/* Height-budgeted: views lay themselves out inside the available space (no page scroll on a
+   kiosk panel); lists scroll internally instead. */
+.content {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: var(--sp-4);
   overflow: hidden;
 }
 .content > :deep(*) {
   flex: 1;
   min-height: 0;
 }
-.tabs {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.5rem;
-  padding: 0.6rem;
-  border-top: 1px solid var(--fm-border);
-  background: var(--fm-surface);
-}
-.tab {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.2rem;
-  min-height: 4.25rem;
-  border: 0;
-  border-radius: 0.875rem;
-  background: transparent;
-  color: var(--fm-text-muted);
-  cursor: pointer;
-}
-.tab.active {
-  background: var(--fm-surface-2);
-  color: var(--fm-primary);
-}
-.tab-icon {
-  font-size: 1.5rem;
-}
-.tab-label {
-  font-size: 0.95rem;
-}
 
 /* Klipper-down recovery strip: message + the two restart actions. */
 .recovery {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  padding: 0.5rem 1rem;
+  gap: var(--sp-2);
+  padding: var(--sp-2) var(--sp-4);
   background: var(--fm-surface-2);
   border-bottom: 1px solid var(--fm-border);
   border-inline-start: 4px solid var(--fm-danger);
-}
-.recovery-icon {
-  font-size: 1.1rem;
+  color: var(--fm-danger);
 }
 .recovery-msg {
   flex: 1;
   color: var(--fm-text);
-  font-size: 0.95rem;
+  font-size: var(--fs-caption);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 .recovery-btn {
-  min-height: 2.75rem;
-  padding: 0.25rem 0.75rem;
-  font-size: 0.9rem;
+  min-height: var(--touch);
+  padding: var(--sp-1) var(--sp-3);
+  font-size: var(--fs-caption);
   white-space: nowrap;
 }
 
@@ -383,8 +397,8 @@ function onDismissBanner(): void {
 .remote-banner {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.7rem 1rem;
+  gap: var(--sp-3);
+  padding: var(--sp-2) var(--sp-4);
   background: var(--fm-surface-2);
   border-bottom: 1px solid var(--fm-border);
   border-inline-start: 4px solid var(--fm-primary);
@@ -393,32 +407,23 @@ function onDismissBanner(): void {
   border-inline-start-color: var(--fm-warning);
 }
 .remote-icon {
-  font-size: 1.1rem;
+  color: var(--fm-warning);
+  display: inline-flex;
 }
 .remote-msg {
   flex: 1;
   color: var(--fm-text);
-  font-size: 1rem;
-}
-/* Visually-hidden but available to assistive tech. */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
+  font-size: var(--fs-body);
 }
 .remote-dismiss {
   border: 0;
   background: transparent;
   color: var(--fm-text-muted);
-  font-size: 1.1rem;
-  min-width: 2.75rem;
-  min-height: 2.75rem;
+  min-width: var(--touch);
+  min-height: var(--touch);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
 }
 
@@ -442,11 +447,11 @@ function onDismissBanner(): void {
      in RTL too */
   left: 50%;
   transform: translate(-50%, -50%);
-  padding: 0.9rem 1.4rem;
-  border-radius: 1rem;
+  padding: var(--sp-3) var(--sp-6);
+  border-radius: var(--r-card);
   background: var(--fm-primary);
   color: var(--fm-primary-contrast, #fff);
-  font-size: 1.3rem;
+  font-size: var(--fs-title);
   font-family: var(--font-display);
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
 }

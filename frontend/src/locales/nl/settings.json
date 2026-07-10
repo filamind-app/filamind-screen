@@ -23,5 +23,9 @@
   "reducedMotion": "Animaties",
   "motionOn": "Aan",
   "motionReduced": "Verminderd",
-  "version": "App-versie"
+  "version": "App-versie",
+  "safeMode": "Veilige modus",
+  "safeModeOn": "Aan",
+  "safeModeOff": "Uit",
+  "safeModeHint": "Blokkeert alle printerbediening totdat deze wordt uitgeschakeld."
 }

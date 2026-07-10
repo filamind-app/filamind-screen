@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import ToolHeader from '@/components/ToolHeader.vue'
+import EmptyState from '@/components/EmptyState.vue'
 import { useSessionStore } from '@/core/store/session'
 import { useControlStore } from '@/core/store/control'
 import { useWriteGuard } from '@/core/useWriteGuard'
@@ -43,19 +45,9 @@ function run(name: string): void {
 
 <template>
   <div class="macros">
-    <header class="head">
-      <button
-        class="back touch-btn"
-        type="button"
-        :aria-label="t('macros.back')"
-        @click="emit('close')"
-      >
-        ‹
-      </button>
-      <h2 class="title">{{ t('macros.title') }}</h2>
-    </header>
+    <ToolHeader :title="t('macros.title')" :back-label="t('macros.back')" @close="emit('close')" />
 
-    <p v-if="!macros.length" class="muted">{{ t('macros.empty') }}</p>
+    <EmptyState v-if="!macros.length" icon="macros" :text="t('macros.empty')" />
     <div v-else class="grid">
       <button
         v-for="m in macros"
@@ -69,8 +61,6 @@ function run(name: string): void {
         {{ m.toUpperCase() }}
       </button>
     </div>
-
-    <p v-if="ctl.lastError" class="err" role="alert">{{ t('control.error.' + ctl.lastError) }}</p>
   </div>
 </template>
 
@@ -78,34 +68,9 @@ function run(name: string): void {
 .macros {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: var(--sp-3);
   height: 100%;
   min-height: 0;
-}
-.head {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-.back {
-  min-width: 3rem;
-  min-height: 3rem;
-  padding: 0;
-  font-size: 1.6rem;
-  line-height: 1;
-}
-:global([dir='rtl']) .back {
-  transform: scaleX(-1);
-}
-.title {
-  margin: 0;
-  font-family: var(--font-display, system-ui);
-  font-size: 1.25rem;
-  color: var(--fm-text);
-}
-.muted {
-  margin: 0;
-  color: var(--fm-text-muted);
 }
 .grid {
   flex: 1;
@@ -113,21 +78,17 @@ function run(name: string): void {
   overflow-y: auto;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(12rem, 100%), 1fr));
-  gap: 0.6rem;
+  gap: var(--sp-2);
   align-content: start;
 }
 .macro {
   min-height: 3.5rem;
-  padding: 0.5rem 0.6rem;
+  padding: var(--sp-2);
   font-family: var(--font-mono);
   font-size: 0.9rem;
   word-break: break-all;
 }
 .touch-btn:disabled {
   opacity: 0.45;
-}
-.err {
-  margin: 0;
-  color: var(--fm-danger);
 }
 </style>

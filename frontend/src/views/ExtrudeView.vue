@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import Icon from '@/components/AppIcon.vue'
+import ToolHeader from '@/components/ToolHeader.vue'
 import { useSessionStore } from '@/core/store/session'
 import { useControlStore } from '@/core/store/control'
 import { useWriteGuard } from '@/core/useWriteGuard'
@@ -93,18 +95,9 @@ const fmt = (n: number): string => `${Math.round(n)}°`
 
 <template>
   <div class="extrude">
-    <header class="head">
-      <button
-        class="back touch-btn"
-        type="button"
-        :aria-label="t('extrude.back')"
-        @click="emit('close')"
-      >
-        ‹
-      </button>
-      <h2 class="title">{{ t('extrude.title') }}</h2>
+    <ToolHeader :title="t('extrude.title')" :back-label="t('extrude.back')" @close="emit('close')">
       <span class="now" :class="{ cold }">{{ fmt(nowTemp) }}</span>
-    </header>
+    </ToolHeader>
 
     <!-- Cold-extrusion guard: explain + one-tap heat. -->
     <div v-if="cold" class="guard touch-card">
@@ -157,10 +150,10 @@ const fmt = (n: number): string => `${Math.round(n)}°`
         :title="canMove ? '' : moveBlockedReason"
         @click="feedMove(1)"
       >
-        ⬇ {{ t('extrude.extrude') }}
+        <Icon name="arrow-down" size="1.3rem" /> {{ t('extrude.extrude') }}
       </button>
       <button class="touch-btn act" type="button" :disabled="!canMove" @click="feedMove(-1)">
-        ⬆ {{ t('extrude.retract') }}
+        <Icon name="arrow-up" size="1.3rem" /> {{ t('extrude.retract') }}
       </button>
       <button
         v-if="loadMacro"
@@ -181,8 +174,6 @@ const fmt = (n: number): string => `${Math.round(n)}°`
         {{ t('extrude.unload') }}
       </button>
     </div>
-
-    <p v-if="ctl.lastError" class="err" role="alert">{{ t('control.error.' + ctl.lastError) }}</p>
   </div>
 </template>
 
@@ -190,28 +181,9 @@ const fmt = (n: number): string => `${Math.round(n)}°`
 .extrude {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: var(--sp-3);
   height: 100%;
   min-height: 0;
-}
-.head {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-.back {
-  min-width: 3rem;
-  min-height: 3rem;
-  padding: 0;
-  font-size: 1.6rem;
-  line-height: 1;
-}
-.title {
-  margin: 0;
-  flex: 1;
-  font-family: var(--font-display, system-ui);
-  font-size: 1.25rem;
-  color: var(--fm-text);
 }
 .now {
   font-family: var(--font-mono);
@@ -224,8 +196,8 @@ const fmt = (n: number): string => `${Math.round(n)}°`
 .guard {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.7rem 0.9rem;
+  gap: var(--sp-3);
+  padding: var(--sp-3);
   border-inline-start: 4px solid var(--fm-warning);
 }
 .guard-msg {
@@ -234,28 +206,28 @@ const fmt = (n: number): string => `${Math.round(n)}°`
   font-size: 0.95rem;
 }
 .heat {
-  min-height: 2.75rem;
-  padding: 0.3rem 0.9rem;
+  min-height: var(--touch);
+  padding: var(--sp-1) var(--sp-3);
 }
 .pick {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: var(--sp-2);
 }
 .pick-label {
   color: var(--fm-text-muted);
-  font-size: 0.85rem;
+  font-size: var(--fs-caption);
   min-width: 4.5rem;
 }
 .pick-row {
   display: grid;
   flex: 1;
   grid-template-columns: repeat(4, 1fr);
-  gap: 0.5rem;
+  gap: var(--sp-2);
 }
 .opt {
-  min-height: 2.75rem;
-  padding: 0.25rem 0.4rem;
+  min-height: var(--touch);
+  padding: var(--sp-1) var(--sp-2);
 }
 .opt.on {
   background: var(--fm-primary);
@@ -268,7 +240,7 @@ const fmt = (n: number): string => `${Math.round(n)}°`
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-auto-rows: minmax(3.25rem, 1fr);
-  gap: 0.75rem;
+  gap: var(--sp-3);
 }
 .act {
   font-size: 1.15rem;
@@ -281,13 +253,5 @@ const fmt = (n: number): string => `${Math.round(n)}°`
 }
 .touch-btn:disabled {
   opacity: 0.45;
-}
-/* Mirror the back chevron in RTL so it points "back", not into the page. */
-:global([dir='rtl']) .back {
-  transform: scaleX(-1);
-}
-.err {
-  margin: 0;
-  color: var(--fm-danger);
 }
 </style>

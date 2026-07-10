@@ -1,22 +1,20 @@
 {
-  "home": "Tout réinitialiser",
   "pause": "Pause",
   "resume": "Reprendre",
   "cancel": "Annuler",
   "cancelConfirm": "Confirmer l'annulation ?",
   "estop": "Arrêt d'urgence",
-  "safeOff": "Écritures activées",
-  "safeOn": "Mode sécurisé",
   "down": "Klipper est arrêté",
   "restart": "Redémarrer",
   "firmwareRestart": "Redémarrer le firmware",
   "blocked": {
     "offline": "Imprimante hors ligne",
-    "safe": "Le mode sécurisé est actif",
-    "busy": "Une action est en cours"
+    "safe": "Le mode sécurisé est actif"
   },
   "error": {
-    "refused": "Refusé — imprimante hors ligne",
-    "failed": "Échec de l'action"
+    "refusedSafe": "Refusé - le mode sécurisé est activé",
+    "refusedOffline": "Refusé — imprimante hors ligne",
+    "failed": "Échec de l'action",
+    "estopFailed": "Échec de l'arrêt d'urgence - l'imprimante ne l'a pas reçu"
   }
 }

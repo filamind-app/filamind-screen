@@ -1,7 +1,6 @@
 {
   "hotend": "噴頭",
   "bed": "熱床",
-  "print": "列印",
   "state": {
     "standby": "待機",
     "printing": "列印中",
@@ -12,13 +11,6 @@
   },
   "fan": "風扇",
   "speed": "速度",
-  "move": "移動",
-  "tune": "調整",
-  "files": "檔案",
-  "console": "主控台",
-  "temp": "加熱",
-  "filament": "線材",
-  "macros": "巨集",
   "layer": "層",
   "eta": "剩餘"
 }

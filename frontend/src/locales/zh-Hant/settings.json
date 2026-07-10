@@ -23,5 +23,9 @@
   "reducedMotion": "動畫",
   "motionOn": "開啟",
   "motionReduced": "減少",
-  "version": "應用程式版本"
+  "version": "應用程式版本",
+  "safeMode": "安全模式",
+  "safeModeOn": "開啟",
+  "safeModeOff": "關",
+  "safeModeHint": "開啟後將阻止所有印表機操作，直到關閉。"
 }
