@@ -1,0 +1,1 @@
+var e={title:{t:0,b:{t:2,i:[{t:3}],s:`Mensaje de la impresora`}},close:{t:0,b:{t:2,i:[{t:3}],s:`Cerrar`}},reopen:{t:0,b:{t:2,i:[{t:3}],s:`Aviso pendiente`}}};export{e as default};

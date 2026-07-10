@@ -1,0 +1,1 @@
+var e={title:{t:0,b:{t:2,i:[{t:3}],s:`Druckerabfrage`}},close:{t:0,b:{t:2,i:[{t:3}],s:`Schließen`}},reopen:{t:0,b:{t:2,i:[{t:3}],s:`Offene Abfrage`}}};export{e as default};

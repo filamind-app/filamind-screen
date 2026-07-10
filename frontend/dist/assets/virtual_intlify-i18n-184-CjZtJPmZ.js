@@ -1,1 +1,0 @@
-var e={title:{t:0,b:{t:2,i:[{t:3}],s:`رسالة من الطابعة`}},close:{t:0,b:{t:2,i:[{t:3}],s:`إغلاق`}}};export{e as default};
