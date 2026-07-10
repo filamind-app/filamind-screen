@@ -1,22 +1,20 @@
 {
-  "home": "Home semua",
   "pause": "Jeda",
   "resume": "Lanjutkan",
   "cancel": "Batalkan",
   "cancelConfirm": "Konfirmasi pembatalan?",
   "estop": "Hentian darurat",
-  "safeOff": "Penulisan aktif",
-  "safeOn": "Mode aman",
   "down": "Klipper tidak berjalan",
   "restart": "Mulai ulang",
   "firmwareRestart": "Mulai ulang firmware",
   "blocked": {
     "offline": "Printer tidak aktif",
-    "safe": "Mode aman menyala",
-    "busy": "Suatu tindakan sedang berlangsung"
+    "safe": "Mode aman menyala"
   },
   "error": {
-    "refused": "Ditolak — printer tidak aktif",
-    "failed": "Tindakan gagal"
+    "refusedSafe": "Ditolak - mode aman aktif",
+    "refusedOffline": "Ditolak — printer tidak aktif",
+    "failed": "Tindakan gagal",
+    "estopFailed": "Penghentian darurat gagal - printer tidak menerimanya"
   }
 }

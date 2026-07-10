@@ -16,5 +16,6 @@
     "extruder": "Buse",
     "extruder1": "Buse 2",
     "heater_bed": "Plateau"
-  }
+  },
+  "ok": "OK"
 }

@@ -1,22 +1,20 @@
 {
-  "home": "Bazuj wszystkie osie",
   "pause": "Wstrzymaj",
   "resume": "Wznów",
   "cancel": "Anuluj",
   "cancelConfirm": "Potwierdzić anulowanie?",
   "estop": "Zatrzymanie awaryjne",
-  "safeOff": "Zapis włączony",
-  "safeOn": "Tryb bezpieczny",
   "down": "Klipper nie działa",
   "restart": "Restart",
   "firmwareRestart": "Restart firmware",
   "blocked": {
     "offline": "Drukarka nieaktywna",
-    "safe": "Tryb bezpieczny jest włączony",
-    "busy": "Trwa wykonywanie akcji"
+    "safe": "Tryb bezpieczny jest włączony"
   },
   "error": {
-    "refused": "Odrzucono — drukarka nieaktywna",
-    "failed": "Akcja nie powiodła się"
+    "refusedSafe": "Odrzucono - tryb bezpieczny jest włączony",
+    "refusedOffline": "Odrzucono — drukarka nieaktywna",
+    "failed": "Akcja nie powiodła się",
+    "estopFailed": "Zatrzymanie awaryjne nie powiodło się - drukarka nie odebrała polecenia"
   }
 }

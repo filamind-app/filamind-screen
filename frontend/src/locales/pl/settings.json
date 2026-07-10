@@ -23,5 +23,9 @@
   "reducedMotion": "Animacje",
   "motionOn": "Włączone",
   "motionReduced": "Ograniczone",
-  "version": "Wersja aplikacji"
+  "version": "Wersja aplikacji",
+  "safeMode": "Tryb bezpieczny",
+  "safeModeOn": "Włączone",
+  "safeModeOff": "Wył.",
+  "safeModeHint": "Blokuje wszystkie polecenia drukarki do czasu wyłączenia."
 }

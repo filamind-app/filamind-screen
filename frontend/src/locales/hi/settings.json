@@ -23,5 +23,9 @@
   "reducedMotion": "एनिमेशन",
   "motionOn": "चालू",
   "motionReduced": "कम",
-  "version": "ऐप वर्शन"
+  "version": "ऐप वर्शन",
+  "safeMode": "सुरक्षित मोड",
+  "safeModeOn": "चालू",
+  "safeModeOff": "बंद",
+  "safeModeHint": "बंद करने तक प्रिंटर के सभी नियंत्रण अवरुद्ध रहते हैं।"
 }

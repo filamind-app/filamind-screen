@@ -2,6 +2,7 @@
 import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import NumPad from '@/components/NumPad.vue'
+import ToolHeader from '@/components/ToolHeader.vue'
 import { useHeaters, heaterRange, type HeaterRow } from '@/core/heaters'
 import { useControlStore } from '@/core/store/control'
 import { useWriteGuard } from '@/core/useWriteGuard'
@@ -75,7 +76,8 @@ function applyPreset(p: Preset): void {
 }
 function allOff(): void {
   if (!canWrite.value) return
-  void ctl.runGcode('TURN_OFF_HEATERS')
+  // sticky: a failed heaters-off leaves the machine HOT - that error must outlive a glance away.
+  void ctl.runGcode('TURN_OFF_HEATERS', { sticky: true })
 }
 
 const fmt = (n: number): string => `${Math.round(n)}°`
@@ -83,17 +85,7 @@ const fmt = (n: number): string => `${Math.round(n)}°`
 
 <template>
   <div class="temp">
-    <header class="head">
-      <button
-        class="back touch-btn"
-        type="button"
-        :aria-label="t('temp.back')"
-        @click="emit('close')"
-      >
-        ‹
-      </button>
-      <h2 class="title">{{ t('temp.title') }}</h2>
-    </header>
+    <ToolHeader :title="t('temp.title')" :back-label="t('temp.back')" @close="emit('close')" />
 
     <!-- Presets (hidden while entering a target: the numpad gets the full height budget). -->
     <div v-if="!editing" class="presets">
@@ -151,8 +143,6 @@ const fmt = (n: number): string => `${Math.round(n)}°`
       @confirm="confirmTarget"
       @close="editing = null"
     />
-
-    <p v-if="ctl.lastError" class="err" role="alert">{{ t('control.error.' + ctl.lastError) }}</p>
   </div>
 </template>
 
@@ -160,42 +150,24 @@ const fmt = (n: number): string => `${Math.round(n)}°`
 .temp {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: var(--sp-3);
   height: 100%;
   min-height: 0;
-}
-.head {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-.back {
-  min-width: 3rem;
-  min-height: 3rem;
-  padding: 0;
-  font-size: 1.6rem;
-  line-height: 1;
-}
-.title {
-  margin: 0;
-  font-family: var(--font-display, system-ui);
-  font-size: 1.25rem;
-  color: var(--fm-text);
 }
 .presets {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 0.6rem;
+  gap: var(--sp-2);
 }
 .preset {
   flex-direction: column;
   gap: 0.15rem;
   min-height: 3.5rem;
-  padding: 0.4rem 0.3rem;
+  padding: var(--sp-1);
 }
 .preset-name {
   font-weight: 700;
-  font-size: 1rem;
+  font-size: var(--fs-body);
 }
 .preset-temps {
   font-size: 0.8rem;
@@ -210,13 +182,13 @@ const fmt = (n: number): string => `${Math.round(n)}°`
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--sp-2);
 }
 .row {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.7rem 0.9rem;
+  gap: var(--sp-3);
+  padding: var(--sp-3);
   border-radius: 0.75rem;
 }
 .heater {
@@ -253,10 +225,6 @@ const fmt = (n: number): string => `${Math.round(n)}°`
 .row-target.on {
   color: var(--fm-primary);
 }
-/* Mirror the back chevron in RTL so it points "back", not into the page. */
-:global([dir='rtl']) .back {
-  transform: scaleX(-1);
-}
 .sensor .row-now {
   color: var(--fm-text-muted);
 }
@@ -268,9 +236,5 @@ const fmt = (n: number): string => `${Math.round(n)}°`
 .muted {
   margin: 0;
   color: var(--fm-text-muted);
-}
-.err {
-  margin: 0;
-  color: var(--fm-danger);
 }
 </style>

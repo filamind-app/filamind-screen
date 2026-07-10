@@ -23,5 +23,9 @@
   "reducedMotion": "Animationen",
   "motionOn": "Ein",
   "motionReduced": "Reduziert",
-  "version": "App-Version"
+  "version": "App-Version",
+  "safeMode": "Sicherer Modus",
+  "safeModeOn": "Ein",
+  "safeModeOff": "Aus",
+  "safeModeHint": "Blockiert alle Druckerbefehle, bis er ausgeschaltet wird."
 }

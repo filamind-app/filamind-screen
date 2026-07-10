@@ -2,7 +2,6 @@
   "nav": "セクション",
   "tab": {
     "status": "ステータス",
-    "control": "操作",
     "settings": "設定"
   },
   "trust": {
@@ -14,7 +13,6 @@
   },
   "remote": {
     "here": "この画面",
-    "dismiss": "メッセージを閉じる",
-    "warning": "警告"
+    "dismiss": "メッセージを閉じる"
   }
 }

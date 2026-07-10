@@ -1,22 +1,20 @@
 {
-  "home": "전체 원점 복귀",
   "pause": "일시정지",
   "resume": "재개",
   "cancel": "취소",
   "cancelConfirm": "취소하시겠습니까?",
   "estop": "비상 정지",
-  "safeOff": "쓰기 허용됨",
-  "safeOn": "안전 모드",
   "down": "Klipper가 실행 중이 아닙니다",
   "restart": "재시작",
   "firmwareRestart": "펌웨어 재시작",
   "blocked": {
     "offline": "프린터 연결 안 됨",
-    "safe": "안전 모드가 켜져 있음",
-    "busy": "작업이 진행 중입니다"
+    "safe": "안전 모드가 켜져 있음"
   },
   "error": {
-    "refused": "거부됨 — 프린터 연결 안 됨",
-    "failed": "작업 실패"
+    "refusedSafe": "거부됨 - 안전 모드가 켜져 있습니다",
+    "refusedOffline": "거부됨 — 프린터 연결 안 됨",
+    "failed": "작업 실패",
+    "estopFailed": "비상 정지 실패 - 프린터가 명령을 받지 못했습니다"
   }
 }

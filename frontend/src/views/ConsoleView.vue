@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { nextTick, onMounted, onUnmounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import ToolHeader from '@/components/ToolHeader.vue'
 import { onGcodeResponse } from '@/core/session'
 import { useControlStore } from '@/core/store/control'
 import { useWriteGuard } from '@/core/useWriteGuard'
@@ -60,23 +61,17 @@ onUnmounted(() => off?.())
 
 <template>
   <div class="console">
-    <header class="head">
-      <button
-        class="back touch-btn"
-        type="button"
-        :aria-label="t('console.back')"
-        @click="emit('close')"
-      >
-        ‹
-      </button>
-      <h2 class="title">{{ t('console.title') }}</h2>
+    <ToolHeader :title="t('console.title')" :back-label="t('console.back')" @close="emit('close')">
       <button class="touch-btn clear" type="button" :disabled="!lines.length" @click="lines = []">
         {{ t('console.clear') }}
       </button>
-    </header>
+    </ToolHeader>
 
-    <div ref="logEl" class="log">
-      <p v-if="!lines.length" class="muted">{{ t('console.empty') }}</p>
+    <!-- The log is g-code, LTR by nature: in an RTL locale bidi reordering would mirror the
+         '>' prompt and right-align commands, visually corrupting them. The empty-state line
+         stays in the UI language and direction. -->
+    <div ref="logEl" class="log" dir="ltr">
+      <p v-if="!lines.length" class="muted" dir="auto">{{ t('console.empty') }}</p>
       <pre v-for="l in lines" :key="l.id" class="line" :class="l.kind"
         >{{ l.kind === 'sent' ? '> ' : '' }}{{ l.text }}</pre>
     </div>
@@ -96,10 +91,12 @@ onUnmounted(() => off?.())
     </div>
 
     <form class="entry" @submit.prevent="send">
+      <!-- Typed g-code stays LTR in RTL locales too. -->
       <input
         v-model="input"
         class="input"
         type="text"
+        dir="ltr"
         :placeholder="t('console.placeholder')"
         :disabled="!canWrite"
         :title="canWrite ? '' : blockedReason"
@@ -111,8 +108,6 @@ onUnmounted(() => off?.())
         {{ t('console.send') }}
       </button>
     </form>
-
-    <p v-if="ctl.lastError" class="err" role="alert">{{ t('control.error.' + ctl.lastError) }}</p>
   </div>
 </template>
 
@@ -120,25 +115,8 @@ onUnmounted(() => off?.())
 .console {
   display: flex;
   flex-direction: column;
-  gap: 0.7rem;
+  gap: var(--sp-2);
   height: 100%;
-}
-.head {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-.back {
-  min-width: 3rem;
-  font-size: 1.6rem;
-  line-height: 1;
-}
-.title {
-  margin: 0;
-  flex: 1;
-  font-family: var(--font-display, system-ui);
-  font-size: 1.25rem;
-  color: var(--fm-text);
 }
 .clear {
   font-size: 0.9rem;
@@ -149,7 +127,7 @@ onUnmounted(() => off?.())
   background: var(--fm-surface);
   border: 1px solid var(--fm-border);
   border-radius: 0.75rem;
-  padding: 0.6rem 0.75rem;
+  padding: var(--sp-2) var(--sp-3);
   min-height: 8rem;
 }
 .muted {
@@ -169,7 +147,7 @@ onUnmounted(() => off?.())
 }
 .recent {
   display: flex;
-  gap: 0.4rem;
+  gap: var(--sp-1);
   overflow-x: auto;
   flex-shrink: 0;
 }
@@ -191,14 +169,14 @@ onUnmounted(() => off?.())
 }
 .entry {
   display: flex;
-  gap: 0.5rem;
+  gap: var(--sp-2);
 }
 .input {
   flex: 1;
-  min-height: 2.75rem;
-  padding: 0 0.8rem;
+  min-height: var(--touch);
+  padding: 0 var(--sp-3);
   font-family: var(--font-mono);
-  font-size: 1rem;
+  font-size: var(--fs-body);
   color: var(--fm-text);
   background: var(--fm-surface-2);
   border: 1px solid var(--fm-border);
@@ -213,9 +191,5 @@ onUnmounted(() => off?.())
 }
 .send:disabled {
   opacity: 0.45;
-}
-.err {
-  margin: 0;
-  color: var(--fm-danger);
 }
 </style>

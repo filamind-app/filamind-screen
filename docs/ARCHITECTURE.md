@@ -20,14 +20,14 @@ frontend/
   src/
     core/         bridge to @filamind-app/core: session · control · remote · theme · i18n · settings
       store/      Pinia mirror stores (session · control · settings) the views read from
-    components/   TouchShell · TrustRibbon · PromptDialog · TabIcon
-    views/        Status · Control · Settings (tabs) + Move · Tune · Files · Console (overlays)
-    locales/      19 namespaced catalog folders (console/control/files/move/prompt/settings/shell/status/tune)
+    components/   TouchShell · TrustRibbon · PromptDialog · AppIcon · ToolHeader · EmptyState · ToastHost · NumPad
+    views/        Status · Temp · Extrude · Move · Tune · Files · Macros · Console · Settings (side-rail destinations)
+    locales/      19 namespaced catalog folders (console/control/extrude/files/macros/move/prompt/settings/shell/status/temp/tune)
   src-tauri/      Tauri 2 Rust shell: Cargo.toml · tauri.conf.json · src/{main,lib}.rs · capabilities/
 ```
 
 - **`core/`** is the composition root that wires `@filamind-app/core` into reactive state. The webview talks to Moonraker directly over its WebSocket; there is no app backend.
-- **`components/` + `views/`** are the touch shell and its screens. The shell (`TouchShell.vue`) owns the brand bar, trust ribbon, always-on E-STOP, the bottom tab bar, the prompt dialog, the Klipper-down recovery strip (Restart / Firmware-restart - the two actions that deliberately bypass the write gate, since they are the way back when it is closed), and the print takeover (a print starting anywhere switches to the job face). The three tabs (Status / Control / Settings) are a clean WAI-ARIA tablist with arrow / Home / End keyboard support; the deeper tools (Move / Tune / Files / Console / Temperature / Filament / Macros) open as fullscreen overlays launched from the Status action bar or its tiles, kept separate from the tab state so the bottom nav stays a tidy three-way. Capabilities gate the surface: heaters are not hardcoded (`core/heaters.ts` subscribes the printer's own heater/sensor list and extends the live subscription to whatever this machine actually has), the Macros shortcut exists only when the printer defines user macros, and filament load/unload appear only when their macros do.
+- **`components/` + `views/`** are the touch shell and its screens. The shell (`TouchShell.vue`) owns the brand bar, trust ribbon, always-on E-STOP, a slim side icon rail (a vertical WAI-ARIA tablist with arrow / Home / End keyboard support) where every screen - job face, temperature, filament, move, tune, files, macros, console, settings - is a first-class destination, plus the prompt dialog, the toast host, the Klipper-down recovery strip (Restart / Firmware-restart - the two actions that deliberately bypass the write gate, since they are the way back when it is closed), and the print takeover (a print starting anywhere switches to the job face). A single design-token layer (type scale with glanceable numerals, 4pt spacing, two radii, a 44px reference touch floor) and shared primitives (`AppIcon`, `ToolHeader`, `EmptyState`, `ToastHost`) keep every screen coherent. Capabilities gate the surface: heaters are not hardcoded (`core/heaters.ts` subscribes the printer's own heater/sensor list and extends the live subscription to whatever this machine actually has), the Macros destination exists only when the printer defines user macros, and filament load/unload appear only when their macros do.
 - **`locales/`** holds one folder per language, each a set of namespaced JSON catalogs. CI key-diffs every locale against English.
 
 ## Session and live data

@@ -23,5 +23,9 @@
   "reducedMotion": "动画",
   "motionOn": "开启",
   "motionReduced": "减弱",
-  "version": "应用版本"
+  "version": "应用版本",
+  "safeMode": "安全模式",
+  "safeModeOn": "开启",
+  "safeModeOff": "关",
+  "safeModeHint": "开启后将阻止所有打印机操作，直到关闭。"
 }

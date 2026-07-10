@@ -1,22 +1,20 @@
 {
-  "home": "Về gốc tất cả",
   "pause": "Tạm dừng",
   "resume": "Tiếp tục",
   "cancel": "Hủy",
   "cancelConfirm": "Xác nhận hủy?",
   "estop": "Dừng khẩn cấp",
-  "safeOff": "Đã bật ghi",
-  "safeOn": "Chế độ an toàn",
   "down": "Klipper không hoạt động",
   "restart": "Khởi động lại",
   "firmwareRestart": "Khởi động lại firmware",
   "blocked": {
     "offline": "Máy in không trực tuyến",
-    "safe": "Chế độ an toàn đang bật",
-    "busy": "Đang có thao tác diễn ra"
+    "safe": "Chế độ an toàn đang bật"
   },
   "error": {
-    "refused": "Bị từ chối — máy in không trực tuyến",
-    "failed": "Thao tác thất bại"
+    "refusedSafe": "Bị từ chối - chế độ an toàn đang bật",
+    "refusedOffline": "Bị từ chối — máy in không trực tuyến",
+    "failed": "Thao tác thất bại",
+    "estopFailed": "Dừng khẩn cấp thất bại - máy in không nhận được lệnh"
   }
 }

@@ -10,11 +10,13 @@ export function useWriteGuard() {
   const session = useSessionStore()
   const ctl = useControlStore()
 
-  const canWrite = computed(() => session.live && session.klippyReady && !ctl.safeMode && !ctl.busy)
+  // Deliberately NOT gated on ctl.busy: the control store is multi-flight, and folding the
+  // in-flight refcount in here would disable Pause/Cancel for the whole duration of any other
+  // write (e.g. the PAUSE parking macro) - exactly when stopping the print matters most.
+  const canWrite = computed(() => session.live && session.klippyReady && !ctl.safeMode)
   const blockedReason = computed(() => {
     if (ctl.safeMode) return t('control.blocked.safe')
     if (!session.live || !session.klippyReady) return t('control.blocked.offline')
-    if (ctl.busy) return t('control.blocked.busy')
     return ''
   })
 

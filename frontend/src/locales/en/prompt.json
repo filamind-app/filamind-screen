@@ -1,4 +1,5 @@
 {
   "title": "Printer prompt",
-  "close": "Close"
+  "close": "Close",
+  "reopen": "Pending prompt"
 }

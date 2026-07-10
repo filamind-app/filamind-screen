@@ -1,7 +1,6 @@
 {
   "hotend": "핫엔드",
   "bed": "베드",
-  "print": "출력",
   "state": {
     "standby": "대기",
     "printing": "출력 중",
@@ -12,13 +11,6 @@
   },
   "fan": "팬",
   "speed": "속도",
-  "move": "이동",
-  "tune": "튜닝",
-  "files": "파일",
-  "console": "콘솔",
-  "temp": "가열",
-  "filament": "필라멘트",
-  "macros": "매크로",
   "layer": "레이어",
   "eta": "남음"
 }

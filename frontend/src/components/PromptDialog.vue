@@ -3,13 +3,20 @@ import { ref, watch, nextTick, onMounted, onUnmounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { PromptDialog as PromptDialogData, PromptButton } from '@filamind-app/core'
 import { useSessionStore } from '@/core/store/session'
-import { useControlStore } from '@/core/store/control'
+import { useControlStore, type ControlError } from '@/core/store/control'
 
 const { t } = useI18n()
 const session = useSessionStore()
 const ctl = useControlStore()
 
 const dialog = ref<PromptDialogData | null>(null)
+/** Failure of THIS dialog's own button gcode (the store's lastError may belong to another flight). */
+const error = ref<ControlError | null>(null)
+/** A button's gcode is in flight: every button disables (a double-tap would run it twice). */
+const pending = ref(false)
+/** Tucked away (stray backdrop tap / Escape) but NOT discarded: the macro is still waiting for
+ *  an answer and only the server can end the prompt - a chip re-opens it. */
+const hidden = ref(false)
 const panel = ref<HTMLElement | null>(null)
 let opener: HTMLElement | null = null
 
@@ -32,6 +39,8 @@ watch(
 async function open(d: PromptDialogData): Promise<void> {
   opener = document.activeElement as HTMLElement | null
   dialog.value = d
+  error.value = null
+  hidden.value = false
   await nextTick()
   const first = panel.value?.querySelector<HTMLElement>('button')
   ;(first ?? panel.value)?.focus()
@@ -39,12 +48,36 @@ async function open(d: PromptDialogData): Promise<void> {
 function close(): void {
   if (!dialog.value) return
   dialog.value = null
+  error.value = null
+  hidden.value = false
   opener?.focus()
 }
+function hide(): void {
+  if (!dialog.value) return
+  hidden.value = true
+  opener?.focus()
+}
+async function reopen(): Promise<void> {
+  hidden.value = false
+  await nextTick()
+  const first = panel.value?.querySelector<HTMLElement>('button')
+  ;(first ?? panel.value)?.focus()
+}
 async function clickButton(b: PromptButton): Promise<void> {
+  if (pending.value) return
   if (b.gcode) {
-    await ctl.runGcode(b.gcode)
-    if (ctl.lastError) return
+    error.value = null
+    pending.value = true
+    try {
+      // silent: the error renders inline in the dialog - a toast on top would say it twice.
+      const err = await ctl.runGcode(b.gcode, { silent: true })
+      if (err) {
+        error.value = err
+        return
+      }
+    } finally {
+      pending.value = false
+    }
   }
   close()
 }
@@ -62,10 +95,10 @@ function trapTab(e: KeyboardEvent): void {
   }
 }
 function onKey(e: KeyboardEvent): void {
-  if (!dialog.value) return
+  if (!dialog.value || hidden.value) return
   if (e.key === 'Escape') {
     e.preventDefault()
-    close()
+    hide()
   } else if (e.key === 'Tab') {
     trapTab(e)
   }
@@ -76,7 +109,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
 
 <template>
   <teleport to="body">
-    <div v-if="dialog" class="backdrop" @click.self="close">
+    <div v-if="dialog && !hidden" class="backdrop" @click.self="hide">
       <div
         ref="panel"
         class="prompt touch-card"
@@ -88,8 +121,8 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
       >
         <h2 v-if="dialog.title" id="prompt-title" class="prompt-title">{{ dialog.title }}</h2>
         <p v-for="(line, i) in dialog.text" :key="`t${i}`" class="prompt-line">{{ line }}</p>
-        <p v-if="ctl.lastError" class="prompt-error" role="alert">
-          {{ t('control.error.' + ctl.lastError) }}
+        <p v-if="error" class="prompt-error" role="alert">
+          {{ t('control.error.' + error) }}
         </p>
 
         <div class="prompt-actions">
@@ -99,6 +132,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
             type="button"
             class="touch-btn"
             :class="{ 'touch-btn-primary': b.style === 'primary', warning: b.style === 'warning' }"
+            :disabled="pending"
             @click="clickButton(b)"
           >
             {{ b.label }}
@@ -119,6 +153,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
             :key="`f${i}`"
             type="button"
             class="touch-btn"
+            :disabled="pending"
             @click="clickButton(b)"
           >
             {{ b.label }}
@@ -126,6 +161,12 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
         </div>
       </div>
     </div>
+
+    <!-- The tucked-away prompt's way back: the macro is still waiting for its answer. -->
+    <button v-if="dialog && hidden" type="button" class="reopen-chip touch-btn" @click="reopen">
+      <span class="reopen-icon" aria-hidden="true">?</span>
+      <span class="reopen-text">{{ dialog.title || t('prompt.reopen') }}</span>
+    </button>
   </teleport>
 </template>
 
@@ -180,5 +221,37 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
 .warning {
   border-color: var(--fm-warning);
   color: var(--fm-warning);
+}
+.prompt-actions .touch-btn:disabled,
+.prompt-footer .touch-btn:disabled {
+  opacity: 0.45;
+}
+/* Pending-prompt chip: sits clear of the bottom-centered toasts, above content (z below the
+   backdrop so re-opening layers correctly). */
+.reopen-chip {
+  position: fixed;
+  inset-block-end: var(--sp-4);
+  inset-inline-end: var(--sp-4);
+  z-index: 55;
+  border-color: var(--fm-warning);
+  color: var(--fm-warning);
+  box-shadow: 0 0.4rem 1.2rem rgba(0, 0, 0, 0.35);
+}
+.reopen-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: var(--r-pill);
+  border: 2px solid currentColor;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+.reopen-text {
+  max-width: 12rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 </style>

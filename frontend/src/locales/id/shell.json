@@ -2,7 +2,6 @@
   "nav": "Bagian",
   "tab": {
     "status": "Status",
-    "control": "Kontrol",
     "settings": "Pengaturan"
   },
   "trust": {
@@ -14,7 +13,6 @@
   },
   "remote": {
     "here": "Layar ini",
-    "dismiss": "Tutup pesan",
-    "warning": "Peringatan"
+    "dismiss": "Tutup pesan"
   }
 }

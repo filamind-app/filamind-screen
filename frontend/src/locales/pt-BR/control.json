@@ -1,22 +1,20 @@
 {
-  "home": "Referenciar tudo",
   "pause": "Pausar",
   "resume": "Retomar",
   "cancel": "Cancelar",
   "cancelConfirm": "Confirmar cancelamento?",
   "estop": "Parada de emergência",
-  "safeOff": "Gravações ativadas",
-  "safeOn": "Modo seguro",
   "down": "O Klipper não está em execução",
   "restart": "Reiniciar",
   "firmwareRestart": "Reiniciar firmware",
   "blocked": {
     "offline": "Impressora não está ativa",
-    "safe": "Modo seguro está ativado",
-    "busy": "Uma ação está em andamento"
+    "safe": "Modo seguro está ativado"
   },
   "error": {
-    "refused": "Recusado — impressora não está ativa",
-    "failed": "Falha na ação"
+    "refusedSafe": "Recusado - o modo seguro está ativado",
+    "refusedOffline": "Recusado — impressora não está ativa",
+    "failed": "Falha na ação",
+    "estopFailed": "Falha na parada de emergência - a impressora não a recebeu"
   }
 }

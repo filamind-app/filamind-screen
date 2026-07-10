@@ -1,22 +1,20 @@
 {
-  "home": "Home all",
   "pause": "Pause",
   "resume": "Resume",
   "cancel": "Cancel",
   "cancelConfirm": "Confirm cancel?",
   "estop": "Emergency stop",
-  "safeOff": "Writes enabled",
-  "safeOn": "Safe mode",
   "down": "Klipper is not running",
   "restart": "Restart",
   "firmwareRestart": "Firmware restart",
   "blocked": {
     "offline": "Printer not live",
-    "safe": "Safe mode is on",
-    "busy": "An action is in progress"
+    "safe": "Safe mode is on"
   },
   "error": {
-    "refused": "Refused - printer not live",
-    "failed": "Action failed"
+    "refusedSafe": "Refused - safe mode is on",
+    "refusedOffline": "Refused - printer not live",
+    "failed": "Action failed",
+    "estopFailed": "Emergency stop failed - the printer did not receive it"
   }
 }

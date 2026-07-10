@@ -2,7 +2,6 @@
   "nav": "Sections",
   "tab": {
     "status": "Status",
-    "control": "Control",
     "settings": "Settings"
   },
   "trust": {
@@ -14,7 +13,6 @@
   },
   "remote": {
     "here": "This screen",
-    "dismiss": "Dismiss message",
-    "warning": "Warning"
+    "dismiss": "Dismiss message"
   }
 }

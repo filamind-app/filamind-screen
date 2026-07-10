@@ -23,5 +23,9 @@
   "reducedMotion": "Hoạt ảnh",
   "motionOn": "Bật",
   "motionReduced": "Giảm",
-  "version": "Phiên bản ứng dụng"
+  "version": "Phiên bản ứng dụng",
+  "safeMode": "Chế độ an toàn",
+  "safeModeOn": "Bật",
+  "safeModeOff": "Tắt",
+  "safeModeHint": "Chặn mọi điều khiển máy in cho đến khi tắt."
 }

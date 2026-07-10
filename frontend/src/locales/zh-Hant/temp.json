@@ -16,5 +16,6 @@
     "extruder": "熱端",
     "extruder1": "熱端 2",
     "heater_bed": "熱床"
-  }
+  },
+  "ok": "確定"
 }

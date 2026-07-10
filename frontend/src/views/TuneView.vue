@@ -2,6 +2,7 @@
 import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import NumPad from '@/components/NumPad.vue'
+import ToolHeader from '@/components/ToolHeader.vue'
 import { useSessionStore } from '@/core/store/session'
 import { useControlStore } from '@/core/store/control'
 import { useWriteGuard } from '@/core/useWriteGuard'
@@ -121,17 +122,12 @@ watch(canWrite, (ok) => {
 
 <template>
   <div class="tune">
-    <header class="head">
-      <button
-        class="back touch-btn"
-        type="button"
-        :aria-label="t('tune.back')"
-        @click="emit('close')"
-      >
-        ‹
-      </button>
-      <h2 class="title">{{ t('tune.title') }}</h2>
-    </header>
+    <ToolHeader
+      class="head"
+      :title="t('tune.title')"
+      :back-label="t('tune.back')"
+      @close="emit('close')"
+    />
 
     <template v-if="!editing">
       <div v-for="r in rows" :key="r.key" class="row touch-card">
@@ -184,8 +180,6 @@ watch(canWrite, (ok) => {
       @confirm="confirmAbs"
       @close="editing = null"
     />
-
-    <p v-if="ctl.lastError" class="err" role="alert">{{ t('control.error.' + ctl.lastError) }}</p>
   </div>
 </template>
 
@@ -197,34 +191,19 @@ watch(canWrite, (ok) => {
   grid-template-columns: 1fr 1fr;
   grid-auto-rows: min-content;
   align-content: start;
-  gap: 0.75rem;
+  gap: var(--sp-3);
   height: 100%;
   min-height: 0;
 }
+/* The class lands on ToolHeader's root: it only needs to span the grid here. */
 .head {
   grid-column: 1 / -1;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-.back {
-  min-width: 3rem;
-  min-height: 3rem;
-  padding: 0;
-  font-size: 1.6rem;
-  line-height: 1;
-}
-.title {
-  margin: 0;
-  font-family: var(--font-display, system-ui);
-  font-size: 1.25rem;
-  color: var(--fm-text);
 }
 .row {
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
-  padding: 0.8rem 0.9rem;
+  gap: var(--sp-2);
+  padding: var(--sp-3);
 }
 .row-head {
   display: flex;
@@ -257,11 +236,11 @@ button.row-value.tappable:disabled {
 .row-btns {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 0.5rem;
+  gap: var(--sp-2);
 }
 .row-btns .touch-btn {
-  min-height: 2.75rem;
-  padding: 0.3rem 0.4rem;
+  min-height: var(--touch);
+  padding: var(--sp-1) var(--sp-2);
   font-size: 0.95rem;
 }
 .reset {
@@ -270,10 +249,5 @@ button.row-value.tappable:disabled {
 }
 .touch-btn:disabled {
   opacity: 0.45;
-}
-.err {
-  grid-column: 1 / -1;
-  margin: 0;
-  color: var(--fm-danger);
 }
 </style>

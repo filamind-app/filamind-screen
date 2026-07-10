@@ -23,5 +23,9 @@
   "reducedMotion": "Animasyonlar",
   "motionOn": "Açık",
   "motionReduced": "Azaltılmış",
-  "version": "Uygulama sürümü"
+  "version": "Uygulama sürümü",
+  "safeMode": "Güvenli mod",
+  "safeModeOn": "Açık",
+  "safeModeOff": "Kapalı",
+  "safeModeHint": "Kapatılana kadar tüm yazıcı denetimlerini engeller."
 }

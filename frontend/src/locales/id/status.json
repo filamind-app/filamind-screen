@@ -1,7 +1,6 @@
 {
   "hotend": "Hotend",
   "bed": "Bed",
-  "print": "Cetak",
   "state": {
     "standby": "Siaga",
     "printing": "Mencetak",
@@ -12,13 +11,6 @@
   },
   "fan": "Kipas",
   "speed": "Kecepatan",
-  "move": "Gerak",
-  "tune": "Setel",
-  "files": "Berkas",
-  "console": "Konsol",
-  "temp": "Panaskan",
-  "filament": "Filamen",
-  "macros": "Makro",
   "layer": "Lapisan",
   "eta": "ETA"
 }

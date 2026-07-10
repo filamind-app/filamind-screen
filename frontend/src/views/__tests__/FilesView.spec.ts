@@ -10,7 +10,6 @@ const state = vi.hoisted(() => ({
   busy: false,
   call: vi.fn(),
   startPrint: vi.fn(),
-  lastError: null as string | null,
   objects: { print_stats: { state: 'standby' } } as Record<string, unknown>,
 }))
 
@@ -39,9 +38,6 @@ vi.mock('@/core/store/control', () => ({
       return state.busy
     },
     startPrint: state.startPrint,
-    get lastError() {
-      return state.lastError
-    },
   }),
 }))
 
@@ -72,7 +68,7 @@ beforeEach(() => {
   state.klippyReady = true
   state.safeMode = false
   state.busy = false
-  state.lastError = null
+  state.startPrint.mockResolvedValue(null) // per-call outcome: null = success
   state.objects = { print_stats: { state: 'standby' } }
   wireCalls(
     {
@@ -108,7 +104,7 @@ describe('FilesView', () => {
     await flushPromises()
     expect(state.call).toHaveBeenCalledWith('server.files.get_directory', { path: 'gcodes' })
     const names = w.findAll('.file-name').map((n) => n.text())
-    expect(names).toEqual(['📁 parts', 'newer.gcode', 'older.gcode']) // .thumbs hidden
+    expect(names).toEqual(['parts', 'newer.gcode', 'older.gcode']) // .thumbs hidden
   })
 
   it('descends into a folder, offers Up, and starts with the folder-relative path', async () => {
@@ -126,7 +122,19 @@ describe('FilesView', () => {
     await w.find('button.print').trigger('click')
     await flushPromises()
     expect(state.startPrint).toHaveBeenCalledWith('parts/bracket.gcode')
-    // And Up climbs back to the root.
+    expect(w.emitted('close')).toBeTruthy() // successful start hands over to the print screen
+  })
+
+  it('keeps the confirm card open when the start fails', async () => {
+    state.startPrint.mockResolvedValueOnce('failed')
+    const w = mountView()
+    await flushPromises()
+    await w.findAll('button.file:not(.dir)')[0]!.trigger('click')
+    await flushPromises()
+    await w.find('button.print').trigger('click')
+    await flushPromises()
+    expect(w.emitted('close')).toBeUndefined()
+    expect(w.find('.confirm').exists()).toBe(true)
   })
 
   it('shows the slicer metadata + largest thumbnail on the confirm card', async () => {

@@ -16,5 +16,6 @@
     "extruder": "Hotend",
     "extruder1": "Hotend 2",
     "heater_bed": "Bed"
-  }
+  },
+  "ok": "OK"
 }

@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import { themes, type ThemeName } from '@filamind-app/core'
+import Icon from '@/components/AppIcon.vue'
 import { useSettingsStore } from '@/core/store/settings'
+import { useControlStore } from '@/core/store/control'
 import { shippedLocales, setLocale } from '@/core/i18n'
 
 const { t, locale } = useI18n()
 const settings = useSettingsStore()
+const ctl = useControlStore()
 const themeNames = Object.keys(themes) as ThemeName[]
 
 async function chooseLocale(code: string): Promise<void> {
@@ -16,6 +19,11 @@ async function chooseLocale(code: string): Promise<void> {
 // Display options the settings model already carries (theme.ts applies them to the DOM).
 const DENSITIES = ['comfortable', 'compact'] as const
 const MOTIFS = ['off', 'subtle', 'full'] as const
+
+/** Segmented control semantics: tapping the already-active side is a no-op, not a toggle. */
+function setSafeMode(on: boolean): void {
+  if (ctl.safeMode !== on) ctl.toggleSafeMode()
+}
 
 const appVersion = typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSION__ : '0.0.0'
 </script>
@@ -115,6 +123,39 @@ const appVersion = typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSION__ : '0
       </div>
     </section>
 
+    <!-- Safe mode: the write lock that blocks every printer mutation until switched off.
+         Same two-button segmented pattern as every other row: the highlighted side IS the
+         current state, so the row never reads inverted. -->
+    <section class="block touch-card">
+      <div class="opt-row">
+        <span class="opt-label safety-label">
+          <Icon name="shield" size="1.2rem" />
+          {{ t('settings.safeMode') }}
+        </span>
+        <div class="seg">
+          <button
+            class="seg-btn"
+            :class="{ on: ctl.safeMode }"
+            type="button"
+            :aria-pressed="ctl.safeMode"
+            @click="setSafeMode(true)"
+          >
+            {{ t('settings.safeModeOn') }}
+          </button>
+          <button
+            class="seg-btn"
+            :class="{ on: !ctl.safeMode }"
+            type="button"
+            :aria-pressed="!ctl.safeMode"
+            @click="setSafeMode(false)"
+          >
+            {{ t('settings.safeModeOff') }}
+          </button>
+        </div>
+      </div>
+      <p class="hint">{{ t('settings.safeModeHint') }}</p>
+    </section>
+
     <section class="block touch-card about">
       <span class="opt-label">{{ t('settings.version') }}</span>
       <span class="version">v{{ appVersion }}</span>
@@ -126,16 +167,16 @@ const appVersion = typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSION__ : '0
 .settings {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: var(--sp-4);
   height: 100%;
   min-height: 0;
   overflow-y: auto; /* settings grow over time - the list scrolls, the shell chrome doesn't */
 }
 .block {
-  padding: 1.25rem;
+  padding: var(--sp-4);
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: var(--sp-4);
 }
 .block-title {
   margin: 0;
@@ -146,15 +187,15 @@ const appVersion = typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSION__ : '0
 .themes {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(8rem, 100%), 1fr));
-  gap: 0.75rem;
+  gap: var(--sp-3);
 }
 .swatch {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.6rem;
-  padding: 1rem;
-  border-radius: 1rem;
+  gap: var(--sp-2);
+  padding: var(--sp-4);
+  border-radius: var(--r-card);
   background: var(--fm-surface-2);
   border: 3px solid var(--fm-border);
   cursor: pointer;
@@ -164,12 +205,12 @@ const appVersion = typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSION__ : '0
 }
 .dots {
   display: flex;
-  gap: 0.4rem;
+  gap: var(--sp-2);
 }
 .dots span {
   width: 1.4rem;
   height: 1.4rem;
-  border-radius: 999px;
+  border-radius: var(--r-pill);
 }
 .sw-name {
   font-size: 0.95rem;
@@ -178,8 +219,8 @@ const appVersion = typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSION__ : '0
 .lang-select {
   width: 100%;
   min-height: 3.5rem;
-  padding: 0 1rem;
-  border-radius: 1rem;
+  padding: 0 var(--sp-4);
+  border-radius: var(--r-card);
   background: var(--fm-surface-2);
   color: var(--fm-text);
   border: 1px solid var(--fm-border);
@@ -188,21 +229,21 @@ const appVersion = typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSION__ : '0
 .opt-row {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: var(--sp-3);
 }
 .opt-label {
   flex: 1;
   color: var(--fm-text);
-  font-size: 1rem;
+  font-size: var(--fs-body);
 }
 .seg {
   display: flex;
-  gap: 0.35rem;
+  gap: var(--sp-1);
 }
 .seg-btn {
-  min-height: 2.75rem;
-  padding: 0.25rem 0.9rem;
-  border-radius: 999px;
+  min-height: var(--touch);
+  padding: var(--sp-1) var(--sp-3);
+  border-radius: var(--r-pill);
   border: 1px solid var(--fm-border);
   background: var(--fm-surface-2);
   color: var(--fm-text-muted);
@@ -213,6 +254,16 @@ const appVersion = typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSION__ : '0
   background: var(--fm-primary);
   color: var(--fm-primary-contrast);
   border-color: transparent;
+}
+.safety-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+.hint {
+  margin: 0;
+  font-size: var(--fs-caption);
+  color: var(--fm-text-muted);
 }
 .about {
   flex-direction: row;

@@ -1,7 +1,6 @@
 {
   "hotend": "Buse",
   "bed": "Plateau",
-  "print": "Impression",
   "state": {
     "standby": "En veille",
     "printing": "Impression en cours",
@@ -12,13 +11,6 @@
   },
   "fan": "Ventilateur",
   "speed": "Vitesse",
-  "move": "Déplacer",
-  "tune": "Régler",
-  "files": "Fichiers",
-  "console": "Console",
-  "temp": "Chauffe",
-  "filament": "Filament",
-  "macros": "Macros",
   "layer": "Couche",
   "eta": "ETA"
 }

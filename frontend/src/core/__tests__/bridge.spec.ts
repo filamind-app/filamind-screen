@@ -26,7 +26,16 @@ describe('control write gate', () => {
   beforeEach(() => setActivePinia(createPinia()))
   it('refuses gated actions when the printer is not live', async () => {
     const ctl = useControlStore()
-    await ctl.home()
-    expect(ctl.lastError).toBe('refused')
+    const err = await ctl.home()
+    expect(err).toBe('refusedOffline') // per-call outcome (what consumers must branch on)
+    expect(ctl.lastError).toBe('refusedOffline') // diagnostic breadcrumb
+  })
+
+  it('names safe mode as the refusal cause, not connectivity', async () => {
+    const ctl = useControlStore()
+    ctl.toggleSafeMode()
+    const err = await ctl.home()
+    expect(err).toBe('refusedSafe')
+    ctl.toggleSafeMode()
   })
 })

@@ -16,5 +16,6 @@
     "extruder": "핫엔드",
     "extruder1": "핫엔드 2",
     "heater_bed": "베드"
-  }
+  },
+  "ok": "확인"
 }

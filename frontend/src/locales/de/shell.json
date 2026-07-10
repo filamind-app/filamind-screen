@@ -2,7 +2,6 @@
   "nav": "Bereiche",
   "tab": {
     "status": "Status",
-    "control": "Steuerung",
     "settings": "Einstellungen"
   },
   "trust": {
@@ -14,7 +13,6 @@
   },
   "remote": {
     "here": "Dieser Bildschirm",
-    "dismiss": "Meldung ausblenden",
-    "warning": "Warnung"
+    "dismiss": "Meldung ausblenden"
   }
 }

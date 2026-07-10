@@ -1,22 +1,20 @@
 {
-  "home": "全部歸位",
   "pause": "暫停",
   "resume": "繼續",
   "cancel": "取消",
   "cancelConfirm": "確認取消？",
   "estop": "緊急停止",
-  "safeOff": "已啟用寫入",
-  "safeOn": "安全模式",
   "down": "Klipper 未運作",
   "restart": "重新啟動",
   "firmwareRestart": "重啟韌體",
   "blocked": {
     "offline": "印表機未上線",
-    "safe": "安全模式已開啟",
-    "busy": "有操作正在進行中"
+    "safe": "安全模式已開啟"
   },
   "error": {
-    "refused": "已拒絕 — 印表機未上線",
-    "failed": "操作失敗"
+    "refusedSafe": "已拒絕 - 安全模式已開啟",
+    "refusedOffline": "已拒絕 — 印表機未上線",
+    "failed": "操作失敗",
+    "estopFailed": "緊急停止失敗 - 印表機未收到指令"
   }
 }

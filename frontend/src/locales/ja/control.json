@@ -1,22 +1,20 @@
 {
-  "home": "全軸ホーム",
   "pause": "一時停止",
   "resume": "再開",
   "cancel": "中止",
   "cancelConfirm": "中止しますか？",
   "estop": "緊急停止",
-  "safeOff": "書き込み有効",
-  "safeOn": "セーフモード",
   "down": "Klipperが動作していません",
   "restart": "再起動",
   "firmwareRestart": "ファームウェア再起動",
   "blocked": {
     "offline": "プリンターがオフライン",
-    "safe": "セーフモードが有効です",
-    "busy": "操作を実行中です"
+    "safe": "セーフモードが有効です"
   },
   "error": {
-    "refused": "拒否されました — プリンターがオフライン",
-    "failed": "操作に失敗しました"
+    "refusedSafe": "拒否されました - セーフモードが有効です",
+    "refusedOffline": "拒否されました — プリンターがオフライン",
+    "failed": "操作に失敗しました",
+    "estopFailed": "緊急停止に失敗しました - プリンターに届いていません"
   }
 }
