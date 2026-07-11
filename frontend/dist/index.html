@@ -13,14 +13,18 @@
         var s = JSON.parse(localStorage.getItem('filamind.settings') || '{}')
         document.documentElement.dataset.fmTheme = s && s.theme ? s.theme : 'tutankhamun'
         if (s && s.locale) {
+          var d = s.locale === 'ar' ? 'rtl' : 'ltr'
           document.documentElement.lang = s.locale
-          document.documentElement.dir = s.locale === 'ar' ? 'rtl' : 'ltr'
+          document.documentElement.dir = d
+          // Explicit direction too: the kiosk WebKitGTK doesn't always flip flex from the
+          // attribute alone (see core/i18n.ts applyDocumentLocale).
+          document.documentElement.style.direction = d
         }
       } catch (e) {
         /* default theme stays */
       }
     </script>
-    <script type="module" crossorigin src="./assets/index-BCXXRrri.js"></script>
+    <script type="module" crossorigin src="./assets/index-D3uQIwGv.js"></script>
     <link rel="stylesheet" crossorigin href="./assets/index-qTTKNiFy.css">
   </head>
   <body>
