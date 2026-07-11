@@ -59,6 +59,9 @@ const graphLabels = computed(() => {
 const printing = computed(() => stats.value.state === 'printing')
 const paused = computed(() => stats.value.state === 'paused')
 const active = computed(() => printing.value || paused.value)
+// A finished job (completed or cancelled) offers a one-tap reprint of the same file, instead of the
+// dead disabled Pause button the face used to show once a print ended.
+const done = computed(() => stats.value.state === 'complete' || stats.value.state === 'cancelled')
 
 const stateLabel = computed(() => {
   const key = `status.state.${stats.value.state ?? 'standby'}`
@@ -141,6 +144,12 @@ function onCancel(): void {
 onUnmounted(() => {
   if (cancelTimer) clearTimeout(cancelTimer)
 })
+
+// Reprint the just-finished file (same path the job face is already showing).
+function reprint(): void {
+  if (!canWrite.value || !stats.value.filename) return
+  void ctl.startPrint(stats.value.filename)
+}
 
 interface Tile {
   key: string
@@ -247,8 +256,9 @@ const tiles = computed<Tile[]>(() => [
       </div>
     </div>
 
-    <!-- Print actions only (navigation lives on the rail). -->
-    <div class="actions">
+    <!-- Print actions only (navigation lives on the rail). Hidden entirely at standby - a lone
+         disabled Pause button read as a broken screen. -->
+    <div v-if="active || (done && stats.filename)" class="actions">
       <button
         v-if="paused"
         class="touch-btn-primary action"
@@ -259,10 +269,10 @@ const tiles = computed<Tile[]>(() => [
         <Icon name="play" size="1.3rem" /> {{ t('control.resume') }}
       </button>
       <button
-        v-else
+        v-else-if="printing"
         class="touch-btn action"
         type="button"
-        :disabled="!printing || !canWrite"
+        :disabled="!canWrite"
         @click="ctl.pause()"
       >
         <Icon name="pause" size="1.3rem" /> {{ t('control.pause') }}
@@ -278,11 +288,21 @@ const tiles = computed<Tile[]>(() => [
         <Icon name="stop" size="1.3rem" />
         {{ confirmingCancel ? t('control.cancelConfirm') : t('control.cancel') }}
       </button>
+      <!-- Finished job: reprint the same file (spans the row - it is the only action). -->
+      <button
+        v-if="done && stats.filename"
+        class="touch-btn-primary action reprint"
+        type="button"
+        :disabled="!canWrite"
+        @click="reprint"
+      >
+        <Icon name="refresh" size="1.3rem" /> {{ t('control.reprint') }}
+      </button>
     </div>
 
     <!-- WHY the print actions are greyed out (safe mode / offline) - a touch panel has no hover
          tooltips, and unexplained disabled buttons on the job face read as a broken screen. -->
-    <p v-if="active && !canWrite" class="blocked-hint" role="status">
+    <p v-if="(active || (done && stats.filename)) && !canWrite" class="blocked-hint" role="status">
       <Icon name="shield" size="1rem" /> {{ blockedReason }}
     </p>
   </div>
@@ -472,6 +492,10 @@ const tiles = computed<Tile[]>(() => [
 }
 .action:disabled {
   opacity: 0.45;
+}
+/* Reprint is the only action shown when a job is done - let it span the whole row. */
+.reprint {
+  grid-column: 1 / -1;
 }
 .cancel.warning {
   border-color: var(--fm-warning);

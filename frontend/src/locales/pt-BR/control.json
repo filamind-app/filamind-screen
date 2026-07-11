@@ -3,6 +3,7 @@
   "resume": "Retomar",
   "cancel": "Cancelar",
   "cancelConfirm": "Confirmar cancelamento?",
+  "reprint": "Reimprimir",
   "estop": "Parada de emergência",
   "down": "O Klipper não está em execução",
   "restart": "Reiniciar",

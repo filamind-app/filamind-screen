@@ -10,6 +10,10 @@ All notable changes to FilaMind screen are documented here. Format: `## [version
   home screen's four stat tiles (hotend / bed / fan / speed) are shrunk to a compact grid, freeing
   the space beside the progress ring for a live temperature trend of every discovered heater - the
   same rolling history the Temperature tool plots, now glanceable straight from the job face.
+- **End-of-print reprint (v0.12.0 "job depth").** When a job finishes (completed or cancelled), the
+  job face offers a one-tap, full-width "Reprint" of the same file - replacing the dead, disabled
+  Pause button that used to sit there. The action bar is now hidden entirely at standby. New
+  `control.reprint` string translated across all 19 locales.
 
 ### Fixed
 

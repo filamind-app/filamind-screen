@@ -3,6 +3,7 @@
   "resume": "Resume",
   "cancel": "Cancel",
   "cancelConfirm": "Confirm cancel?",
+  "reprint": "Reprint",
   "estop": "Emergency stop",
   "down": "Klipper is not running",
   "restart": "Restart",

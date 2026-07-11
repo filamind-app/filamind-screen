@@ -11,6 +11,7 @@ const state = vi.hoisted(() => ({
   meta: null as Record<string, unknown> | null,
   thumb: null as string | null,
   objects: {} as Record<string, unknown>,
+  startPrint: vi.fn(),
 }))
 
 vi.mock('@/core/store/session', () => ({
@@ -35,6 +36,7 @@ vi.mock('@/core/store/control', () => ({
     pause: vi.fn(),
     resume: vi.fn(),
     cancel: vi.fn(),
+    startPrint: state.startPrint,
   }),
 }))
 vi.mock('@/core/jobMeta', async () => {
@@ -110,5 +112,16 @@ describe('StatusView job face', () => {
   it('shows no hint when writes are allowed', () => {
     const w = mountView()
     expect(w.find('.blocked-hint').exists()).toBe(false)
+  })
+
+  it('offers Reprint when a job is complete and reruns the same file (no dead Pause button)', async () => {
+    state.objects.print_stats = { state: 'complete', filename: 'part.gcode', print_duration: 3600 }
+    const w = mountView()
+    const btn = w.find('.reprint')
+    expect(btn.exists()).toBe(true)
+    // The old dead disabled Pause button must be gone once the job is done.
+    expect(w.text()).not.toContain(i18n.global.t('control.pause'))
+    await btn.trigger('click')
+    expect(state.startPrint).toHaveBeenCalledWith('part.gcode')
   })
 })
