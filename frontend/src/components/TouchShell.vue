@@ -47,15 +47,7 @@ const brandName = computed(() => printerName.value || 'FilaMind')
 // Every tool is a first-class destination on the side rail - no hidden overlay layer, no tab bar
 // eating the content height. The rail is a vertical WAI-ARIA tablist.
 type View =
-  | 'status'
-  | 'temp'
-  | 'filament'
-  | 'move'
-  | 'tune'
-  | 'files'
-  | 'macros'
-  | 'console'
-  | 'settings'
+  'status' | 'temp' | 'filament' | 'move' | 'tune' | 'files' | 'macros' | 'console' | 'settings'
 const view = ref<View>('status')
 
 const views: Record<View, Component> = {

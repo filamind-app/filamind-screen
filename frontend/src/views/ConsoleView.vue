@@ -73,8 +73,7 @@ onUnmounted(() => off?.())
     <div ref="logEl" class="log" dir="ltr">
       <p v-if="!lines.length" class="muted" dir="auto">{{ t('console.empty') }}</p>
       <pre v-for="l in lines" :key="l.id" class="line" :class="l.kind"
-        >{{ l.kind === 'sent' ? '> ' : '' }}{{ l.text }}</pre
-      >
+        >{{ l.kind === 'sent' ? '> ' : '' }}{{ l.text }}</pre>
     </div>
 
     <!-- Tap a recent command to refill the input (typing is the pain on a touch panel). -->
