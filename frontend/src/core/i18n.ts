@@ -2,6 +2,7 @@
 // list, RTL, and plurals). English bundled eagerly; the rest lazy. Compiler is bundled
 // (not runtimeOnly) because messages load at runtime via import.meta.glob.
 
+import { watch } from 'vue'
 import { createI18n, type Composer } from 'vue-i18n'
 import { LOCALES, DEFAULT_LOCALE, isRtl } from '@filamind-app/core'
 import { settingsStore } from './settings'
@@ -73,10 +74,19 @@ export function applyDocumentLocale(code: string): void {
   document.documentElement.dir = isRtl(code) ? 'rtl' : 'ltr'
 }
 
+/**
+ * The SINGLE source of truth for <html> lang + dir: whatever locale vue-i18n is actually
+ * displaying, the document direction matches it. Coupling dir to the reactive active locale (not
+ * to a settings-change handler) means no other writer can race it back to LTR - a roamed locale
+ * change and a local pick both flow through composer.locale, so RTL always follows the language.
+ */
+export function initDirectionSync(): void {
+  watch(() => composer.locale.value as string, applyDocumentLocale, { immediate: true })
+}
+
 export async function setLocale(code: string): Promise<void> {
   await loadLocale(code)
-  composer.locale.value = code
-  applyDocumentLocale(code)
+  composer.locale.value = code // initDirectionSync's watcher applies lang + dir from here
 }
 
 /** Keep vue-i18n's active locale in sync with the settings store when the locale changes from

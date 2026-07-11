@@ -4,7 +4,7 @@ import { moonrakerDbPersistence, roamSettings } from '@filamind-app/core'
 
 import App from './App.vue'
 import './assets/styles/main.css'
-import { i18n, detectLocale, setLocale, initLocaleSync } from './core/i18n'
+import { i18n, detectLocale, setLocale, initLocaleSync, initDirectionSync } from './core/i18n'
 import { initTheme } from './core/theme'
 import { settingsStore } from './core/settings'
 import { session, connector } from './core/session'
@@ -22,6 +22,7 @@ async function bootstrap(): Promise<void> {
   // Roam settings across surfaces via the printer's Moonraker DB (another surface can reconfigure this screen).
   roamSettings(settingsStore, moonrakerDbPersistence(connector), session.live)
 
+  initDirectionSync() // <html> lang+dir follow the active i18n locale (single source of truth)
   const locale = detectLocale(settingsStore.value.locale)
   await setLocale(locale)
   if (settingsStore.value.locale !== locale) settingsStore.patch({ locale })

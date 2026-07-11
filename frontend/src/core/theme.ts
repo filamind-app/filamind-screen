@@ -8,14 +8,15 @@ import { localPrefs, UI_SCALE } from './localPrefs'
 import { applyBacklight } from './backlight'
 
 function applyRoamed(s: UserSettings): void {
-  const { dir } = applySettings(s)
+  // applySettings applies the theme's --fm-* vars (its return value's `dir` is intentionally
+  // NOT used here: <html> lang + dir are owned solely by i18n's initDirectionSync, so this
+  // settings handler can never race the direction back to LTR after a locale change).
+  applySettings(s)
   if (typeof document === 'undefined') return
   const root = document.documentElement
   root.dataset.fmTheme = s.theme
   root.dataset.fmMotif = s.motifDensity
   root.dataset.fmReduced = String(s.reducedMotion)
-  root.lang = s.locale
-  root.dir = dir
 }
 
 /** Device-local readability (size + contrast) - re-applied on any local-prefs change. */
