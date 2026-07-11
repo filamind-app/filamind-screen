@@ -12,6 +12,10 @@
   "fan": "Ventola",
   "speed": "Velocità",
   "layer": "Strato",
+  "flow": "Flusso",
+  "z": "Z",
+  "pa": "PA",
+  "stats": "Statistiche",
   "eta": "ETA",
   "elapsed": "Trascorso",
   "finishesAt": "fine ~{time}"

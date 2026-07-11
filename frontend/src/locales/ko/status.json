@@ -12,6 +12,10 @@
   "fan": "팬",
   "speed": "속도",
   "layer": "레이어",
+  "flow": "유량",
+  "z": "Z",
+  "pa": "PA",
+  "stats": "통계",
   "eta": "남음",
   "elapsed": "경과",
   "finishesAt": "~{time} 완료"

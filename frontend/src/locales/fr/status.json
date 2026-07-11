@@ -12,6 +12,10 @@
   "fan": "Ventilateur",
   "speed": "Vitesse",
   "layer": "Couche",
+  "flow": "Débit",
+  "z": "Z",
+  "pa": "PA",
+  "stats": "Stats",
   "eta": "ETA",
   "elapsed": "Écoulé",
   "finishesAt": "fin ~{time}"

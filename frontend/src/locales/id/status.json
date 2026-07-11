@@ -12,6 +12,10 @@
   "fan": "Kipas",
   "speed": "Kecepatan",
   "layer": "Lapisan",
+  "flow": "Aliran",
+  "z": "Z",
+  "pa": "PA",
+  "stats": "Statistik",
   "eta": "ETA",
   "elapsed": "Berlalu",
   "finishesAt": "selesai ~{time}"

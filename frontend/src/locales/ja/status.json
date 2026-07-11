@@ -12,6 +12,10 @@
   "fan": "ファン",
   "speed": "速度",
   "layer": "レイヤー",
+  "flow": "フロー",
+  "z": "Z",
+  "pa": "PA",
+  "stats": "統計",
   "eta": "残り",
   "elapsed": "経過",
   "finishesAt": "終了 ~{time}"

@@ -12,6 +12,10 @@
   "fan": "Fan",
   "speed": "Speed",
   "layer": "Layer",
+  "flow": "Flow",
+  "z": "Z",
+  "pa": "PA",
+  "stats": "Stats",
   "eta": "ETA",
   "elapsed": "Elapsed",
   "finishesAt": "ends ~{time}"

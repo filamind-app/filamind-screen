@@ -12,6 +12,10 @@
   "fan": "Quạt",
   "speed": "Tốc độ",
   "layer": "Lớp",
+  "flow": "Lưu lượng",
+  "z": "Z",
+  "pa": "PA",
+  "stats": "Thống kê",
   "eta": "Còn lại",
   "elapsed": "Đã trôi qua",
   "finishesAt": "xong ~{time}"

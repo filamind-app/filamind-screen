@@ -12,6 +12,10 @@
   "fan": "Lüfter",
   "speed": "Tempo",
   "layer": "Schicht",
+  "flow": "Fluss",
+  "z": "Z",
+  "pa": "PA",
+  "stats": "Statistik",
   "eta": "Restzeit",
   "elapsed": "Vergangen",
   "finishesAt": "endet ~{time}"

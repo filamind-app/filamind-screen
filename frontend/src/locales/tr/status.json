@@ -12,6 +12,10 @@
   "fan": "Fan",
   "speed": "Hız",
   "layer": "Katman",
+  "flow": "Akış",
+  "z": "Z",
+  "pa": "PA",
+  "stats": "İstatistik",
   "eta": "ETA",
   "elapsed": "Geçen",
   "finishesAt": "bitiş ~{time}"

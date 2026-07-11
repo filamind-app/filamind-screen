@@ -21,9 +21,17 @@ export interface LocalPrefs {
   contrast: Contrast
   /** Backlight level 0.1..1 (1 = full). The panel boots at full; this only dims. */
   brightness: number
+  /** Which stat-grid page the job face shows (0-based; the view wraps it to the page count). */
+  statPage: number
 }
 
-const DEFAULTS: LocalPrefs = { sleepMin: 5, uiSize: 'md', contrast: 'normal', brightness: 1 }
+const DEFAULTS: LocalPrefs = {
+  sleepMin: 5,
+  uiSize: 'md',
+  contrast: 'normal',
+  brightness: 1,
+  statPage: 0,
+}
 
 const UI_SIZES: readonly UiSize[] = ['sm', 'md', 'lg', 'xl']
 
@@ -40,6 +48,11 @@ function load(): LocalPrefs {
       contrast: raw['contrast'] === 'high' ? 'high' : 'normal',
       // Clamp to a floor so a stored 0 can never black the panel out with no way back.
       brightness: typeof b === 'number' && b >= 0.1 && b <= 1 ? b : DEFAULTS.brightness,
+      // A non-negative integer; the job face wraps it to however many stat pages it defines.
+      statPage:
+        typeof raw['statPage'] === 'number' && raw['statPage'] >= 0
+          ? Math.floor(raw['statPage'])
+          : DEFAULTS.statPage,
     }
   } catch {
     return { ...DEFAULTS }

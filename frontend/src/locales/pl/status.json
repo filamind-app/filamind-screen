@@ -12,6 +12,10 @@
   "fan": "Wentylator",
   "speed": "Prędkość",
   "layer": "Warstwa",
+  "flow": "Przepływ",
+  "z": "Z",
+  "pa": "PA",
+  "stats": "Statystyki",
   "eta": "ETA",
   "elapsed": "Upłynęło",
   "finishesAt": "koniec ~{time}"

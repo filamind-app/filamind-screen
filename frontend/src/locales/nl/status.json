@@ -12,6 +12,10 @@
   "fan": "Ventilator",
   "speed": "Snelheid",
   "layer": "Laag",
+  "flow": "Flow",
+  "z": "Z",
+  "pa": "PA",
+  "stats": "Statistieken",
   "eta": "ETA",
   "elapsed": "Verstreken",
   "finishesAt": "klaar ~{time}"

@@ -12,6 +12,10 @@
   "fan": "Ventilador",
   "speed": "Velocidade",
   "layer": "Camada",
+  "flow": "Fluxo",
+  "z": "Z",
+  "pa": "PA",
+  "stats": "Estatísticas",
   "eta": "ETA",
   "elapsed": "Decorrido",
   "finishesAt": "termina ~{time}"

@@ -12,6 +12,10 @@
   "fan": "फैन",
   "speed": "गति",
   "layer": "लेयर",
+  "flow": "फ्लो",
+  "z": "Z",
+  "pa": "PA",
+  "stats": "आँकड़े",
   "eta": "ETA",
   "elapsed": "बीता समय",
   "finishesAt": "समाप्ति ~{time}"
