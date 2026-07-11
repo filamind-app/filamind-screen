@@ -227,12 +227,11 @@ const graphLabels = computed(() => {
   min-width: 4.5rem;
   text-align: end;
 }
-/* Direction-aware "towards target" arrow (a hardcoded → points the wrong way in RTL). */
+/* Direction-aware "towards target" arrow (a hardcoded → points the wrong way in RTL). The RTL
+   override lives in main.css - a scoped `:global([dir=rtl])` selector was collapsed by the
+   minifier to a bare `[dir=rtl] { … }` on <html>. */
 .row-target::before {
   content: '→ ';
-}
-:global([dir='rtl']) .row-target::before {
-  content: '← ';
 }
 .row-target.on {
   color: var(--fm-primary);

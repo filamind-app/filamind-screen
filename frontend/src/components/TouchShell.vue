@@ -365,9 +365,8 @@ function onRailKey(e: KeyboardEvent): void {
   color: var(--fm-primary);
   box-shadow: inset 3px 0 0 var(--fm-primary);
 }
-:global([dir='rtl']) .rail-btn.active {
-  box-shadow: inset -3px 0 0 var(--fm-primary);
-}
+/* The RTL variant (accent bar on the other edge) lives in main.css - a scoped `:global([dir=rtl])`
+   selector was collapsed by the minifier to a bare `[dir=rtl] { … }` on <html>. */
 /* Height-budgeted: views lay themselves out inside the available space (no page scroll on a
    kiosk panel); lists scroll internally instead. */
 .content {

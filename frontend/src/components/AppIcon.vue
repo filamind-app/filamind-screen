@@ -216,8 +216,7 @@ withDefaults(defineProps<{ name: IconName; size?: string }>(), { size: '1.5rem' 
 .icon {
   flex-shrink: 0;
 }
-/* Directional glyphs point "back" in RTL too. */
-:global([dir='rtl']) .icon.rtl-mirror {
-  transform: scaleX(-1);
-}
+/* The RTL mirror of the back chevron lives in main.css, NOT here: a scoped `:global([dir='rtl'])
+   … ` selector was collapsed by the CSS minifier to a bare `[dir=rtl] { transform: scaleX(-1) }`,
+   which mirrored the ENTIRE page (dir=rtl is on <html>) and made Arabic look reversed. */
 </style>
