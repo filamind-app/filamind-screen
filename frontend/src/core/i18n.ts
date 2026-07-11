@@ -75,18 +75,20 @@ export function applyDocumentLocale(code: string): void {
 }
 
 /**
- * The SINGLE source of truth for <html> lang + dir: whatever locale vue-i18n is actually
- * displaying, the document direction matches it. Coupling dir to the reactive active locale (not
- * to a settings-change handler) means no other writer can race it back to LTR - a roamed locale
- * change and a local pick both flow through composer.locale, so RTL always follows the language.
+ * <html> lang + dir have ONE writer: setLocale, right here. Every locale change - a local pick,
+ * a roamed settings change (via initLocaleSync), first boot - flows through setLocale, so the
+ * direction always matches the displayed language. The settings handler (applyRoamed) must NOT
+ * also write dir, or it can race this back to LTR after the locale changed.
+ * A reactive backstop keeps them in sync if the active locale is ever changed another way.
  */
 export function initDirectionSync(): void {
-  watch(() => composer.locale.value as string, applyDocumentLocale, { immediate: true })
+  watch(() => composer.locale.value as string, applyDocumentLocale)
 }
 
 export async function setLocale(code: string): Promise<void> {
   await loadLocale(code)
-  composer.locale.value = code // initDirectionSync's watcher applies lang + dir from here
+  composer.locale.value = code
+  applyDocumentLocale(code) // set lang + dir synchronously - do not depend on a watcher firing
 }
 
 /** Keep vue-i18n's active locale in sync with the settings store when the locale changes from

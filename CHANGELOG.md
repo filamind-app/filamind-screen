@@ -2,15 +2,22 @@
 
 All notable changes to FilaMind screen are documented here. Format: `## [version]` sections (parsed by the release workflow).
 
+## [0.11.2]
+
+### Fixed
+
+- **Arabic direction (really this time).** Selecting Arabic now flips the whole interface to
+  right-to-left. Direction is set synchronously when the language changes (`setLocale`), rather
+  than relying on a watcher that did not fire on the device's webview, and the settings handler
+  no longer writes direction at all - so nothing can race it back to left-to-right. Verified on
+  the device: Arabic renders RTL (rail on the right, right-aligned).
+
 ## [0.11.1]
 
 ### Fixed
 
-- **Arabic direction.** Selecting Arabic now flips the whole interface to right-to-left. The text
-  had switched to Arabic but the layout stayed left-to-right (so it read reversed), because the
-  document direction had two writers that could race - the settings handler could set it back to
-  LTR after the locale change. Direction now has a single source of truth: it follows the active
-  interface language via one reactive watcher.
+- **Arabic direction (partial).** First attempt: gave the document direction a single owner
+  (superseded by 0.11.2, which sets it synchronously so it works on the device webview).
 
 ## [0.11.0]
 
