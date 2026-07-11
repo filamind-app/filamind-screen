@@ -311,12 +311,11 @@ const tiles = computed<Tile[]>(() => [
   opacity: 0;
   pointer-events: none;
 }
-:global(:root[data-fm-motif='subtle']) .motif {
-  opacity: 0.1;
-}
-:global(:root[data-fm-motif='full']) .motif {
-  opacity: 0.25;
-}
+/* The motif's density -> opacity rules live in main.css as plain globals. Written here as a
+   scoped `:global(:root[data-fm-motif=…]) .motif`, the CSS minifier collapsed them to a bare
+   `:root[data-fm-motif=…] { opacity: … }`, dropping the `.motif` and applying the opacity to
+   <html> itself - dimming the WHOLE screen (a default-'subtle' panel booted at 10% opacity, the
+   real cause of the "faded" reports). */
 .ring {
   width: calc(10rem * var(--ui-fs));
   height: calc(10rem * var(--ui-fs));

@@ -2,6 +2,30 @@
 
 All notable changes to FilaMind screen are documented here. Format: `## [version]` sections (parsed by the release workflow).
 
+## [0.11.6]
+
+### Fixed
+
+- **Decorative motifs dimmed the entire screen, and a fresh panel booted faded - the real cause of
+  the "faded" reports.** The motif's density-to-opacity rule was authored inside a component's
+  scoped styles as `:global(:root[data-fm-motif='subtle']) .motif { opacity: .1 }`; the CSS minifier
+  collapsed it to a bare `:root[data-fm-motif='subtle'] { opacity: .1 }` - dropping the `.motif`
+  descendant and applying the opacity to `<html>` itself. Because the default motif density is
+  "subtle", every fresh panel rendered the WHOLE page at 10% opacity, and the motif control behaved
+  as an inverted screen dimmer (off = 100%, subtle = 10%, full = 25%). This is the same
+  minifier-collapse class as the 0.11.5 RTL mirror bug. A repo-wide sweep found five rules with the
+  same defect; all now live in the global stylesheet as plain selectors that target their real
+  elements, not the root: the motif opacity, the reduced-motion "locating" frame, and the three
+  docked-keyboard insets (toast host, console log, dialog re-open chip).
+- **Jog / Home All / Disable steppers were not blocked during an active print.** The move tool gated
+  only on `canWrite`, which is true mid-print, so tapping Home All (or a jog, or Disable) during a
+  print injected G28 / G1 / M84 into the running job - fighting the print and risking a toolhead
+  crash. It now applies the same `!printing` guard as the filament, macros, and files tools; a
+  paused print stays movable for manual intervention.
+- The docked on-screen keyboard no longer covers toasts, the console log's entry row, or the dialog
+  re-open chip (same collapse fix).
+- Reduced-motion mode no longer paints a stray 4px accent frame around the whole screen.
+
 ## [0.11.5]
 
 ### Fixed

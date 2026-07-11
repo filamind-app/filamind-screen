@@ -32,11 +32,9 @@ import Icon from '@/components/AppIcon.vue'
   z-index: 80;
   pointer-events: none;
 }
-/* While the keyboard is docked, float toasts above it so they never cover (or intercept taps
-   meant for) the space/enter row. */
-:global(html.osk-docked) .host {
-  bottom: calc(var(--osk-h) + var(--sp-2));
-}
+/* While the keyboard is docked, toasts float above it so they never cover (or intercept taps
+   meant for) the space/enter row - rule in main.css. As a scoped `:global(html.osk-docked) .host`
+   the minifier collapsed it onto <html>, so toasts stayed behind the keyboard. */
 .toast {
   pointer-events: auto;
   display: flex;

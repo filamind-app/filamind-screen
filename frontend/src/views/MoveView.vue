@@ -37,24 +37,39 @@ function axisValue(i: number, char: string, dp: number): string {
 }
 const anyHomed = computed(() => homed.value.length > 0)
 
+// Never jog / home / drop steppers INTO a running job: a G28 or jog fights the print and can crash
+// the toolhead through the part. A paused print is a legitimate manual-move moment, so paused
+// stays allowed - same rule the filament tool applies. (canWrite alone is true mid-print.)
+const printing = computed(
+  () => session.object<{ state?: string }>('print_stats')?.state === 'printing',
+)
+const canMove = computed(() => canWrite.value && !printing.value)
+const moveBlockedReason = computed(() => (printing.value ? t('files.busy') : blockedReason.value))
+
 const STEPS = [0.1, 1, 10, 100]
 const step = ref(10)
 
 // Relative move; G91/G90 are wrapped per-jog so we never leave the machine in relative mode. Z is
 // fed slower than XY - a fast Z jog into the bed is how nozzles die.
 function jog(axis: 'X' | 'Y' | 'Z', dir: 1 | -1): void {
-  if (!canWrite.value) return
+  if (!canMove.value) return
   const feed = axis === 'Z' ? 600 : 6000
   const dist = (dir * step.value).toFixed(2)
   void ctl.runGcode(`G91\nG1 ${axis}${dist} F${feed}\nG90`)
 }
 function homeAxis(axis: 'X' | 'Y' | 'Z'): void {
-  if (!canWrite.value) return
+  if (!canMove.value) return
   void ctl.runGcode(`G28 ${axis}`)
 }
 function disableMotors(): void {
-  if (!canWrite.value) return
+  if (!canMove.value) return
   void ctl.runGcode('M84')
+}
+// Home-all routes through the same guard as every other motion write (not just the disabled
+// attribute) so it can never fire mid-print.
+function homeAll(): void {
+  if (!canMove.value) return
+  void ctl.home()
 }
 </script>
 
@@ -96,53 +111,38 @@ function disableMotors(): void {
         <button
           class="touch-btn jog up"
           type="button"
-          :disabled="!canWrite"
-          :title="canWrite ? '' : blockedReason"
+          :disabled="!canMove"
+          :title="canMove ? '' : moveBlockedReason"
           @click="jog('Y', 1)"
         >
           Y+
         </button>
-        <button
-          class="touch-btn jog left"
-          type="button"
-          :disabled="!canWrite"
-          @click="jog('X', -1)"
-        >
+        <button class="touch-btn jog left" type="button" :disabled="!canMove" @click="jog('X', -1)">
           X−
         </button>
         <button
           class="touch-btn jog home"
           type="button"
-          :disabled="!canWrite"
+          :disabled="!canMove"
           :aria-label="t('move.homeAll')"
-          @click="ctl.home()"
+          @click="homeAll()"
         >
           <Icon name="home" size="1.6rem" />
         </button>
-        <button
-          class="touch-btn jog right"
-          type="button"
-          :disabled="!canWrite"
-          @click="jog('X', 1)"
-        >
+        <button class="touch-btn jog right" type="button" :disabled="!canMove" @click="jog('X', 1)">
           X+
         </button>
-        <button
-          class="touch-btn jog down"
-          type="button"
-          :disabled="!canWrite"
-          @click="jog('Y', -1)"
-        >
+        <button class="touch-btn jog down" type="button" :disabled="!canMove" @click="jog('Y', -1)">
           Y−
         </button>
       </div>
 
       <!-- Z jog -->
       <div class="z">
-        <button class="touch-btn jog" type="button" :disabled="!canWrite" @click="jog('Z', 1)">
+        <button class="touch-btn jog" type="button" :disabled="!canMove" @click="jog('Z', 1)">
           Z+
         </button>
-        <button class="touch-btn jog" type="button" :disabled="!canWrite" @click="jog('Z', -1)">
+        <button class="touch-btn jog" type="button" :disabled="!canMove" @click="jog('Z', -1)">
           Z−
         </button>
       </div>
@@ -155,12 +155,12 @@ function disableMotors(): void {
         :key="a.char"
         class="touch-btn"
         type="button"
-        :disabled="!canWrite"
+        :disabled="!canMove"
         @click="homeAxis(a.char)"
       >
         {{ t('move.homeAxis', { axis: a.char }) }}
       </button>
-      <button class="touch-btn disable" type="button" :disabled="!canWrite" @click="disableMotors">
+      <button class="touch-btn disable" type="button" :disabled="!canMove" @click="disableMotors">
         {{ t('move.disable') }}
       </button>
     </div>

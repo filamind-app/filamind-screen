@@ -237,10 +237,8 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
   color: var(--fm-warning);
   box-shadow: 0 0.4rem 1.2rem rgba(0, 0, 0, 0.35);
 }
-/* Lift the chip above the docked keyboard so it never overlays the keys. */
-:global(html.osk-docked) .reopen-chip {
-  inset-block-end: calc(var(--osk-h) + var(--sp-2));
-}
+/* The chip lifts above the docked keyboard so it never overlays the keys - rule in main.css. As a
+   scoped `:global(html.osk-docked) .reopen-chip` the minifier collapsed it onto <html>. */
 .reopen-icon {
   display: inline-flex;
   align-items: center;

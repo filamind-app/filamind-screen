@@ -47,7 +47,15 @@ const brandName = computed(() => printerName.value || 'FilaMind')
 // Every tool is a first-class destination on the side rail - no hidden overlay layer, no tab bar
 // eating the content height. The rail is a vertical WAI-ARIA tablist.
 type View =
-  'status' | 'temp' | 'filament' | 'move' | 'tune' | 'files' | 'macros' | 'console' | 'settings'
+  | 'status'
+  | 'temp'
+  | 'filament'
+  | 'move'
+  | 'tune'
+  | 'files'
+  | 'macros'
+  | 'console'
+  | 'settings'
 const view = ref<View>('status')
 
 const views: Record<View, Component> = {
@@ -485,8 +493,7 @@ function onRailKey(e: KeyboardEvent): void {
     box-shadow: inset 0 0 0 4px var(--fm-primary);
   }
 }
-:global(:root[data-fm-reduced='true']) .shell.locating {
-  animation: none;
-  box-shadow: inset 0 0 0 4px var(--fm-primary);
-}
+/* The in-app reduced-motion fallback lives in main.css as a plain global. As a scoped
+   `:global(:root[data-fm-reduced='true']) .shell.locating` the minifier collapsed it onto <html>,
+   painting a stray 4px inset frame around the whole screen whenever reduced-motion was on. */
 </style>

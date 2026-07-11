@@ -73,7 +73,8 @@ onUnmounted(() => off?.())
     <div ref="logEl" class="log" dir="ltr">
       <p v-if="!lines.length" class="muted" dir="auto">{{ t('console.empty') }}</p>
       <pre v-for="l in lines" :key="l.id" class="line" :class="l.kind"
-        >{{ l.kind === 'sent' ? '> ' : '' }}{{ l.text }}</pre>
+        >{{ l.kind === 'sent' ? '> ' : '' }}{{ l.text }}</pre
+      >
     </div>
 
     <!-- Tap a recent command to refill the input (typing is the pain on a touch panel). -->
@@ -130,11 +131,9 @@ onUnmounted(() => off?.())
   padding: var(--sp-2) var(--sp-3);
   min-height: 8rem;
 }
-/* With the keyboard docked the content height is tight (a small panel loses ~16rem); the log
-   yields its floor so the entry row and its chips stay above the keys, never clipped. */
-:global(html.osk-docked) .log {
-  min-height: 3rem;
-}
+/* With the keyboard docked the log yields its min-height floor so the entry row and its chips stay
+   above the keys - rule in main.css. As a scoped `:global(html.osk-docked) .log` the minifier
+   collapsed it onto <html>, so the log kept its full floor and pushed the entry row behind the keys. */
 .muted {
   margin: 0;
   color: var(--fm-text-muted);
