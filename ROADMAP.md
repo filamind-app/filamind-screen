@@ -31,34 +31,29 @@ verified on real printer hardware before the next begins. Details of shipped wor
 - Direct value entry on the number pad for speed / flow / fan; console recall chips.
 - Display settings (density, motifs, reduced animations) and app version.
 
-## Planned
-
 ### v0.9.0 - Design-system reset
 The foundation every later phase builds on:
 - Design tokens: a typographic scale with oversized glanceable numerals, a 4pt spacing scale, two
   corner radii, and a touch-target floor (44px at the reference canvas) enforced everywhere.
 - A single themed SVG line-icon set replacing all emoji and text glyphs, recolorable by theme.
-- Shared UI primitives: tool header (direction-aware back), list rows, empty states with an icon +
-  explanation + action, and a three-severity toast system replacing inline error text.
+- Shared UI primitives: tool header (direction-aware back), empty states, and a three-severity
+  toast system (sticky for failed destructive actions) replacing inline error text.
 - Navigation restructure: a slim side icon rail makes every tool a first-class destination and
   returns the bottom tab bar's height to the content.
-- A control store that handles concurrent writes (required for multi-control device panels).
+- A control store that handles concurrent writes and reports per-call outcomes.
 - Density and motif settings wired to real visual effects.
 
 ### v0.10.0 - Core experience floor
-- An on-screen keyboard that appears automatically for every input that needs it: a full QWERTY
-  layout for text fields (console and any future text entry) and the numeric pad for numeric
-  fields - nothing on the screen may require a physical keyboard. The pad gains decimal and
-  negative entry (absolute Z-offset and signed values).
-- Job face upgrade: the print's thumbnail on the status screen, elapsed time, and a blended
-  time-remaining estimate with a wall-clock "finishes at" readout.
-- A live temperature graph.
-- Screen sleep/dim with tap-to-wake (and a short wake delay against ghost touches).
-- Small-panel ergonomics pass: evaluate a physical floor for touch targets (the uniform canvas
-  scales them down with the panel) and a scroll affordance for the navigation rail when the
-  height budget clips it (e.g. 480x320 with the recovery strip visible).
-- Remote-navigation parity: extend the cross-surface navigate command (shared core package and
-  sender apps) to cover every rail destination, not just the original three views.
+- An on-screen QWERTY keyboard that appears automatically for every text input - nothing on the
+  screen requires a physical keyboard - plus decimal and negative entry on the number pad
+  (absolute Z offset and signed values).
+- Job face upgrade: the print's slicer thumbnail, elapsed time, and a blended time-remaining
+  estimate with a wall-clock "ends ~" readout.
+- A live temperature graph over a rolling history of every discovered heater and sensor.
+- Screen sleep with tap-to-wake (per-device idle setting; never while a job is active; a short
+  wake guard against ghost touches).
+
+## Planned
 
 ### v0.11.0 - Job depth
 - Swappable stat grids on the job face (speed / flow / Z / pressure advance / layers).
@@ -67,6 +62,11 @@ The foundation every later phase builds on:
 - Exclude-object with a tappable bed map.
 - A miniature print chip so the other tools stay usable mid-print without losing the job at a
   glance.
+- Small-panel ergonomics pass: evaluate a physical floor for touch targets (the uniform canvas
+  scales them down with the panel) and a scroll affordance for the navigation rail when the
+  height budget clips it (e.g. 480x320 with the recovery strip visible).
+- Remote-navigation parity: extend the cross-surface navigate command (shared core package and
+  sender apps) to cover every rail destination, not just the original three views.
 
 ### v0.12.0 - Files, macros and console parity
 - File sorting with a persisted order, a rich pre-print detail view, delete/rename with confirm,

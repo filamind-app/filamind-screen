@@ -17,5 +17,6 @@
     "extruder1": "Fusor 2",
     "heater_bed": "Cama"
   },
-  "ok": "Aceptar"
+  "ok": "Aceptar",
+  "sign": "Cambiar signo"
 }

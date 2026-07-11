@@ -62,8 +62,15 @@ interface Row {
   fmtStep: (d: number) => string
   apply: (d: number) => void
   reset: () => void
-  /** Absolute entry via the on-screen numpad (rows without it are nudge-only, e.g. Z). */
-  abs?: { min: number; max: number; set: (v: number) => void }
+  /** Absolute entry via the on-screen numpad. */
+  abs?: {
+    min: number
+    max: number
+    set: (v: number) => void
+    unit?: string
+    decimal?: boolean
+    negative?: boolean
+  }
 }
 const rows = computed<Row[]>(() => [
   {
@@ -94,6 +101,16 @@ const rows = computed<Row[]>(() => [
     fmtStep: fmtZ,
     apply: adjustZ,
     reset: () => send('SET_GCODE_OFFSET Z=0 MOVE=1'),
+    // Absolute signed entry; ±2mm covers any sane live baby-step while refusing typos that
+    // would drive the nozzle into the bed.
+    abs: {
+      min: -2,
+      max: 2,
+      decimal: true,
+      negative: true,
+      unit: 'mm',
+      set: (v) => send(`SET_GCODE_OFFSET Z=${v.toFixed(3)} MOVE=1`),
+    },
   },
   {
     key: 'fan',
@@ -176,7 +193,9 @@ watch(canWrite, (ok) => {
       :label="editing.label"
       :min="editing.abs.min"
       :max="editing.abs.max"
-      unit="%"
+      :unit="editing.abs.unit ?? '%'"
+      :decimal="editing.abs.decimal"
+      :negative="editing.abs.negative"
       @confirm="confirmAbs"
       @close="editing = null"
     />

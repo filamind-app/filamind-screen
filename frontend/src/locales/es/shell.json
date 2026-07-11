@@ -14,5 +14,6 @@
   "remote": {
     "here": "Esta pantalla",
     "dismiss": "Descartar mensaje"
-  }
+  },
+  "wake": "Activar la pantalla"
 }

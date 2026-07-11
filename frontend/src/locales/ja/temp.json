@@ -17,5 +17,6 @@
     "extruder1": "ホットエンド2",
     "heater_bed": "ベッド"
   },
-  "ok": "OK"
+  "ok": "OK",
+  "sign": "符号を切り替え"
 }

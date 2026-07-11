@@ -12,5 +12,7 @@
   "fan": "风扇",
   "speed": "速度",
   "layer": "层",
-  "eta": "剩余"
+  "eta": "剩余",
+  "elapsed": "已用",
+  "finishesAt": "预计{time}完成"
 }

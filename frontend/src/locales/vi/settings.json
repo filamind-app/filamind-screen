@@ -27,5 +27,8 @@
   "safeMode": "Chế độ an toàn",
   "safeModeOn": "Bật",
   "safeModeOff": "Tắt",
-  "safeModeHint": "Chặn mọi điều khiển máy in cho đến khi tắt."
+  "safeModeHint": "Chặn mọi điều khiển máy in cho đến khi tắt.",
+  "sleep": "Ngủ màn hình",
+  "sleepOff": "Tắt",
+  "minutes": "{n} phút"
 }

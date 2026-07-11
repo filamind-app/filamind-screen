@@ -14,5 +14,6 @@
   "remote": {
     "here": "This screen",
     "dismiss": "Dismiss message"
-  }
+  },
+  "wake": "Wake the screen"
 }

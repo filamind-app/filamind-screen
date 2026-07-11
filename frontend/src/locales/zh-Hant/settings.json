@@ -27,5 +27,8 @@
   "safeMode": "安全模式",
   "safeModeOn": "開啟",
   "safeModeOff": "關",
-  "safeModeHint": "開啟後將阻止所有印表機操作，直到關閉。"
+  "safeModeHint": "開啟後將阻止所有印表機操作，直到關閉。",
+  "sleep": "螢幕休眠",
+  "sleepOff": "關",
+  "minutes": "{n}分鐘"
 }

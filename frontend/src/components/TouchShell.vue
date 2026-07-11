@@ -5,6 +5,11 @@ import TrustRibbon from '@/components/TrustRibbon.vue'
 import Icon, { type IconName } from '@/components/AppIcon.vue'
 import PromptDialog from '@/components/PromptDialog.vue'
 import ToastHost from '@/components/ToastHost.vue'
+import OnScreenKeyboard from '@/components/OnScreenKeyboard.vue'
+import SleepShield from '@/components/SleepShield.vue'
+import { bindOsk, oskTarget, closeOsk } from '@/core/osk'
+import { startIdleWatch } from '@/core/idle'
+import { startTempHistory } from '@/core/tempHistory'
 import StatusView from '@/views/StatusView.vue'
 import SettingsView from '@/views/SettingsView.vue'
 import MoveView from '@/views/MoveView.vue'
@@ -27,6 +32,9 @@ const sess = useSessionStore()
 // the host answers (and if it never does, e.g. a cold boot before Klipper is up).
 const printerName = ref('')
 onMounted(async () => {
+  bindOsk() // every text input on this device summons the on-screen keyboard
+  startIdleWatch() // screen sleep (never while a job is active)
+  startTempHistory() // temperature history is warm before the graph is ever opened
   try {
     const info = await connector.call<{ hostname?: string }>('printer.info')
     printerName.value = info?.hostname ?? ''
@@ -100,6 +108,13 @@ const railViews = computed<View[]>(() => {
 
 const active = computed<Component>(() => views[view.value])
 
+// A view change unmounts the focused input WITHOUT a focusout (the HTML focus-fixup rule fires
+// no blur when the element is removed), which would strand the keyboard docked over the new
+// view with a detached target. Close it on every navigation.
+watch(view, () => {
+  if (oskTarget.value) closeOsk()
+})
+
 function go(to: string): void {
   // Legacy remote/nav names from other surfaces map onto the rail.
   const target = (to === 'control' ? 'status' : to) as View
@@ -148,7 +163,7 @@ function onRailKey(e: KeyboardEvent): void {
 </script>
 
 <template>
-  <div class="shell" :class="{ locating: remoteLocating }">
+  <div class="shell" :class="{ locating: remoteLocating, 'osk-open': !!oskTarget }">
     <header class="bar">
       <div class="brand">
         <img src="/favicon.svg" alt="" />
@@ -255,6 +270,8 @@ function onRailKey(e: KeyboardEvent): void {
 
     <PromptDialog />
     <ToastHost />
+    <OnScreenKeyboard />
+    <SleepShield />
   </div>
 </template>
 
@@ -365,6 +382,12 @@ function onRailKey(e: KeyboardEvent): void {
 .content > :deep(*) {
   flex: 1;
   min-height: 0;
+}
+/* While the on-screen keyboard is docked, the content yields its height so the focused
+   input stays visible above the keys (views are height-budgeted, so they just compress).
+   --osk-h lives in the token layer (the keyboard is teleported outside this scope). */
+.shell.osk-open .content {
+  padding-bottom: var(--osk-h);
 }
 
 /* Klipper-down recovery strip: message + the two restart actions. */

@@ -12,5 +12,7 @@
   "fan": "Kipas",
   "speed": "Kecepatan",
   "layer": "Lapisan",
-  "eta": "ETA"
+  "eta": "ETA",
+  "elapsed": "Berlalu",
+  "finishesAt": "selesai ~{time}"
 }

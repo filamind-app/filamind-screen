@@ -27,5 +27,8 @@
   "safeMode": "Mode aman",
   "safeModeOn": "Aktif",
   "safeModeOff": "Nonaktif",
-  "safeModeHint": "Memblokir semua kontrol printer hingga dinonaktifkan."
+  "safeModeHint": "Memblokir semua kontrol printer hingga dinonaktifkan.",
+  "sleep": "Tidur layar",
+  "sleepOff": "Nonaktif",
+  "minutes": "{n} mnt"
 }

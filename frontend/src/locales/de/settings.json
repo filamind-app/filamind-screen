@@ -27,5 +27,8 @@
   "safeMode": "Sicherer Modus",
   "safeModeOn": "Ein",
   "safeModeOff": "Aus",
-  "safeModeHint": "Blockiert alle Druckerbefehle, bis er ausgeschaltet wird."
+  "safeModeHint": "Blockiert alle Druckerbefehle, bis er ausgeschaltet wird.",
+  "sleep": "Bildschirmruhe",
+  "sleepOff": "Aus",
+  "minutes": "{n} Min."
 }

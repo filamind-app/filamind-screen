@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { computed, onUnmounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import Icon from '@/components/AppIcon.vue'
 import { useSessionStore } from '@/core/store/session'
 import { useControlStore } from '@/core/store/control'
 import { useWriteGuard } from '@/core/useWriteGuard'
+import { useJobMeta } from '@/core/jobMeta'
 
 // The job face: a big progress ring, glanceable live tiles, and the PRINT actions only -
 // navigation lives on the shell's rail, so this screen stays calm and readable at a distance.
@@ -12,6 +13,7 @@ const { t, te } = useI18n()
 const store = useSessionStore()
 const ctl = useControlStore()
 const { canWrite, blockedReason } = useWriteGuard()
+const { meta: jobMeta, thumb } = useJobMeta()
 
 const emit = defineEmits<{ navigate: [to: string] }>()
 
@@ -48,15 +50,55 @@ const stateLabel = computed(() => {
   return te(key) ? t(key) : (stats.value.state ?? '-')
 })
 
-// Remaining-time estimate from elapsed print time and fraction done (no slicer estimate needed).
-const eta = computed(() => {
-  const frac = sdProgress.value ?? dispProgress.value ?? 0
-  const elapsed = stats.value.print_duration ?? 0
-  if (!active.value || frac <= 0.01 || elapsed <= 0) return ''
-  const remaining = (elapsed * (1 - frac)) / frac
-  const m = Math.round(remaining / 60)
+const fmtDur = (s: number): string => {
+  const m = Math.round(s / 60)
   if (m < 60) return `${m} min`
   return `${Math.floor(m / 60)}h ${m % 60}m`
+}
+
+/**
+ * Remaining time, blending the two estimators we have: file progress (noisy early, honest
+ * late) and the slicer's own estimate (good early, drifts late). The weight slides from the
+ * slicer to the file estimate as the print progresses.
+ */
+const remaining = computed<number | null>(() => {
+  const frac = sdProgress.value ?? dispProgress.value ?? 0
+  const elapsed = stats.value.print_duration ?? 0
+  if (!active.value || elapsed <= 0) return null
+  const fileRem = frac > 0.01 ? (elapsed * (1 - frac)) / frac : null
+  const est = jobMeta.value?.estimated_time
+  // Once elapsed passes the slicer's static estimate that estimator is exhausted (its remaining
+  // is 0) - drop it entirely rather than blending a 0 in, which would drag the honest file-based
+  // figure toward zero for the whole back half of the print.
+  const est_rem = est && est > 0 ? est - elapsed : null
+  const slicerRem = est_rem != null && est_rem > 0 ? est_rem : null
+  if (fileRem != null && slicerRem != null) return (1 - frac) * slicerRem + frac * fileRem
+  return fileRem ?? slicerRem
+})
+const eta = computed(() => (remaining.value == null ? '' : fmtDur(remaining.value)))
+const elapsedText = computed(() => {
+  const s = stats.value.print_duration ?? 0
+  return active.value && s > 0 ? fmtDur(s) : ''
+})
+// A slow reactive clock so the wall-clock finish tracks real time even when the print's own
+// numbers don't tick (Vue 3.5 doesn't re-notify a computed that returns an equal value, so
+// without this `finishesAt` would freeze on a value that becomes wrong as the clock advances).
+const now = ref(Date.now())
+let clock: ReturnType<typeof setInterval> | undefined
+onMounted(() => {
+  clock = setInterval(() => (now.value = Date.now()), 10_000)
+})
+onUnmounted(() => {
+  if (clock) clearInterval(clock)
+})
+// Wall-clock finish estimate - only while actually printing: a paused job isn't counting down,
+// so a fixed "ends at" would slide into the past.
+const finishesAt = computed(() => {
+  if (!printing.value || remaining.value == null) return ''
+  return new Date(now.value + remaining.value * 1000).toLocaleTimeString([], {
+    hour: '2-digit',
+    minute: '2-digit',
+  })
 })
 
 const fmt = (n?: number): string => `${Math.round(n ?? 0)}°`
@@ -153,10 +195,16 @@ const tiles = computed<Tile[]>(() => [
             </text>
           </svg>
         </div>
+        <!-- The job's own thumbnail (from the slicer), when it has one. -->
+        <img v-if="thumb && active" class="job-thumb" :src="thumb" alt="" />
         <div class="file" dir="ltr" :title="stats.filename || ''">{{ stats.filename || '-' }}</div>
         <div class="eta">
           <span class="state-dot" :class="stats.state"></span>{{ stateLabel
           }}<span v-if="eta"> · {{ t('status.eta') }} {{ eta }}</span>
+        </div>
+        <div v-if="elapsedText" class="eta times">
+          {{ t('status.elapsed') }} {{ elapsedText
+          }}<span v-if="finishesAt"> · {{ t('status.finishesAt', { time: finishesAt }) }}</span>
         </div>
       </div>
 
@@ -291,6 +339,14 @@ const tiles = computed<Tile[]>(() => [
   fill: var(--fm-text-muted);
   font-size: 8.8px;
 }
+.job-thumb {
+  margin-top: var(--sp-2);
+  width: 4.2rem;
+  height: 4.2rem;
+  object-fit: contain;
+  border-radius: 0.5rem;
+  background: var(--fm-surface-2);
+}
 .file {
   margin-top: var(--sp-2);
   font-family: var(--font-mono);
@@ -307,6 +363,9 @@ const tiles = computed<Tile[]>(() => [
   gap: var(--sp-1);
   font-size: var(--fs-caption);
   color: var(--fm-text-muted);
+}
+.times {
+  font-variant-numeric: tabular-nums;
 }
 .state-dot {
   width: 0.5rem;

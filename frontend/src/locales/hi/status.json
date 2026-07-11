@@ -12,5 +12,7 @@
   "fan": "फैन",
   "speed": "गति",
   "layer": "लेयर",
-  "eta": "ETA"
+  "eta": "ETA",
+  "elapsed": "बीता समय",
+  "finishesAt": "समाप्ति ~{time}"
 }

@@ -14,5 +14,6 @@
   "remote": {
     "here": "Cet écran",
     "dismiss": "Ignorer le message"
-  }
+  },
+  "wake": "Réveiller l'écran"
 }

@@ -4,7 +4,8 @@ import { useI18n } from 'vue-i18n'
 import Icon from '@/components/AppIcon.vue'
 import ToolHeader from '@/components/ToolHeader.vue'
 import EmptyState from '@/components/EmptyState.vue'
-import { connector, moonrakerHttpBase } from '@/core/session'
+import { connector } from '@/core/session'
+import { fetchMetadata, thumbnailUrl, type GcodeMetadata } from '@/core/files'
 import { useSessionStore } from '@/core/store/session'
 import { useControlStore } from '@/core/store/control'
 import { useWriteGuard } from '@/core/useWriteGuard'
@@ -27,15 +28,6 @@ interface FileEntry {
   modified?: number
   size?: number
 }
-interface Thumb {
-  width?: number
-  relative_path?: string
-}
-interface Metadata {
-  estimated_time?: number
-  filament_total?: number
-  thumbnails?: Thumb[]
-}
 
 /** Current folder relative to the gcodes root ('' = the root). */
 const path = ref('')
@@ -45,7 +37,7 @@ const loading = ref(true)
 const error = ref<string | null>(null)
 /** Selected file's path relative to the gcodes root, + its slicer metadata (best-effort). */
 const selected = ref<string | null>(null)
-const meta = ref<Metadata | null>(null)
+const meta = ref<GcodeMetadata | null>(null)
 
 const printState = computed(
   () => session.object<{ state?: string }>('print_stats')?.state ?? 'standby',
@@ -91,26 +83,14 @@ async function select(name: string): Promise<void> {
   selected.value = rel
   meta.value = null
   try {
-    const m = await connector.call<Metadata>('server.files.metadata', { filename: rel })
+    const m = await fetchMetadata(rel)
     if (selected.value === rel) meta.value = m // ignore a stale response after a rapid re-tap
   } catch {
     if (selected.value === rel) meta.value = {} // no slicer metadata - the card is just barer
   }
 }
 
-/** The largest embedded thumbnail's URL (thumbnail paths are relative to the file's folder). */
-const thumbUrl = computed(() => {
-  const thumbs = meta.value?.thumbnails ?? []
-  if (!thumbs.length || !selected.value) return null
-  const best = [...thumbs].sort((a, b) => (b.width ?? 0) - (a.width ?? 0))[0]
-  if (!best?.relative_path) return null
-  const folder = selected.value.split('/').slice(0, -1).join('/')
-  const rel = folder ? `${folder}/${best.relative_path}` : best.relative_path
-  // Encode each segment: thumbnail paths embed the print's filename, and a '#', '?' or '%'
-  // in it would otherwise truncate or corrupt the URL.
-  const enc = rel.split('/').map(encodeURIComponent).join('/')
-  return `${moonrakerHttpBase()}/server/files/gcodes/${enc}`
-})
+const thumbUrl = computed(() => (selected.value ? thumbnailUrl(selected.value, meta.value) : null))
 
 const fmtDuration = (s?: number): string => {
   if (!s || s <= 0) return '-'

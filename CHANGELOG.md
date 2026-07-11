@@ -2,6 +2,42 @@
 
 All notable changes to FilaMind screen are documented here. Format: `## [version]` sections (parsed by the release workflow).
 
+## [0.10.0]
+
+### Added
+
+- **On-screen keyboard.** A QWERTY keyboard docks automatically whenever any text input gains
+  focus - nothing on the screen requires a physical keyboard. Tuned for what this device types
+  (g-code, macro names, file names): digits row, the `: _ - . / = " *` symbols, a case toggle
+  (uppercase default), and an enter key that submits the input's own form. The content insets
+  itself so the focused input stays visible above the keys.
+- **Signed and decimal number entry.** The number pad accepts a decimal point and a sign toggle
+  where the value calls for it - starting with a range-checked absolute Z offset (±2 mm) in the
+  Tune tool.
+- **Job face upgrade.** The status screen now shows the job's own slicer thumbnail, the elapsed
+  print time, and a wall-clock "ends ~HH:MM" estimate. Remaining time blends the slicer's
+  estimate with the file-progress estimate, sliding from the former to the latter as the print
+  progresses.
+- **Live temperature graph.** The Temperature tool plots a rolling five-minute history of every
+  discovered heater and sensor (sampled continuously in the background, so the graph is warm
+  when opened) with a color-keyed legend of current readings.
+- **Screen sleep.** The panel blanks after a configurable idle time (Settings → Display; off /
+  1 / 5 / 15 minutes, stored per-device) - never while a job is active, while Klipper is in a
+  shutdown/error state (the recovery strip and E-STOP must stay visible), or while any heater is
+  hot; a job starting or a fault appearing wakes it. The waking tap is swallowed with a short
+  guard so ghost touches cannot press a control underneath.
+
+### Notes
+
+- The keyboard activates keys on pointer-down (not click): on the kiosk's WebKitGTK engine a
+  touch whose pointer-down is consumed never emits a click, so a click-driven keyboard would be
+  dead on the device. It also closes itself if the focused field navigates away, never sampling
+  a detached input.
+- The remaining-time estimate drops the slicer figure once real elapsed time passes it, and the
+  wall-clock finish tracks a live clock (and hides while paused) so it can't freeze on a past
+  time. The temperature graph stops sampling while disconnected rather than drawing a fabricated
+  flat line at a stale reading.
+
 ## [0.9.0]
 
 ### Changed
