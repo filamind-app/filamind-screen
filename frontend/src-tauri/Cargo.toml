@@ -1,6 +1,6 @@
 [package]
 name = "filamind-screen"
-version = "0.11.4"
+version = "0.11.5"
 description = "FilaMind screen - on-printer touch control"
 authors = ["DeltaFabs"]
 edition = "2021"

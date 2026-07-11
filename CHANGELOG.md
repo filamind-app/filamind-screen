@@ -2,7 +2,17 @@
 
 All notable changes to FilaMind screen are documented here. Format: `## [version]` sections (parsed by the release workflow).
 
-## [0.11.4]
+## [0.11.5]
+
+### Fixed
+
+- **Arabic no longer renders mirror-image (the real root cause).** A `:global([dir='rtl']) …`
+  rule inside a component's scoped styles was collapsed by the CSS minifier into a bare
+  `[dir='rtl'] { transform: scaleX(-1) }`. Because `dir=rtl` sits on `<html>`, that mirrored the
+  ENTIRE page - text came out backwards and the RTL-flipped layout was flipped straight back, so
+  Arabic looked reversed with a left-hand rail. The three RTL overrides now live in the global
+  stylesheet as plain selectors that target only their own elements, so Arabic mirrors the layout
+  (rail and E-STOP move to the right, text reads normally). Verified on the device's WebKitGTK.
 
 ### Fixed
 

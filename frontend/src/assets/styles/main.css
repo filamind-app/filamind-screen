@@ -134,6 +134,24 @@
   border-color: transparent;
 }
 
+/* ---- RTL overrides ------------------------------------------------------------------------
+   These are PLAIN global selectors, deliberately NOT inside a component `<style scoped>` block:
+   a `:global([dir='rtl']) .foo` selector there was collapsed by the CSS minifier into a bare
+   `[dir='rtl'] { ... }` rule. Since `dir=rtl` sits on <html>, that mirrored the ENTIRE page
+   (the icon's scaleX(-1) flipped the whole Arabic UI backwards). Kept here, they target only
+   their own elements. */
+[dir='rtl'] .icon.rtl-mirror {
+  /* the back chevron points the other way in RTL */
+  transform: scaleX(-1);
+}
+[dir='rtl'] .rail-btn.active {
+  /* active-tab accent bar on the inline-start (right) edge in RTL */
+  box-shadow: inset -3px 0 0 var(--fm-primary);
+}
+[dir='rtl'] .row-target::before {
+  content: '← ';
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
