@@ -9,11 +9,6 @@
     "dark": "Donker"
   },
   "display": "Weergave",
-  "density": "Dichtheid",
-  "densityName": {
-    "comfortable": "Comfortabel",
-    "compact": "Compact"
-  },
   "motifs": "Decoratieve motieven",
   "motifName": {
     "off": "Uit",
@@ -30,5 +25,16 @@
   "safeModeHint": "Blokkeert alle printerbediening totdat deze wordt uitgeschakeld.",
   "sleep": "Schermslaap",
   "sleepOff": "Uit",
-  "minutes": "{n} min"
+  "minutes": "{n} min",
+  "uiSize": "UI-grootte",
+  "uiSizeName": {
+    "sm": "Klein",
+    "md": "Middel",
+    "lg": "Groot",
+    "xl": "Extra groot"
+  },
+  "contrast": "Contrast",
+  "contrastNormal": "Normaal",
+  "contrastHigh": "Hoog",
+  "brightness": "Helderheid"
 }

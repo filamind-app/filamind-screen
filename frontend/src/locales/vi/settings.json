@@ -9,11 +9,6 @@
     "dark": "Tối"
   },
   "display": "Hiển thị",
-  "density": "Mật độ",
-  "densityName": {
-    "comfortable": "Thoải mái",
-    "compact": "Gọn"
-  },
   "motifs": "Họa tiết trang trí",
   "motifName": {
     "off": "Tắt",
@@ -30,5 +25,16 @@
   "safeModeHint": "Chặn mọi điều khiển máy in cho đến khi tắt.",
   "sleep": "Ngủ màn hình",
   "sleepOff": "Tắt",
-  "minutes": "{n} phút"
+  "minutes": "{n} phút",
+  "uiSize": "Cỡ giao diện",
+  "uiSizeName": {
+    "sm": "Nhỏ",
+    "md": "Vừa",
+    "lg": "Lớn",
+    "xl": "Rất lớn"
+  },
+  "contrast": "Độ tương phản",
+  "contrastNormal": "Bình thường",
+  "contrastHigh": "Cao",
+  "brightness": "Độ sáng"
 }

@@ -26,6 +26,8 @@ SERVICE="filamind-screen-kiosk"      # the unit name flow's switch_touch expects
 SCREEN_UNIT="KlipperScreen.service"
 # FilaMind Flow owns the shared touch-UI unit-writer; find its clone.
 FLOW_DIR="${FILAMIND_FLOW_DIR:-$HOME/filamind-flow}"
+# This script's own directory (the deploy/ folder), for sibling assets like the udev rule.
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 USER_NAME="$(id -un)"
 PRINTER_DATA="${PRINTER_DATA:-$HOME/printer_data}"
@@ -145,6 +147,16 @@ log "Installed binary: $BIN"
 
 # -- 3. write the kiosk unit via Flow's single-source unit-writer (empty URL = no HTTP origin) ---
 $SUDO "$BASH_BIN" "$FLOW_DIR/scripts/install.sh" kiosk --bin "$BIN" "$USER_NAME" "" "$SERVICE"
+
+# -- 3b. backlight: install the udev rule that lets the unprivileged app dim the panel. Applies on
+#    the next boot (or a udevadm trigger); best-effort, brightness just stays fixed without it. ----
+BL_RULE="$SCRIPT_DIR/99-filamind-backlight.rules"
+if [ -f "$BL_RULE" ]; then
+  $SUDO cp "$BL_RULE" /etc/udev/rules.d/99-filamind-backlight.rules 2>/dev/null \
+    && log "Backlight udev rule installed (takes effect after reboot)." || true
+  $SUDO udevadm control --reload 2>/dev/null || true
+  $SUDO udevadm trigger --subsystem-match=backlight --action=add 2>/dev/null || true
+fi
 
 # -- 4. register with Moonraker: the service allowlist (start/stop/restart from the panel) AND the
 #    update_manager (so the screen app shows in the updates panel and gets git-updated). -----------

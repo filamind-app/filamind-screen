@@ -9,11 +9,6 @@
     "dark": "深色"
   },
   "display": "显示",
-  "density": "密度",
-  "densityName": {
-    "comfortable": "舒适",
-    "compact": "紧凑"
-  },
   "motifs": "装饰图案",
   "motifName": {
     "off": "关闭",
@@ -30,5 +25,16 @@
   "safeModeHint": "开启后将阻止所有打印机操作，直到关闭。",
   "sleep": "屏幕休眠",
   "sleepOff": "关",
-  "minutes": "{n}分钟"
+  "minutes": "{n}分钟",
+  "uiSize": "界面大小",
+  "uiSizeName": {
+    "sm": "小",
+    "md": "中",
+    "lg": "大",
+    "xl": "特大"
+  },
+  "contrast": "对比度",
+  "contrastNormal": "标准",
+  "contrastHigh": "高",
+  "brightness": "亮度"
 }

@@ -9,11 +9,6 @@
     "dark": "داكن"
   },
   "display": "العرض",
-  "density": "كثافة العرض",
-  "densityName": {
-    "comfortable": "مريح",
-    "compact": "مضغوط"
-  },
   "motifs": "الزخارف",
   "motifName": {
     "off": "إيقاف",
@@ -30,5 +25,16 @@
   "safeModeHint": "يحظر جميع أوامر التحكم بالطابعة حتى يتم إيقافه.",
   "sleep": "نوم الشاشة",
   "sleepOff": "إيقاف",
-  "minutes": "{n} د"
+  "minutes": "{n} د",
+  "uiSize": "حجم الواجهة",
+  "uiSizeName": {
+    "sm": "صغير",
+    "md": "متوسط",
+    "lg": "كبير",
+    "xl": "ضخم"
+  },
+  "contrast": "التباين",
+  "contrastNormal": "عادي",
+  "contrastHigh": "عالٍ",
+  "brightness": "السطوع"
 }

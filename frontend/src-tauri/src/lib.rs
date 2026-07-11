@@ -4,12 +4,36 @@
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        .invoke_handler(tauri::generate_handler![set_backlight])
         .setup(|app| {
             fit_window_to_display(app);
             Ok(())
         })
         .run(tauri::generate_context!())
         .expect("error while running the FilaMind screen application");
+}
+
+/// Set every panel backlight to `percent` (0..=100) of its own max. The kiosk install ships a
+/// udev rule that makes the brightness file writable, so this runs unprivileged; if it isn't
+/// writable yet (before the post-install reboot) the write just fails and is ignored - the UI
+/// preference still persists.
+#[tauri::command]
+fn set_backlight(percent: u8) {
+    let pct = percent.min(100) as u32;
+    let Ok(entries) = std::fs::read_dir("/sys/class/backlight") else {
+        return;
+    };
+    for entry in entries.flatten() {
+        let dir = entry.path();
+        let max = std::fs::read_to_string(dir.join("max_brightness"))
+            .ok()
+            .and_then(|s| s.trim().parse::<u32>().ok())
+            .unwrap_or(255);
+        // Never fully off - a floor keeps the panel visible (and recoverable) at the low end.
+        let floor = (max / 20).max(1);
+        let value = ((max * pct) / 100).max(floor);
+        let _ = std::fs::write(dir.join("brightness"), value.to_string());
+    }
 }
 
 /// Size + position the window to the physical display at startup.

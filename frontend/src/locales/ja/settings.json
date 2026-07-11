@@ -9,11 +9,6 @@
     "dark": "ダーク"
   },
   "display": "表示",
-  "density": "密度",
-  "densityName": {
-    "comfortable": "ゆったり",
-    "compact": "コンパクト"
-  },
   "motifs": "装飾モチーフ",
   "motifName": {
     "off": "オフ",
@@ -30,5 +25,16 @@
   "safeModeHint": "オフにするまで、プリンターのすべての操作をブロックします。",
   "sleep": "画面スリープ",
   "sleepOff": "オフ",
-  "minutes": "{n}分"
+  "minutes": "{n}分",
+  "uiSize": "UIサイズ",
+  "uiSizeName": {
+    "sm": "小",
+    "md": "中",
+    "lg": "大",
+    "xl": "特大"
+  },
+  "contrast": "コントラスト",
+  "contrastNormal": "標準",
+  "contrastHigh": "高",
+  "brightness": "明るさ"
 }

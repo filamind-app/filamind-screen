@@ -5,7 +5,7 @@ import Icon from '@/components/AppIcon.vue'
 import { useSettingsStore } from '@/core/store/settings'
 import { useControlStore } from '@/core/store/control'
 import { shippedLocales, setLocale } from '@/core/i18n'
-import { localPrefs, type SleepMinutes } from '@/core/localPrefs'
+import { localPrefs, type SleepMinutes, type UiSize } from '@/core/localPrefs'
 
 const { t, locale } = useI18n()
 const settings = useSettingsStore()
@@ -18,10 +18,13 @@ async function chooseLocale(code: string): Promise<void> {
 }
 
 // Display options the settings model already carries (theme.ts applies them to the DOM).
-const DENSITIES = ['comfortable', 'compact'] as const
 const MOTIFS = ['off', 'subtle', 'full'] as const
-// Screen sleep is device-local (this panel's property, it doesn't roam across surfaces).
+// Device-local readability + backlight (this panel's property, they don't roam across surfaces).
 const SLEEP_OPTIONS: SleepMinutes[] = [0, 1, 5, 15]
+const UI_SIZES: UiSize[] = ['sm', 'md', 'lg', 'xl']
+// Backlight steps (fractions of full). The panel boots at full; this only dims.
+const BRIGHTNESS_STEPS = [0.25, 0.5, 0.75, 1]
+const fmtBrightness = (b: number): string => `${Math.round(b * 100)}%`
 
 /** Segmented control semantics: tapping the already-active side is a no-op, not a toggle. */
 function setSafeMode(on: boolean): void {
@@ -69,19 +72,61 @@ const appVersion = typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSION__ : '0
 
     <section class="block touch-card">
       <h2 class="block-title">{{ t('settings.display') }}</h2>
+      <!-- UI size: one knob scales text, spacing and touch targets together for this panel. -->
       <div class="opt-row">
-        <span class="opt-label">{{ t('settings.density') }}</span>
+        <span class="opt-label">{{ t('settings.uiSize') }}</span>
         <div class="seg">
           <button
-            v-for="d in DENSITIES"
-            :key="d"
+            v-for="s in UI_SIZES"
+            :key="s"
             class="seg-btn"
-            :class="{ on: settings.state.density === d }"
+            :class="{ on: localPrefs.uiSize === s }"
             type="button"
-            :aria-pressed="settings.state.density === d"
-            @click="settings.patch({ density: d })"
+            :aria-pressed="localPrefs.uiSize === s"
+            @click="localPrefs.uiSize = s"
           >
-            {{ t('settings.densityName.' + d) }}
+            {{ t('settings.uiSizeName.' + s) }}
+          </button>
+        </div>
+      </div>
+      <!-- High contrast: lift the muted secondary text to full strength. -->
+      <div class="opt-row">
+        <span class="opt-label">{{ t('settings.contrast') }}</span>
+        <div class="seg">
+          <button
+            class="seg-btn"
+            :class="{ on: localPrefs.contrast === 'normal' }"
+            type="button"
+            :aria-pressed="localPrefs.contrast === 'normal'"
+            @click="localPrefs.contrast = 'normal'"
+          >
+            {{ t('settings.contrastNormal') }}
+          </button>
+          <button
+            class="seg-btn"
+            :class="{ on: localPrefs.contrast === 'high' }"
+            type="button"
+            :aria-pressed="localPrefs.contrast === 'high'"
+            @click="localPrefs.contrast = 'high'"
+          >
+            {{ t('settings.contrastHigh') }}
+          </button>
+        </div>
+      </div>
+      <!-- Backlight: dim the panel (it boots at full; this only lowers). -->
+      <div class="opt-row">
+        <span class="opt-label">{{ t('settings.brightness') }}</span>
+        <div class="seg">
+          <button
+            v-for="b in BRIGHTNESS_STEPS"
+            :key="b"
+            class="seg-btn"
+            :class="{ on: localPrefs.brightness === b }"
+            type="button"
+            :aria-pressed="localPrefs.brightness === b"
+            @click="localPrefs.brightness = b"
+          >
+            {{ fmtBrightness(b) }}
           </button>
         </div>
       </div>

@@ -9,11 +9,6 @@
     "dark": "Темна"
   },
   "display": "Дисплей",
-  "density": "Щільність",
-  "densityName": {
-    "comfortable": "Комфортна",
-    "compact": "Компактна"
-  },
   "motifs": "Декоративні мотиви",
   "motifName": {
     "off": "Вимкнено",
@@ -30,5 +25,16 @@
   "safeModeHint": "Блокує всі команди принтера, доки не буде вимкнено.",
   "sleep": "Сон екрана",
   "sleepOff": "Вимк.",
-  "minutes": "{n} хв"
+  "minutes": "{n} хв",
+  "uiSize": "Розмір інтерфейсу",
+  "uiSizeName": {
+    "sm": "Малий",
+    "md": "Середній",
+    "lg": "Великий",
+    "xl": "Дуже великий"
+  },
+  "contrast": "Контраст",
+  "contrastNormal": "Звичайний",
+  "contrastHigh": "Високий",
+  "brightness": "Яскравість"
 }

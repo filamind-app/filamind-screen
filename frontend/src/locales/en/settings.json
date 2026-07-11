@@ -9,11 +9,6 @@
     "dark": "Dark"
   },
   "display": "Display",
-  "density": "Density",
-  "densityName": {
-    "comfortable": "Comfortable",
-    "compact": "Compact"
-  },
   "motifs": "Decorative motifs",
   "motifName": {
     "off": "Off",
@@ -30,5 +25,16 @@
   "safeModeHint": "Blocks all printer controls until switched off.",
   "sleep": "Screen sleep",
   "sleepOff": "Off",
-  "minutes": "{n} min"
+  "minutes": "{n} min",
+  "uiSize": "UI size",
+  "uiSizeName": {
+    "sm": "Small",
+    "md": "Medium",
+    "lg": "Large",
+    "xl": "Extra"
+  },
+  "contrast": "Contrast",
+  "contrastNormal": "Normal",
+  "contrastHigh": "High",
+  "brightness": "Brightness"
 }

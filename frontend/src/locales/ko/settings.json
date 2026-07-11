@@ -9,11 +9,6 @@
     "dark": "다크"
   },
   "display": "디스플레이",
-  "density": "표시 밀도",
-  "densityName": {
-    "comfortable": "여유롭게",
-    "compact": "좁게"
-  },
   "motifs": "장식 문양",
   "motifName": {
     "off": "없음",
@@ -30,5 +25,16 @@
   "safeModeHint": "끌 때까지 프린터의 모든 조작을 차단합니다.",
   "sleep": "화면 절전",
   "sleepOff": "끔",
-  "minutes": "{n}분"
+  "minutes": "{n}분",
+  "uiSize": "UI 크기",
+  "uiSizeName": {
+    "sm": "작게",
+    "md": "보통",
+    "lg": "크게",
+    "xl": "아주 크게"
+  },
+  "contrast": "대비",
+  "contrastNormal": "표준",
+  "contrastHigh": "높음",
+  "brightness": "밝기"
 }
