@@ -2,7 +2,7 @@
 
 All notable changes to FilaMind screen are documented here. Format: `## [version]` sections (parsed by the release workflow).
 
-## [Unreleased]
+## [0.12.0]
 
 ### Added
 
