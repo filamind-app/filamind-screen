@@ -2,6 +2,16 @@
 
 All notable changes to FilaMind screen are documented here. Format: `## [version]` sections (parsed by the release workflow).
 
+## [0.11.1]
+
+### Fixed
+
+- **Arabic direction.** Selecting Arabic now flips the whole interface to right-to-left. The text
+  had switched to Arabic but the layout stayed left-to-right (so it read reversed), because the
+  document direction had two writers that could race - the settings handler could set it back to
+  LTR after the locale change. Direction now has a single source of truth: it follows the active
+  interface language via one reactive watcher.
+
 ## [0.11.0]
 
 ### Changed
