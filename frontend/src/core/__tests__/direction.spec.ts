@@ -11,16 +11,19 @@ describe('document direction follows the active locale', () => {
     await nextTick()
   })
 
-  it('flips to RTL for Arabic and back to LTR for English', async () => {
+  it('flips to RTL for Arabic and back to LTR for English (attribute AND direction property)', async () => {
     initDirectionSync()
     await setLocale('ar')
     await nextTick()
     expect(document.documentElement.dir).toBe('rtl')
     expect(document.documentElement.lang).toBe('ar')
+    // The inline `direction` is what actually flips the flex layout on the device webview.
+    expect(document.documentElement.style.direction).toBe('rtl')
 
     await setLocale('en')
     await nextTick()
     expect(document.documentElement.dir).toBe('ltr')
     expect(document.documentElement.lang).toBe('en')
+    expect(document.documentElement.style.direction).toBe('ltr')
   })
 })

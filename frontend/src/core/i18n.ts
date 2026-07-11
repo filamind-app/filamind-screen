@@ -70,8 +70,15 @@ export async function loadLocale(code: string): Promise<void> {
 
 export function applyDocumentLocale(code: string): void {
   if (typeof document === 'undefined') return
-  document.documentElement.lang = code
-  document.documentElement.dir = isRtl(code) ? 'rtl' : 'ltr'
+  const dir = isRtl(code) ? 'rtl' : 'ltr'
+  const root = document.documentElement
+  root.lang = code
+  root.dir = dir
+  // Also set the `direction` CSS property explicitly. The `dir` attribute alone should map to it
+  // via the UA stylesheet, but the kiosk's WebKitGTK does not always flip flex layouts from the
+  // attribute - so the rail/grid stayed left-to-right while the Arabic text ran right-to-left.
+  // An inline style wins over everything and makes flexbox honour the direction.
+  root.style.direction = dir
 }
 
 /**

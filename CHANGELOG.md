@@ -2,15 +2,22 @@
 
 All notable changes to FilaMind screen are documented here. Format: `## [version]` sections (parsed by the release workflow).
 
+## [0.11.3]
+
+### Fixed
+
+- **Arabic layout flips to RTL.** The `dir="rtl"` attribute alone did not flip the flex layout on
+  the kiosk's WebKitGTK (the Arabic text ran right-to-left but the rail and grid stayed
+  left-to-right), so the interface read reversed. The `direction` CSS property is now set
+  explicitly (inline on the root, in both the boot script and on every locale change), which
+  flexbox honours - so Arabic now mirrors the whole layout.
+
 ## [0.11.2]
 
 ### Fixed
 
-- **Arabic direction (really this time).** Selecting Arabic now flips the whole interface to
-  right-to-left. Direction is set synchronously when the language changes (`setLocale`), rather
-  than relying on a watcher that did not fire on the device's webview, and the settings handler
-  no longer writes direction at all - so nothing can race it back to left-to-right. Verified on
-  the device: Arabic renders RTL (rail on the right, right-aligned).
+- **Arabic direction (setLocale).** Direction is set synchronously when the language changes
+  (superseded by 0.11.3, which also sets the `direction` CSS property so the layout mirrors).
 
 ## [0.11.1]
 
