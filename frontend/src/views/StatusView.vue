@@ -2,11 +2,12 @@
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import Icon, { type IconName } from '@/components/AppIcon.vue'
+import TempGraph from '@/components/TempGraph.vue'
 import { useSessionStore } from '@/core/store/session'
 import { useControlStore } from '@/core/store/control'
 import { useWriteGuard } from '@/core/useWriteGuard'
 import { useJobMeta } from '@/core/jobMeta'
-import { localPrefs } from '@/core/localPrefs'
+import { useHeaters } from '@/core/heaters'
 
 // The job face: a big progress ring, glanceable live tiles, and the PRINT actions only -
 // navigation lives on the shell's rail, so this screen stays calm and readable at a distance.
@@ -21,7 +22,6 @@ const emit = defineEmits<{ navigate: [to: string] }>()
 interface Heater {
   temperature?: number
   target?: number
-  pressure_advance?: number
 }
 interface PrintStats {
   state?: string
@@ -33,10 +33,7 @@ interface PrintStats {
 const ext = computed(() => store.object<Heater>('extruder'))
 const bed = computed(() => store.object<Heater>('heater_bed'))
 const fan = computed(() => store.object<{ speed?: number }>('fan'))
-const gmove = computed(() =>
-  store.object<{ speed_factor?: number; extrude_factor?: number }>('gcode_move'),
-)
-const toolhead = computed(() => store.object<{ position?: number[] }>('toolhead'))
+const gmove = computed(() => store.object<{ speed_factor?: number }>('gcode_move'))
 const stats = computed<PrintStats>(() => store.object<PrintStats>('print_stats') ?? {})
 const sdProgress = computed(() => store.object<{ progress?: number }>('virtual_sdcard')?.progress)
 const dispProgress = computed(() => store.object<{ progress?: number }>('display_status')?.progress)
@@ -45,10 +42,19 @@ const progress = computed(() => Math.round((sdProgress.value ?? dispProgress.val
 const layer = computed(() => stats.value.info ?? {})
 const fanPct = computed(() => Math.round((fan.value?.speed ?? 0) * 100))
 const speedPct = computed(() => Math.round((gmove.value?.speed_factor ?? 1) * 100))
-// Second stat page (job depth): live flow (M221), commanded Z height, and pressure advance.
-const flowPct = computed(() => Math.round((gmove.value?.extrude_factor ?? 1) * 100))
-const zHeight = computed(() => toolhead.value?.position?.[2])
-const pressureAdvance = computed(() => ext.value?.pressure_advance)
+
+// Live temperature graph on the job face: the discovered heaters (extruder, bed, chamber...), with
+// friendly names where we know them. History is warmed app-wide, so the trace is ready at once.
+const { heaters } = useHeaters()
+const graphNames = computed(() => heaters.value.map((h) => h.name))
+const graphLabels = computed(() => {
+  const out: Record<string, string> = {}
+  for (const h of heaters.value) {
+    const key = `temp.known.${h.name}`
+    out[h.name] = te(key) ? t(key) : h.label
+  }
+  return out
+})
 
 const printing = computed(() => stats.value.state === 'printing')
 const paused = computed(() => stats.value.state === 'paused')
@@ -142,86 +148,43 @@ interface Tile {
   icon: IconName
   value: string
   sub?: string
-  to?: string
+  to: string
 }
-// Two swappable pages of glanceable stats; the pager cycles them. The chosen page is a device-local
-// preference so the panel remembers the operator's pick across reboots.
-const pages = computed<Tile[][]>(() => [
-  [
-    {
-      key: 'ext',
-      label: t('status.hotend'),
-      icon: 'heat',
-      value: fmt(ext.value?.temperature),
-      sub: `/ ${fmt(ext.value?.target)}`,
-      to: 'temp',
-    },
-    {
-      key: 'bed',
-      label: t('status.bed'),
-      icon: 'heat',
-      value: fmt(bed.value?.temperature),
-      sub: `/ ${fmt(bed.value?.target)}`,
-      to: 'temp',
-    },
-    {
-      key: 'fan',
-      label: t('status.fan'),
-      icon: 'fan',
-      value: `${fanPct.value}`,
-      sub: '%',
-      to: 'tune',
-    },
-    {
-      key: 'speed',
-      label: t('status.speed'),
-      icon: 'tune',
-      value: `${speedPct.value}`,
-      sub: '%',
-      to: 'tune',
-    },
-  ],
-  [
-    {
-      key: 'flow',
-      label: t('status.flow'),
-      icon: 'filament',
-      value: `${flowPct.value}`,
-      sub: '%',
-      to: 'tune',
-    },
-    {
-      key: 'z',
-      label: t('status.z'),
-      icon: 'move',
-      value: zHeight.value == null ? '-' : zHeight.value.toFixed(2),
-      sub: 'mm',
-      to: 'move',
-    },
-    {
-      key: 'layer',
-      label: t('status.layer'),
-      icon: 'status',
-      value: layer.value.total_layer ? `${layer.value.current_layer ?? 0}` : '-',
-      sub: layer.value.total_layer ? `/ ${layer.value.total_layer}` : undefined,
-    },
-    {
-      key: 'pa',
-      label: t('status.pa'),
-      icon: 'tune',
-      value: pressureAdvance.value == null ? '-' : pressureAdvance.value.toFixed(3),
-    },
-  ],
-])
-// Clamp the stored page into range; wrapping on set makes the pager cycle.
-const statPage = computed({
-  get: () => Math.min(localPrefs.value.statPage, pages.value.length - 1),
-  set: (v) => {
-    const n = pages.value.length
-    localPrefs.value.statPage = ((v % n) + n) % n
+// A single compact grid of the four glanceable stats (no paging); deeper stats live in their tools.
+const tiles = computed<Tile[]>(() => [
+  {
+    key: 'ext',
+    label: t('status.hotend'),
+    icon: 'heat',
+    value: fmt(ext.value?.temperature),
+    sub: `/ ${fmt(ext.value?.target)}`,
+    to: 'temp',
   },
-})
-const tiles = computed<Tile[]>(() => pages.value[statPage.value] ?? pages.value[0] ?? [])
+  {
+    key: 'bed',
+    label: t('status.bed'),
+    icon: 'heat',
+    value: fmt(bed.value?.temperature),
+    sub: `/ ${fmt(bed.value?.target)}`,
+    to: 'temp',
+  },
+  {
+    key: 'fan',
+    label: t('status.fan'),
+    icon: 'fan',
+    value: `${fanPct.value}`,
+    sub: '%',
+    to: 'tune',
+  },
+  {
+    key: 'speed',
+    label: t('status.speed'),
+    icon: 'tune',
+    value: `${speedPct.value}`,
+    sub: '%',
+    to: 'tune',
+  },
+])
 </script>
 
 <template>
@@ -264,40 +227,23 @@ const tiles = computed<Tile[]>(() => pages.value[statPage.value] ?? pages.value[
         </div>
       </div>
 
-      <div class="stats">
+      <div class="side">
         <div class="tiles">
           <button
             v-for="tile in tiles"
             :key="tile.key"
             class="tile touch-card"
             type="button"
-            @click="tile.to && emit('navigate', tile.to)"
+            @click="emit('navigate', tile.to)"
           >
-            <div class="tile-label"><Icon :name="tile.icon" size="1.1rem" /> {{ tile.label }}</div>
+            <div class="tile-label"><Icon :name="tile.icon" size="1rem" /> {{ tile.label }}</div>
             <div class="tile-value">
               {{ tile.value }}<span v-if="tile.sub" class="tile-sub">{{ tile.sub }}</span>
             </div>
           </button>
         </div>
-        <!-- Pager: cycle the stat grids. Only shown when there is more than one page. -->
-        <div
-          v-if="pages.length > 1"
-          class="stat-pager"
-          role="tablist"
-          :aria-label="t('status.stats')"
-        >
-          <button
-            v-for="(_, i) in pages"
-            :key="i"
-            class="pager-dot"
-            type="button"
-            role="tab"
-            :aria-selected="statPage === i"
-            :aria-label="`${t('status.stats')} ${i + 1}`"
-            :class="{ on: statPage === i }"
-            @click="statPage = i"
-          ></button>
-        </div>
+        <!-- Live temperature trend of every discovered heater, filling the space beside the ring. -->
+        <TempGraph :names="graphNames" :labels="graphLabels" fill />
       </div>
     </div>
 
@@ -468,8 +414,8 @@ const tiles = computed<Tile[]>(() => pages.value[statPage.value] ?? pages.value[
 .state-dot.paused {
   background: var(--fm-warning);
 }
-/* The stats column: the tile grid takes the height, the pager sits under it. */
-.stats {
+/* Beside the ring: a compact stat grid on top, the live temperature graph filling the rest. */
+.side {
   flex: 1;
   min-width: 0;
   display: flex;
@@ -477,43 +423,13 @@ const tiles = computed<Tile[]>(() => pages.value[statPage.value] ?? pages.value[
   gap: var(--sp-2);
 }
 .tiles {
-  flex: 1;
+  flex-shrink: 0;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--sp-3);
-}
-/* Stat-page pager: small visual dots inside comfortably tappable buttons. */
-.stat-pager {
-  display: flex;
-  justify-content: center;
-  gap: var(--sp-1);
-  flex-shrink: 0;
-}
-.pager-dot {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.2rem;
-  height: 1.6rem;
-  min-height: 0;
-  padding: 0;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-}
-.pager-dot::before {
-  content: '';
-  width: 0.6rem;
-  height: 0.6rem;
-  border-radius: 999px;
-  border: 1px solid var(--fm-text-muted);
-}
-.pager-dot.on::before {
-  background: var(--fm-primary);
-  border-color: transparent;
+  gap: var(--sp-2);
 }
 .tile {
-  padding: var(--sp-3) var(--sp-4);
+  padding: var(--sp-2) var(--sp-3);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -531,16 +447,17 @@ const tiles = computed<Tile[]>(() => pages.value[statPage.value] ?? pages.value[
   font-size: var(--fs-caption);
   color: var(--fm-text-muted);
 }
-/* Glanceable numerals: readable from arm's length, the point of a printer screen. */
+/* Compact glanceable numerals: shrunk from the oversized display size so the tiles leave room for
+   the live temperature graph beside the ring, while staying readable at a distance. */
 .tile-value {
   margin-top: var(--sp-1);
   font-family: var(--font-mono);
-  font-size: var(--fs-display);
+  font-size: var(--fs-title);
   line-height: 1.1;
   color: var(--fm-text);
 }
 .tile-sub {
-  font-size: var(--fs-body);
+  font-size: var(--fs-caption);
   color: var(--fm-text-muted);
   margin-inline-start: var(--sp-1);
 }

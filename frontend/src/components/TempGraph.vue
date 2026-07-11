@@ -5,7 +5,9 @@ import { tempHistory, WINDOW } from '@/core/tempHistory'
 // Live temperature sparklines over the rolling history buffer. Pure SVG in USER UNITS (rem
 // font/stroke inside a viewBox scales with the SQUARE of the root size - the v0.6.0 lesson),
 // stretched to the card via preserveAspectRatio="none".
-const props = defineProps<{ names: string[]; labels: Record<string, string> }>()
+// `fill`: stretch the plot to fill the parent's height (for the job face, where the graph shares
+// a column with the compact stat tiles) instead of the default fixed height (the Temperature tool).
+const props = defineProps<{ names: string[]; labels: Record<string, string>; fill?: boolean }>()
 
 const W = 300
 const H = 100
@@ -53,7 +55,7 @@ function path(points: number[]): string {
 </script>
 
 <template>
-  <div v-if="series.length" class="graph touch-card">
+  <div v-if="series.length" class="graph touch-card" :class="{ fill }">
     <svg class="plot" :viewBox="`0 0 ${W} ${H}`" preserveAspectRatio="none" aria-hidden="true">
       <line class="grid" :x1="0" :y1="H / 2" :x2="W" :y2="H / 2" />
       <path
@@ -85,6 +87,17 @@ function path(points: number[]): string {
 .plot {
   width: 100%;
   height: 6rem;
+}
+/* Fill mode: the graph takes the height its parent gives it, and the plot grows to fill the space
+   left above the legend (used on the job face beside the compact tiles). */
+.graph.fill {
+  height: 100%;
+  min-height: 0;
+}
+.graph.fill .plot {
+  flex: 1;
+  height: auto;
+  min-height: 2.5rem;
 }
 .grid {
   stroke: var(--fm-border);

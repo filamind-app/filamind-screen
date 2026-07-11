@@ -6,11 +6,10 @@ All notable changes to FilaMind screen are documented here. Format: `## [version
 
 ### Added
 
-- **Swappable stat grids on the job face (v0.12.0 "job depth").** The home screen's four live tiles
-  now cycle between two pages via a small pager: page one keeps hotend / bed / fan / speed, page two
-  shows live flow (M221), commanded Z height, current layer, and pressure advance. Which page shows
-  is a device-local preference, remembered across reboots. New `status.flow` / `status.stats` strings
-  are translated across all 19 locales (`Z` and `PA` are kept as universal technical abbreviations).
+- **Live temperature graph on the job face, with compact stat tiles (v0.12.0 "job depth").** The
+  home screen's four stat tiles (hotend / bed / fan / speed) are shrunk to a compact grid, freeing
+  the space beside the progress ring for a live temperature trend of every discovered heater - the
+  same rolling history the Temperature tool plots, now glanceable straight from the job face.
 
 ## [0.11.7]
 
