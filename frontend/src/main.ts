@@ -4,7 +4,14 @@ import { moonrakerDbPersistence, roamSettings } from '@filamind-app/core'
 
 import App from './App.vue'
 import './assets/styles/main.css'
-import { i18n, detectLocale, setLocale, initLocaleSync, initDirectionSync } from './core/i18n'
+import {
+  i18n,
+  detectLocale,
+  setLocale,
+  initLocaleSync,
+  initDirectionSync,
+  markAppReady,
+} from './core/i18n'
 import { initTheme } from './core/theme'
 import { settingsStore } from './core/settings'
 import { session, connector } from './core/session'
@@ -32,6 +39,7 @@ async function bootstrap(): Promise<void> {
   app.use(createPinia())
   app.use(i18n)
   app.mount('#app')
+  markAppReady() // from here a locale-direction flip triggers a one-off reload for a clean layout
 
   // Drop the boot splash once the app has mounted.
   const splash = document.getElementById('fm-splash')

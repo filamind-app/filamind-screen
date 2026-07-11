@@ -68,17 +68,30 @@ export async function loadLocale(code: string): Promise<void> {
   loaded.add(code)
 }
 
+// The app is mounted and rendered: a direction change from here on needs a fresh layout pass
+// (see below), whereas the initial bootstrap call must not reload.
+let appReady = false
+export function markAppReady(): void {
+  appReady = true
+}
+
 export function applyDocumentLocale(code: string): void {
   if (typeof document === 'undefined') return
   const dir = isRtl(code) ? 'rtl' : 'ltr'
   const root = document.documentElement
+  const flipped = root.dir !== '' && root.dir !== dir
   root.lang = code
   root.dir = dir
-  // Also set the `direction` CSS property explicitly. The `dir` attribute alone should map to it
-  // via the UA stylesheet, but the kiosk's WebKitGTK does not always flip flex layouts from the
-  // attribute - so the rail/grid stayed left-to-right while the Arabic text ran right-to-left.
-  // An inline style wins over everything and makes flexbox honour the direction.
-  root.style.direction = dir
+  root.style.direction = dir // the property flexbox reads; the attribute alone is not enough here
+  // The kiosk's WebKitGTK does NOT re-flow an already-laid-out flex tree when `direction` changes
+  // at runtime - the values all read rtl but the rail/grid stay left-to-right. A fresh page load
+  // lays the whole tree out with the correct direction (verified: a statically-rtl page mirrors
+  // correctly in the same engine). So on an actual ltr<->rtl flip after the app is up (a rare
+  // language switch), reload once; the boot script then sets the direction before first paint.
+  if (flipped && appReady) {
+    // Defer so the locale has finished persisting (localStorage) before the reload reads it.
+    window.setTimeout(() => window.location.reload(), 60)
+  }
 }
 
 /**
