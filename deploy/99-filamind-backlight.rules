@@ -1,0 +1,5 @@
+# FilaMind screen: let the unprivileged kiosk app dim the panel backlight.
+# The webview can't touch /sys, so the native shell writes brightness directly; this makes the
+# brightness file writable without root on a single-user printer panel. Applied on the next boot
+# after install (or `udevadm trigger --subsystem-match=backlight`).
+SUBSYSTEM=="backlight", ACTION=="add", MODE="0666"

@@ -259,6 +259,9 @@ button.row-value.tappable:disabled {
 }
 .row-btns .touch-btn {
   min-height: var(--touch);
+  /* Drop the touch-btn min-width floor: this is a 5-across grid inside a half-width card, so the
+     tracks must shrink freely (at a large UI size the floored width overflows the card). */
+  min-width: 0;
   padding: var(--sp-1) var(--sp-2);
   font-size: 0.95rem;
 }

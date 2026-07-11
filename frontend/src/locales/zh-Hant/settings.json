@@ -9,11 +9,6 @@
     "dark": "深色"
   },
   "display": "顯示",
-  "density": "密度",
-  "densityName": {
-    "comfortable": "舒適",
-    "compact": "緊湊"
-  },
   "motifs": "裝飾圖案",
   "motifName": {
     "off": "關閉",
@@ -30,5 +25,16 @@
   "safeModeHint": "開啟後將阻止所有印表機操作，直到關閉。",
   "sleep": "螢幕休眠",
   "sleepOff": "關",
-  "minutes": "{n}分鐘"
+  "minutes": "{n}分鐘",
+  "uiSize": "介面大小",
+  "uiSizeName": {
+    "sm": "小",
+    "md": "中",
+    "lg": "大",
+    "xl": "特大"
+  },
+  "contrast": "對比度",
+  "contrastNormal": "標準",
+  "contrastHigh": "高",
+  "brightness": "亮度"
 }

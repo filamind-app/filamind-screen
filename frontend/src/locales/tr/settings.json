@@ -9,11 +9,6 @@
     "dark": "Koyu"
   },
   "display": "Görünüm",
-  "density": "Yoğunluk",
-  "densityName": {
-    "comfortable": "Rahat",
-    "compact": "Sıkışık"
-  },
   "motifs": "Dekoratif motifler",
   "motifName": {
     "off": "Kapalı",
@@ -30,5 +25,16 @@
   "safeModeHint": "Kapatılana kadar tüm yazıcı denetimlerini engeller.",
   "sleep": "Ekran uykusu",
   "sleepOff": "Kapalı",
-  "minutes": "{n} dk"
+  "minutes": "{n} dk",
+  "uiSize": "Arayüz boyutu",
+  "uiSizeName": {
+    "sm": "Küçük",
+    "md": "Orta",
+    "lg": "Büyük",
+    "xl": "Çok büyük"
+  },
+  "contrast": "Kontrast",
+  "contrastNormal": "Normal",
+  "contrastHigh": "Yüksek",
+  "brightness": "Parlaklık"
 }

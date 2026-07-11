@@ -9,11 +9,6 @@
     "dark": "गहरा"
   },
   "display": "डिस्प्ले",
-  "density": "घनत्व",
-  "densityName": {
-    "comfortable": "आरामदायक",
-    "compact": "कॉम्पैक्ट"
-  },
   "motifs": "सजावटी आकृतियाँ",
   "motifName": {
     "off": "बंद",
@@ -30,5 +25,16 @@
   "safeModeHint": "बंद करने तक प्रिंटर के सभी नियंत्रण अवरुद्ध रहते हैं।",
   "sleep": "स्क्रीन स्लीप",
   "sleepOff": "बंद",
-  "minutes": "{n} मि"
+  "minutes": "{n} मि",
+  "uiSize": "यूआई आकार",
+  "uiSizeName": {
+    "sm": "छोटा",
+    "md": "मध्यम",
+    "lg": "बड़ा",
+    "xl": "अतिरिक्त"
+  },
+  "contrast": "कंट्रास्ट",
+  "contrastNormal": "सामान्य",
+  "contrastHigh": "उच्च",
+  "brightness": "चमक"
 }

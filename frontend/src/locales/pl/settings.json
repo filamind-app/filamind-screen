@@ -9,11 +9,6 @@
     "dark": "Ciemny"
   },
   "display": "Wyświetlanie",
-  "density": "Gęstość",
-  "densityName": {
-    "comfortable": "Komfortowa",
-    "compact": "Kompaktowa"
-  },
   "motifs": "Elementy ozdobne",
   "motifName": {
     "off": "Wyłączone",
@@ -30,5 +25,16 @@
   "safeModeHint": "Blokuje wszystkie polecenia drukarki do czasu wyłączenia.",
   "sleep": "Uśpienie ekranu",
   "sleepOff": "Wył.",
-  "minutes": "{n} min"
+  "minutes": "{n} min",
+  "uiSize": "Rozmiar interfejsu",
+  "uiSizeName": {
+    "sm": "Mały",
+    "md": "Średni",
+    "lg": "Duży",
+    "xl": "Bardzo duży"
+  },
+  "contrast": "Kontrast",
+  "contrastNormal": "Normalny",
+  "contrastHigh": "Wysoki",
+  "brightness": "Jasność"
 }

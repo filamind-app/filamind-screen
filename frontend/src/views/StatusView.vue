@@ -280,9 +280,12 @@ const tiles = computed<Tile[]>(() => [
   flex: 1;
   min-height: 0;
 }
+/* The ring + its % text ride the UI-size knob (--ui-fs) too, so the headline progress number
+   is the FIRST thing to enlarge - it's the most-glanceable figure on the job face. The SVG text
+   scales with the ring's rendered size automatically (viewBox user units). */
 .ring-wrap {
   flex-shrink: 0;
-  width: 12rem;
+  width: calc(12rem * var(--ui-fs));
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -293,16 +296,16 @@ const tiles = computed<Tile[]>(() => [
    to the whole column it would sit offset below the ring and wash over the caption text). */
 .ring-box {
   position: relative;
-  width: 10rem;
-  height: 10rem;
+  width: calc(10rem * var(--ui-fs));
+  height: calc(10rem * var(--ui-fs));
 }
 /* Decorative motif: a soft radial ornament whose visibility follows the setting. */
 .motif {
   position: absolute;
   inset: 0;
   margin: auto;
-  width: 11.5rem;
-  height: 11.5rem;
+  width: calc(11.5rem * var(--ui-fs));
+  height: calc(11.5rem * var(--ui-fs));
   border-radius: 50%;
   background: radial-gradient(circle, transparent 55%, var(--fm-primary) 56%, transparent 60%);
   opacity: 0;
@@ -315,8 +318,8 @@ const tiles = computed<Tile[]>(() => [
   opacity: 0.25;
 }
 .ring {
-  width: 10rem;
-  height: 10rem;
+  width: calc(10rem * var(--ui-fs));
+  height: calc(10rem * var(--ui-fs));
 }
 .ring-track {
   stroke: var(--fm-surface-2);

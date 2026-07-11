@@ -9,11 +9,6 @@
     "dark": "Gelap"
   },
   "display": "Tampilan",
-  "density": "Kepadatan",
-  "densityName": {
-    "comfortable": "Nyaman",
-    "compact": "Ringkas"
-  },
   "motifs": "Motif dekoratif",
   "motifName": {
     "off": "Nonaktif",
@@ -30,5 +25,16 @@
   "safeModeHint": "Memblokir semua kontrol printer hingga dinonaktifkan.",
   "sleep": "Tidur layar",
   "sleepOff": "Nonaktif",
-  "minutes": "{n} mnt"
+  "minutes": "{n} mnt",
+  "uiSize": "Ukuran antarmuka",
+  "uiSizeName": {
+    "sm": "Kecil",
+    "md": "Sedang",
+    "lg": "Besar",
+    "xl": "Ekstra"
+  },
+  "contrast": "Kontras",
+  "contrastNormal": "Normal",
+  "contrastHigh": "Tinggi",
+  "brightness": "Kecerahan"
 }

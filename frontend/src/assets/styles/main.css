@@ -40,33 +40,40 @@
    comes from these (ad-hoc values are what "uncoordinated" looks like). All rem, so the whole
    system rides the uniform canvas. */
 :root {
+  /* User display scale - set by theme.ts from the device-local "UI size" preference (1 = default).
+     One knob scales text, spacing and touch targets together, so a small panel and a large one
+     each get a comfortable size. */
+  --ui-fs: 1;
+  --ui-space: 1;
+  --ui-touch: 1;
   /* Type scale: display = oversized glanceable numerals (readable at arm's length), then
-     title / body / caption. */
-  --fs-display: 2.4rem;
-  --fs-title: 1.25rem;
-  --fs-body: 1rem;
-  --fs-caption: 0.85rem;
+     title / body / caption. Sized for punch and legibility at a distance - the first token pass
+     shrank the touch-first UI too far, which read as faint/cramped on the panel. */
+  --fs-display: calc(2.7rem * var(--ui-fs));
+  --fs-title: calc(1.4rem * var(--ui-fs));
+  --fs-body: calc(1.05rem * var(--ui-fs));
+  --fs-caption: calc(0.92rem * var(--ui-fs));
   /* 4pt spacing scale (1 step = 0.25rem at the reference canvas). */
-  --sp-1: 0.25rem;
-  --sp-2: 0.5rem;
-  --sp-3: 0.75rem;
-  --sp-4: 1rem;
-  --sp-6: 1.5rem;
+  --sp-1: calc(0.25rem * var(--ui-space));
+  --sp-2: calc(0.5rem * var(--ui-space));
+  --sp-3: calc(0.75rem * var(--ui-space));
+  --sp-4: calc(1rem * var(--ui-space));
+  --sp-6: calc(1.5rem * var(--ui-space));
   /* Radii: cards vs pills. */
   --r-card: 1rem;
   --r-pill: 999px;
-  /* The hard touch floor (44px at the reference canvas). */
-  --touch: 2.75rem;
+  /* Touch floor (52px at the reference canvas) - raised back up from the 44px minimum, which
+     combined with tighter padding made buttons feel small and faint at a glance. */
+  --touch: calc(3.25rem * var(--ui-touch));
   /* Docked on-screen keyboard height (the shell insets the content by the same amount). */
   --osk-h: 16rem;
 }
-/* Density is a real effect: compact tightens the spacing scale everywhere. */
-:root[data-fm-density='compact'] {
-  --sp-1: 0.2rem;
-  --sp-2: 0.4rem;
-  --sp-3: 0.55rem;
-  --sp-4: 0.75rem;
-  --sp-6: 1.1rem;
+
+/* High-contrast display mode: lift the muted secondary text to full strength and strengthen
+   borders. `!important` beats the core theme's inline `--fm-*` vars on the root. */
+:root[data-fm-contrast='high'] {
+  --fm-text-muted: var(--fm-text) !important;
+  --fm-border: var(--fm-text-muted) !important;
 }
 
 @layer base {
@@ -113,7 +120,7 @@
   gap: var(--sp-2);
   min-height: var(--touch);
   min-width: var(--touch);
-  padding: var(--sp-2) var(--sp-4);
+  padding: var(--sp-3) var(--sp-4);
   border-radius: var(--r-card);
   font-size: var(--fs-body);
   background: var(--fm-surface-2);

@@ -53,9 +53,15 @@ The foundation every later phase builds on:
 - Screen sleep with tap-to-wake (per-device idle setting; never while a job is active; a short
   wake guard against ghost touches).
 
+### v0.11.0 - Legibility & display controls
+- Restored the clear, glanceable sizing the first token pass had shrunk (bigger touch targets,
+  padding, and type scale).
+- Device-local display controls: UI size (scales text + spacing + touch together), high-contrast
+  mode, and a backlight brightness control (dim only; the panel boots at full).
+
 ## Planned
 
-### v0.11.0 - Job depth
+### v0.12.0 - Job depth
 - Swappable stat grids on the job face (speed / flow / Z / pressure advance / layers).
 - Live pressure-advance adjustment in the tune tool.
 - End-of-print actions: reprint, save the babystepped Z offset.

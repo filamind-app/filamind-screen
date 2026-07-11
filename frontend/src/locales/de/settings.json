@@ -9,11 +9,6 @@
     "dark": "Dunkel"
   },
   "display": "Anzeige",
-  "density": "Dichte",
-  "densityName": {
-    "comfortable": "Komfortabel",
-    "compact": "Kompakt"
-  },
   "motifs": "Dekorative Motive",
   "motifName": {
     "off": "Aus",
@@ -30,5 +25,16 @@
   "safeModeHint": "Blockiert alle Druckerbefehle, bis er ausgeschaltet wird.",
   "sleep": "Bildschirmruhe",
   "sleepOff": "Aus",
-  "minutes": "{n} Min."
+  "minutes": "{n} Min.",
+  "uiSize": "UI-Größe",
+  "uiSizeName": {
+    "sm": "Klein",
+    "md": "Mittel",
+    "lg": "Groß",
+    "xl": "Sehr groß"
+  },
+  "contrast": "Kontrast",
+  "contrastNormal": "Normal",
+  "contrastHigh": "Hoch",
+  "brightness": "Helligkeit"
 }

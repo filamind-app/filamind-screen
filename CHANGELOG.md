@@ -2,6 +2,26 @@
 
 All notable changes to FilaMind screen are documented here. Format: `## [version]` sections (parsed by the release workflow).
 
+## [0.11.0]
+
+### Changed
+
+- **Restored legibility.** The first design-token pass shrank the touch-first UI too far - smaller
+  buttons, tighter padding, and a lower type scale read as faint and cramped on the panel. Touch
+  targets, padding, and the type scale are raised back to a clear, glanceable size (the theme
+  colours are unchanged; only the sizing was at fault).
+
+### Added
+
+- **UI size.** One control (Small / Medium / Large / Extra) scales text, spacing, and touch
+  targets together for this panel - a small screen and a large one each get a comfortable size.
+  Device-local (it doesn't roam across surfaces). Replaces the old density toggle.
+- **High-contrast mode.** Lifts the muted secondary text to full strength for bright rooms or low
+  vision.
+- **Brightness.** A backlight control that dims the panel (it boots at full, so this only lowers -
+  useful at night). Device-local; the kiosk install ships a udev rule so the app can set the
+  backlight without root (effective after the next reboot).
+
 ## [0.10.0]
 
 ### Added
