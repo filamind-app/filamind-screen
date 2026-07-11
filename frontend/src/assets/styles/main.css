@@ -35,6 +35,24 @@
   --fm-text: #f4e7ce;
 }
 
+/* Native form controls follow the (dark) themes - including the OS-rendered dropdown popup a
+   <select> opens. Without `color-scheme` that popup defaults to a light system list that ignores
+   the theme entirely (light background, wrong colors). Scoped to the dark themes so a future light
+   theme can opt back out. `option` colors theme the individual rows where the engine honours them. */
+:root[data-fm-theme='tutankhamun'],
+:root[data-fm-theme='horus'],
+:root[data-fm-theme='anubis'],
+:root[data-fm-theme='dark'] {
+  color-scheme: dark;
+}
+:root[data-fm-theme='light'] {
+  color-scheme: light;
+}
+option {
+  background: var(--fm-surface-2);
+  color: var(--fm-text);
+}
+
 /* ---- Design tokens ------------------------------------------------------------------------
    ONE type scale, ONE spacing scale, TWO radii, ONE touch floor - every dimension in the app
    comes from these (ad-hoc values are what "uncoordinated" looks like). All rem, so the whole

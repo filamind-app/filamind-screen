@@ -11,6 +11,13 @@ All notable changes to FilaMind screen are documented here. Format: `## [version
   the space beside the progress ring for a live temperature trend of every discovered heater - the
   same rolling history the Temperature tool plots, now glanceable straight from the job face.
 
+### Fixed
+
+- **Dropdown menus opened a light, un-themed popup.** A native `<select>` without a CSS
+  `color-scheme` opens its option list in the OS light palette, ignoring the theme (light
+  background, wrong colours). The dark themes now declare `color-scheme: dark` and the light theme
+  `color-scheme: light`, so the popup matches the active theme; `option` rows are themed too.
+
 ## [0.11.7]
 
 ### Fixed
