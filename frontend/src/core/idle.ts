@@ -51,7 +51,11 @@ export function startIdleWatch(): void {
     // countdown starts fresh once they clear.
     if (jobActive || down || anyHeaterHot()) {
       lastActivity = Date.now()
-      if (asleep.value && (jobActive || down)) asleep.value = false // a job / a fault wakes it
+      // Reaching this block at all means a must-stay-visible state - a live job, a fault, OR a hot
+      // heater. Any of them must WAKE an already-sleeping panel, not just a job/fault: a remote or
+      // macro preheat that starts after the screen has slept would otherwise leave a black panel
+      // over a 200C nozzle reading as powered-off (the burn hazard this module exists to prevent).
+      if (asleep.value) asleep.value = false
       return
     }
     const min = localPrefs.value.sleepMin

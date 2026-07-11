@@ -2,6 +2,31 @@
 
 All notable changes to FilaMind screen are documented here. Format: `## [version]` sections (parsed by the release workflow).
 
+## [0.11.7]
+
+### Fixed
+
+- **Home-screen progress ring drew a stray rectangular outline.** The `<svg class="ring">` collided
+  with Tailwind's `.ring` utility (a 1px box-shadow), painting a square outline around the circular
+  ring. Renamed the element's class to `.progress-ring`.
+- **The ring's decorative motif sat off-centre.** Being intentionally larger than its container, the
+  `inset:0; margin:auto` centring anchored the halo to one edge; it now uses transform-based
+  centring and is concentric with the ring.
+- **The percentage sat about 8px high inside the ring.** SVG text defaults to an alphabetic
+  baseline; the number now uses `dominant-baseline: central` (nudged up only when a layer line shows
+  beneath it).
+- **The screen now wakes when a heater becomes hot while it is already asleep** (a remote or macro
+  preheat started after the panel slept) - previously only a job start or a Klipper fault woke it,
+  leaving a black panel over a hot nozzle.
+- **The panel no longer stays Offline forever when it boots before Moonraker.** The first connect is
+  retried on a capped exponential backoff (the session guard now resets on each failed attempt)
+  instead of latching Offline with every write refused.
+- **A boot-time failure no longer freezes the kiosk on the splash logo.** `bootstrap()` retries once
+  on failure (a transient chunk/network error at cold boot self-heals) and otherwise replaces the
+  splash with a message instead of hanging.
+- The connection ribbon and the prompt dialog's text and spacing now scale with the device UI-size
+  control, matching the rest of the app.
+
 ## [0.11.6]
 
 ### Fixed

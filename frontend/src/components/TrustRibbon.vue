@@ -28,11 +28,13 @@ const current = computed(() => STATE[store.trust])
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  font-size: 1rem;
+  /* Ride the device UI-size control like its top-bar neighbours (brand, E-STOP) instead of a fixed
+     1rem, which read undersized on Extra and oversized on Small. */
+  font-size: var(--fs-body);
 }
 .dot {
-  width: 0.85rem;
-  height: 0.85rem;
+  width: calc(0.85rem * var(--ui-fs));
+  height: calc(0.85rem * var(--ui-fs));
   border-radius: 999px;
 }
 .label {

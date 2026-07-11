@@ -50,3 +50,41 @@ async function bootstrap(): Promise<void> {
 }
 
 void bootstrap()
+  .then(() => {
+    // Clear the one-shot retry latch on a clean boot so a genuine failure on a LATER boot still
+    // gets its retry.
+    try {
+      sessionStorage.removeItem('fm-boot-retried')
+    } catch {
+      /* sessionStorage unavailable */
+    }
+  })
+  .catch((err) => {
+    // A boot-time throw (a failed dynamic locale-chunk import on a partial/corrupt install, a
+    // hydrate error) must NOT leave the kiosk frozen on the splash logo forever. Retry once - a
+    // transient chunk/network failure at cold boot self-heals - then, if it still fails, replace the
+    // splash with a visible message instead of reload-thrashing a genuinely broken install.
+    console.error('[filamind-screen] bootstrap failed', err)
+    let alreadyRetried = true
+    try {
+      alreadyRetried = sessionStorage.getItem('fm-boot-retried') === '1'
+      if (!alreadyRetried) sessionStorage.setItem('fm-boot-retried', '1')
+    } catch {
+      /* no sessionStorage: skip the auto-retry and go straight to the message */
+    }
+    if (!alreadyRetried) {
+      setTimeout(() => location.reload(), 3000)
+      return
+    }
+    const splash = document.getElementById('fm-splash')
+    if (splash) {
+      splash.style.flexDirection = 'column'
+      splash.style.gap = '1rem'
+      splash.style.color = '#f3ecd8'
+      splash.style.fontFamily = 'system-ui, sans-serif'
+      const msg = document.createElement('p')
+      msg.textContent = 'FilaMind could not start. It will try again on the next power cycle.'
+      msg.style.cssText = 'margin:0;max-width:80vw;text-align:center;font-size:1rem;line-height:1.4'
+      splash.appendChild(msg)
+    }
+  })

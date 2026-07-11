@@ -106,6 +106,9 @@ const fmt = (n?: number): string => `${Math.round(n ?? 0)}°`
 // Ring geometry (r=42 -> circumference 263.9), offset shrinks as progress grows.
 const CIRC = 2 * Math.PI * 42
 const dashOffset = computed(() => CIRC * (1 - progress.value / 100))
+// The % sits dead-centre in the ring (dominant-baseline centres it on this y); when a layer line
+// shows beneath it, nudge it up so the pair reads balanced instead of bottom-heavy.
+const pctY = computed(() => (layer.value.total_layer ? 45 : 50))
 
 // Cancel is destructive: a second tap within 3s confirms.
 const confirmingCancel = ref(false)
@@ -176,7 +179,7 @@ const tiles = computed<Tile[]>(() => [
         <!-- The box keeps the decorative motif concentric with the ring (not the whole column). -->
         <div class="ring-box">
           <span class="motif" aria-hidden="true"></span>
-          <svg class="ring" viewBox="0 0 100 100" role="img" :aria-label="`${progress}%`">
+          <svg class="progress-ring" viewBox="0 0 100 100" role="img" :aria-label="`${progress}%`">
             <circle class="ring-track" cx="50" cy="50" r="42" fill="none" />
             <circle
               class="ring-fill"
@@ -189,8 +192,8 @@ const tiles = computed<Tile[]>(() => [
               :stroke-dashoffset="dashOffset"
               transform="rotate(-90 50 50)"
             />
-            <text class="ring-pct" x="50" y="49" text-anchor="middle">{{ progress }}%</text>
-            <text v-if="layer.total_layer" class="ring-sub" x="50" y="64" text-anchor="middle">
+            <text class="ring-pct" x="50" :y="pctY" text-anchor="middle">{{ progress }}%</text>
+            <text v-if="layer.total_layer" class="ring-sub" x="50" y="63" text-anchor="middle">
               {{ t('status.layer') }} {{ layer.current_layer ?? 0 }}/{{ layer.total_layer }}
             </text>
           </svg>
@@ -302,8 +305,12 @@ const tiles = computed<Tile[]>(() => [
 /* Decorative motif: a soft radial ornament whose visibility follows the setting. */
 .motif {
   position: absolute;
-  inset: 0;
-  margin: auto;
+  /* Concentric with the ring: translate-centring works even though the halo is intentionally
+     larger than .ring-box (with `inset:0; margin:auto` an over-sized abs box anchors to the
+     inline-start edge instead of centring, which pushed the ornament off to one side). */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: calc(11.5rem * var(--ui-fs));
   height: calc(11.5rem * var(--ui-fs));
   border-radius: 50%;
@@ -316,7 +323,9 @@ const tiles = computed<Tile[]>(() => [
    `:root[data-fm-motif=…] { opacity: … }`, dropping the `.motif` and applying the opacity to
    <html> itself - dimming the WHOLE screen (a default-'subtle' panel booted at 10% opacity, the
    real cause of the "faded" reports). */
-.ring {
+/* NB: NOT `.ring` - that collides with the Tailwind `.ring` utility (a 1px box-shadow), which
+   painted a stray square outline around the SVG. */
+.progress-ring {
   width: calc(10rem * var(--ui-fs));
   height: calc(10rem * var(--ui-fs));
 }
@@ -336,10 +345,14 @@ const tiles = computed<Tile[]>(() => [
   font-size: 20px;
   font-weight: 600;
   font-family: var(--font-display, system-ui);
+  /* Vertically centre the glyphs ON the y coordinate; the default alphabetic baseline sat the
+     number ~8px high in the ring. */
+  dominant-baseline: central;
 }
 .ring-sub {
   fill: var(--fm-text-muted);
   font-size: 8.8px;
+  dominant-baseline: central;
 }
 .job-thumb {
   margin-top: var(--sp-2);

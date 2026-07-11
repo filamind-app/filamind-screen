@@ -37,7 +37,15 @@ export const useSessionStore = defineStore('session', () => {
   async function start(): Promise<void> {
     if (started) return
     started = true
-    await session.start()
+    try {
+      await session.start()
+    } catch (e) {
+      // Un-wedge the guard on a failed FIRST connect so the caller can retry: the panel commonly
+      // boots before Moonraker/Klipper is up, and leaving `started` latched would strand the
+      // session Offline forever with every gated write refused.
+      started = false
+      throw e
+    }
   }
 
   return { objects, klippy, live, prompt, klippyReady, trust, object, start }

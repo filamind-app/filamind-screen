@@ -183,10 +183,12 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
 }
 .prompt {
   width: min(35rem, 94vw);
-  padding: 1.5rem;
+  /* Ride the device UI-size control (spacing + type tokens) so the dialog's text and padding scale
+     with the rest of the app, not just its buttons. */
+  padding: var(--sp-6);
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: var(--sp-4);
   max-height: 90vh;
   overflow-y: auto;
 }
@@ -195,13 +197,13 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
 }
 .prompt-title {
   margin: 0;
-  font-size: 1.25rem;
+  font-size: var(--fs-title);
   font-weight: 600;
   color: var(--fm-text);
 }
 .prompt-line {
   margin: 0;
-  font-size: 1rem;
+  font-size: var(--fs-body);
   color: var(--fm-text-muted);
 }
 .prompt-error {
@@ -212,11 +214,11 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
 .prompt-footer {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  gap: var(--sp-3);
 }
 .prompt-footer {
   border-top: 1px solid var(--fm-border);
-  padding-top: 1rem;
+  padding-top: var(--sp-4);
 }
 .warning {
   border-color: var(--fm-warning);
