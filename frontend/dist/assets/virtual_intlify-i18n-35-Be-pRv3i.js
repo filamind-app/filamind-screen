@@ -1,0 +1,1 @@
+var e={label:{t:0,b:{t:2,i:[{t:3}],s:`Bildschirmtastatur`}},shift:{t:0,b:{t:2,i:[{t:3}],s:`Groß-/Kleinschreibung`}},space:{t:0,b:{t:2,i:[{t:3}],s:`Leerzeichen`}},enter:{t:0,b:{t:2,i:[{t:3}],s:`Senden`}},close:{t:0,b:{t:2,i:[{t:3}],s:`Tastatur ausblenden`}}};export{e as default};

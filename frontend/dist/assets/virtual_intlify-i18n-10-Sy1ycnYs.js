@@ -1,0 +1,1 @@
+var e={label:{t:0,b:{t:2,i:[{t:3}],s:`Clavier à l'écran`}},shift:{t:0,b:{t:2,i:[{t:3}],s:`Casse des lettres`}},space:{t:0,b:{t:2,i:[{t:3}],s:`Espace`}},enter:{t:0,b:{t:2,i:[{t:3}],s:`Envoyer`}},close:{t:0,b:{t:2,i:[{t:3}],s:`Masquer le clavier`}}};export{e as default};

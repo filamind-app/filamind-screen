@@ -1,0 +1,1 @@
+var e={label:{t:0,b:{t:2,i:[{t:3}],s:`화면 키보드`}},shift:{t:0,b:{t:2,i:[{t:3}],s:`대소문자`}},space:{t:0,b:{t:2,i:[{t:3}],s:`공백`}},enter:{t:0,b:{t:2,i:[{t:3}],s:`보내기`}},close:{t:0,b:{t:2,i:[{t:3}],s:`키보드 숨기기`}}};export{e as default};

@@ -1,0 +1,1 @@
+var e={label:{t:0,b:{t:2,i:[{t:3}],s:`Schermtoetsenbord`}},shift:{t:0,b:{t:2,i:[{t:3}],s:`Hoofdlettergebruik`}},space:{t:0,b:{t:2,i:[{t:3}],s:`Spatie`}},enter:{t:0,b:{t:2,i:[{t:3}],s:`Verzenden`}},close:{t:0,b:{t:2,i:[{t:3}],s:`Toetsenbord verbergen`}}};export{e as default};

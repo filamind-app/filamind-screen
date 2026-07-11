@@ -1,0 +1,1 @@
+var e={label:{t:0,b:{t:2,i:[{t:3}],s:`Tastiera su schermo`}},shift:{t:0,b:{t:2,i:[{t:3}],s:`Maiuscole/minuscole`}},space:{t:0,b:{t:2,i:[{t:3}],s:`Spazio`}},enter:{t:0,b:{t:2,i:[{t:3}],s:`Invia`}},close:{t:0,b:{t:2,i:[{t:3}],s:`Nascondi tastiera`}}};export{e as default};

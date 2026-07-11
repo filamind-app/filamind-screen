@@ -1,0 +1,1 @@
+var e={label:{t:0,b:{t:2,i:[{t:3}],s:`Klawiatura ekranowa`}},shift:{t:0,b:{t:2,i:[{t:3}],s:`Wielkość liter`}},space:{t:0,b:{t:2,i:[{t:3}],s:`Spacja`}},enter:{t:0,b:{t:2,i:[{t:3}],s:`Wyślij`}},close:{t:0,b:{t:2,i:[{t:3}],s:`Ukryj klawiaturę`}}};export{e as default};
