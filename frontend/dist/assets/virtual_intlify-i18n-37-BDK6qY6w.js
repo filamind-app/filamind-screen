@@ -1,0 +1,1 @@
+var e={label:{t:0,b:{t:2,i:[{t:3}],s:`Ekran klavyesi`}},shift:{t:0,b:{t:2,i:[{t:3}],s:`Harf büyüklüğü`}},space:{t:0,b:{t:2,i:[{t:3}],s:`Boşluk`}},enter:{t:0,b:{t:2,i:[{t:3}],s:`Gönder`}},close:{t:0,b:{t:2,i:[{t:3}],s:`Klavyeyi gizle`}}};export{e as default};

@@ -1,0 +1,1 @@
+var e={label:{t:0,b:{t:2,i:[{t:3}],s:`Papan ketik layar`}},shift:{t:0,b:{t:2,i:[{t:3}],s:`Huruf besar/kecil`}},space:{t:0,b:{t:2,i:[{t:3}],s:`Spasi`}},enter:{t:0,b:{t:2,i:[{t:3}],s:`Kirim`}},close:{t:0,b:{t:2,i:[{t:3}],s:`Sembunyikan papan ketik`}}};export{e as default};

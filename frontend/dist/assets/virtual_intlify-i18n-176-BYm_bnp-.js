@@ -1,0 +1,1 @@
+var e={label:{t:0,b:{t:2,i:[{t:3}],s:`Bàn phím trên màn hình`}},shift:{t:0,b:{t:2,i:[{t:3}],s:`Chữ hoa/thường`}},space:{t:0,b:{t:2,i:[{t:3}],s:`Dấu cách`}},enter:{t:0,b:{t:2,i:[{t:3}],s:`Gửi`}},close:{t:0,b:{t:2,i:[{t:3}],s:`Ẩn bàn phím`}}};export{e as default};

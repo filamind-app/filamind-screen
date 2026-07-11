@@ -1,0 +1,1 @@
+var e={label:{t:0,b:{t:2,i:[{t:3}],s:`スクリーンキーボード`}},shift:{t:0,b:{t:2,i:[{t:3}],s:`大文字/小文字`}},space:{t:0,b:{t:2,i:[{t:3}],s:`スペース`}},enter:{t:0,b:{t:2,i:[{t:3}],s:`送信`}},close:{t:0,b:{t:2,i:[{t:3}],s:`キーボードを隠す`}}};export{e as default};

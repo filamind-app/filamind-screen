@@ -1,0 +1,1 @@
+var e={label:{t:0,b:{t:2,i:[{t:3}],s:`屏幕键盘`}},shift:{t:0,b:{t:2,i:[{t:3}],s:`字母大小写`}},space:{t:0,b:{t:2,i:[{t:3}],s:`空格`}},enter:{t:0,b:{t:2,i:[{t:3}],s:`发送`}},close:{t:0,b:{t:2,i:[{t:3}],s:`隐藏键盘`}}};export{e as default};
