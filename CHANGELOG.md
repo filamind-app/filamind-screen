@@ -14,6 +14,10 @@ All notable changes to FilaMind screen are documented here. Format: `## [version
   job face offers a one-tap, full-width "Reprint" of the same file - replacing the dead, disabled
   Pause button that used to sit there. The action bar is now hidden entirely at standby. New
   `control.reprint` string translated across all 19 locales.
+- **Live pressure advance in the Tune tool (v0.12.0 "job depth").** A fifth tuning card adjusts
+  pressure advance live - nudge steps (+/-0.005, +/-0.02) or absolute numpad entry via
+  `SET_PRESSURE_ADVANCE` - reading the extruder's current value and restoring the printer's
+  configured default on Reset.
 
 ### Fixed
 
@@ -21,6 +25,8 @@ All notable changes to FilaMind screen are documented here. Format: `## [version
   `color-scheme` opens its option list in the OS light palette, ignoring the theme (light
   background, wrong colours). The dark themes now declare `color-scheme: dark` and the light theme
   `color-scheme: light`, so the popup matches the active theme; `option` rows are themed too.
+- **The Tune tool's Reset buttons rendered a raw text glyph** (a bare `⟲`) instead of the themed
+  icon set; they now use the SVG refresh icon like every other control.
 
 ## [0.11.7]
 

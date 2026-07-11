@@ -1,14 +1,16 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+import Icon from '@/components/AppIcon.vue'
 import NumPad from '@/components/NumPad.vue'
 import ToolHeader from '@/components/ToolHeader.vue'
 import { useSessionStore } from '@/core/store/session'
 import { useControlStore } from '@/core/store/control'
 import { useWriteGuard } from '@/core/useWriteGuard'
 
-// Live print tuning: speed (M220), flow (M221), Z babystep (SET_GCODE_OFFSET), part fan (M106).
-// Reads the live factors off gcode_move / fan and applies relative nudges through the gated store.
+// Live print tuning: speed (M220), flow (M221), pressure advance (SET_PRESSURE_ADVANCE), Z babystep
+// (SET_GCODE_OFFSET), part fan (M106). Reads the live values off gcode_move / extruder / fan and
+// applies nudges (or absolute numpad entry) through the gated store.
 const { t } = useI18n()
 const session = useSessionStore()
 const ctl = useControlStore()
@@ -28,6 +30,16 @@ const speedPct = computed(() => Math.round((gm.value?.speed_factor ?? 1) * 100))
 const flowPct = computed(() => Math.round((gm.value?.extrude_factor ?? 1) * 100))
 const zOffset = computed(() => gm.value?.homing_origin?.[2] ?? 0)
 const fanPct = computed(() => Math.round((fan.value?.speed ?? 0) * 100))
+const ext = computed(() => session.object<{ pressure_advance?: number }>('extruder'))
+const cfg = computed(() =>
+  session.object<{ settings?: Record<string, Record<string, unknown>> }>('configfile'),
+)
+const pa = computed(() => ext.value?.pressure_advance ?? 0)
+// The printer's configured PA, so Reset restores it (SET_PRESSURE_ADVANCE is absolute).
+const paDefault = computed(() => {
+  const v = cfg.value?.settings?.['extruder']?.['pressure_advance']
+  return typeof v === 'number' ? v : 0
+})
 
 const clamp = (v: number, lo: number, hi: number): number => Math.min(hi, Math.max(lo, v))
 
@@ -45,14 +57,22 @@ function setFan(d: number): void {
   const pct = clamp(fanPct.value + d, 0, 100)
   void ctl.runGcode(`M106 S${Math.round((pct * 255) / 100)}`)
 }
+function setPa(d: number): void {
+  // SET_PRESSURE_ADVANCE takes an ABSOLUTE value, so nudge the live figure and clamp to a sane band.
+  if (canWrite.value) {
+    void ctl.runGcode(`SET_PRESSURE_ADVANCE ADVANCE=${clamp(pa.value + d, 0, 1).toFixed(4)}`)
+  }
+}
 function send(gcode: string): void {
   if (canWrite.value) void ctl.runGcode(gcode)
 }
 
 const PCT_STEPS = [-25, -5, 5, 25]
 const Z_STEPS = [-0.05, -0.01, 0.01, 0.05]
+const PA_STEPS = [-0.02, -0.005, 0.005, 0.02]
 const fmtPct = (d: number): string => (d > 0 ? `+${d}` : `${d}`)
 const fmtZ = (d: number): string => (d > 0 ? `+${d.toFixed(2)}` : d.toFixed(2))
+const fmtPa = (d: number): string => (d > 0 ? `+${d.toFixed(3)}` : d.toFixed(3))
 
 interface Row {
   key: string
@@ -122,6 +142,22 @@ const rows = computed<Row[]>(() => [
     reset: () => send('M106 S0'),
     abs: { min: 0, max: 100, set: (v) => send(`M106 S${Math.round((v * 255) / 100)}`) },
   },
+  {
+    key: 'pa',
+    label: t('tune.pa'),
+    value: pa.value.toFixed(3),
+    steps: PA_STEPS,
+    fmtStep: fmtPa,
+    apply: setPa,
+    reset: () => send(`SET_PRESSURE_ADVANCE ADVANCE=${paDefault.value.toFixed(4)}`),
+    abs: {
+      min: 0,
+      max: 1,
+      decimal: true,
+      unit: '',
+      set: (v) => send(`SET_PRESSURE_ADVANCE ADVANCE=${v.toFixed(4)}`),
+    },
+  },
 ])
 
 /** Row being edited via the on-screen numpad (tap a value); the cards yield the space meanwhile. */
@@ -181,7 +217,7 @@ watch(canWrite, (ok) => {
             :aria-label="t('tune.reset')"
             @click="r.reset()"
           >
-            ⟲
+            <Icon name="refresh" size="1.1rem" />
           </button>
         </div>
       </div>

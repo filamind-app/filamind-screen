@@ -1,0 +1,1 @@
+var e={title:{t:0,b:{t:2,i:[{t:3}],s:`Afstellen`}},back:{t:0,b:{t:2,i:[{t:3}],s:`Terug`}},speed:{t:0,b:{t:2,i:[{t:3}],s:`Snelheid`}},flow:{t:0,b:{t:2,i:[{t:3}],s:`Flow`}},zOffset:{t:0,b:{t:2,i:[{t:3}],s:`Z-offset`}},fan:{t:0,b:{t:2,i:[{t:3}],s:`Ventilator`}},pa:{t:0,b:{t:2,i:[{t:3}],s:`PA`}},reset:{t:0,b:{t:2,i:[{t:3}],s:`Reset`}}};export{e as default};

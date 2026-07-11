@@ -5,5 +5,6 @@
   "flow": "압출량",
   "zOffset": "Z 오프셋",
   "fan": "팬",
+  "pa": "PA",
   "reset": "초기화"
 }

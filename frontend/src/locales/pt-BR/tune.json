@@ -5,5 +5,6 @@
   "flow": "Fluxo",
   "zOffset": "Offset Z",
   "fan": "Ventoinha",
+  "pa": "PA",
   "reset": "Redefinir"
 }

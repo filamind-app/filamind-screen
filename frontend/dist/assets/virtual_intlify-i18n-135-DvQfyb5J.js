@@ -1,1 +1,0 @@
-var e={title:{t:0,b:{t:2,i:[{t:3}],s:`튜닝`}},back:{t:0,b:{t:2,i:[{t:3}],s:`뒤로`}},speed:{t:0,b:{t:2,i:[{t:3}],s:`속도`}},flow:{t:0,b:{t:2,i:[{t:3}],s:`압출량`}},zOffset:{t:0,b:{t:2,i:[{t:3}],s:`Z 오프셋`}},fan:{t:0,b:{t:2,i:[{t:3}],s:`팬`}},reset:{t:0,b:{t:2,i:[{t:3}],s:`초기화`}}};export{e as default};

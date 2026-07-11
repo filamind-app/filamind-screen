@@ -1,0 +1,1 @@
+var e={title:{t:0,b:{t:2,i:[{t:3}],s:`調整`}},back:{t:0,b:{t:2,i:[{t:3}],s:`戻る`}},speed:{t:0,b:{t:2,i:[{t:3}],s:`速度`}},flow:{t:0,b:{t:2,i:[{t:3}],s:`吐出量`}},zOffset:{t:0,b:{t:2,i:[{t:3}],s:`Zオフセット`}},fan:{t:0,b:{t:2,i:[{t:3}],s:`ファン`}},pa:{t:0,b:{t:2,i:[{t:3}],s:`PA`}},reset:{t:0,b:{t:2,i:[{t:3}],s:`リセット`}}};export{e as default};

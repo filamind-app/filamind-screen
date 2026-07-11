@@ -5,5 +5,6 @@
   "flow": "Aliran",
   "zOffset": "Offset Z",
   "fan": "Kipas",
+  "pa": "PA",
   "reset": "Atur Ulang"
 }

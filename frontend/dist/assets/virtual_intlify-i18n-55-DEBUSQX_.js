@@ -1,1 +1,0 @@
-var e={title:{t:0,b:{t:2,i:[{t:3}],s:`Tinh chỉnh`}},back:{t:0,b:{t:2,i:[{t:3}],s:`Quay lại`}},speed:{t:0,b:{t:2,i:[{t:3}],s:`Tốc độ`}},flow:{t:0,b:{t:2,i:[{t:3}],s:`Lưu lượng`}},zOffset:{t:0,b:{t:2,i:[{t:3}],s:`Bù Z`}},fan:{t:0,b:{t:2,i:[{t:3}],s:`Quạt`}},reset:{t:0,b:{t:2,i:[{t:3}],s:`Đặt lại`}}};export{e as default};
