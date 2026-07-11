@@ -57,6 +57,8 @@
   --r-pill: 999px;
   /* The hard touch floor (44px at the reference canvas). */
   --touch: 2.75rem;
+  /* Docked on-screen keyboard height (the shell insets the content by the same amount). */
+  --osk-h: 16rem;
 }
 /* Density is a real effect: compact tightens the spacing scale everywhere. */
 :root[data-fm-density='compact'] {

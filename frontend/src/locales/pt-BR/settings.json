@@ -27,5 +27,8 @@
   "safeMode": "Modo seguro",
   "safeModeOn": "Ativadas",
   "safeModeOff": "Desativado",
-  "safeModeHint": "Bloqueia todos os controles da impressora até ser desativado."
+  "safeModeHint": "Bloqueia todos os controles da impressora até ser desativado.",
+  "sleep": "Suspensão da tela",
+  "sleepOff": "Desativado",
+  "minutes": "{n} min"
 }

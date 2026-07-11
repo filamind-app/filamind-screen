@@ -20,9 +20,9 @@ frontend/
   src/
     core/         bridge to @filamind-app/core: session · control · remote · theme · i18n · settings
       store/      Pinia mirror stores (session · control · settings) the views read from
-    components/   TouchShell · TrustRibbon · PromptDialog · AppIcon · ToolHeader · EmptyState · ToastHost · NumPad
+    components/   TouchShell · TrustRibbon · PromptDialog · AppIcon · ToolHeader · EmptyState · ToastHost · NumPad · OnScreenKeyboard · TempGraph · SleepShield
     views/        Status · Temp · Extrude · Move · Tune · Files · Macros · Console · Settings (side-rail destinations)
-    locales/      19 namespaced catalog folders (console/control/extrude/files/macros/move/prompt/settings/shell/status/temp/tune)
+    locales/      19 namespaced catalog folders (console/control/extrude/files/macros/move/osk/prompt/settings/shell/status/temp/tune)
   src-tauri/      Tauri 2 Rust shell: Cargo.toml · tauri.conf.json · src/{main,lib}.rs · capabilities/
 ```
 

@@ -17,5 +17,6 @@
     "extruder1": "Hotend 2",
     "heater_bed": "Piatto"
   },
-  "ok": "OK"
+  "ok": "OK",
+  "sign": "Cambia segno"
 }

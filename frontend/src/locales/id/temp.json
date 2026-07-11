@@ -17,5 +17,6 @@
     "extruder1": "Hotend 2",
     "heater_bed": "Bed"
   },
-  "ok": "OK"
+  "ok": "OK",
+  "sign": "Ubah tanda"
 }

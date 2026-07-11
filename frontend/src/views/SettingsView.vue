@@ -5,6 +5,7 @@ import Icon from '@/components/AppIcon.vue'
 import { useSettingsStore } from '@/core/store/settings'
 import { useControlStore } from '@/core/store/control'
 import { shippedLocales, setLocale } from '@/core/i18n'
+import { localPrefs, type SleepMinutes } from '@/core/localPrefs'
 
 const { t, locale } = useI18n()
 const settings = useSettingsStore()
@@ -19,6 +20,8 @@ async function chooseLocale(code: string): Promise<void> {
 // Display options the settings model already carries (theme.ts applies them to the DOM).
 const DENSITIES = ['comfortable', 'compact'] as const
 const MOTIFS = ['off', 'subtle', 'full'] as const
+// Screen sleep is device-local (this panel's property, it doesn't roam across surfaces).
+const SLEEP_OPTIONS: SleepMinutes[] = [0, 1, 5, 15]
 
 /** Segmented control semantics: tapping the already-active side is a no-op, not a toggle. */
 function setSafeMode(on: boolean): void {
@@ -95,6 +98,22 @@ const appVersion = typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSION__ : '0
             @click="settings.patch({ motifDensity: m })"
           >
             {{ t('settings.motifName.' + m) }}
+          </button>
+        </div>
+      </div>
+      <div class="opt-row">
+        <span class="opt-label">{{ t('settings.sleep') }}</span>
+        <div class="seg">
+          <button
+            v-for="m in SLEEP_OPTIONS"
+            :key="m"
+            class="seg-btn"
+            :class="{ on: localPrefs.sleepMin === m }"
+            type="button"
+            :aria-pressed="localPrefs.sleepMin === m"
+            @click="localPrefs.sleepMin = m"
+          >
+            {{ m === 0 ? t('settings.sleepOff') : t('settings.minutes', { n: m }) }}
           </button>
         </div>
       </div>

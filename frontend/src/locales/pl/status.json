@@ -12,5 +12,7 @@
   "fan": "Wentylator",
   "speed": "Prędkość",
   "layer": "Warstwa",
-  "eta": "ETA"
+  "eta": "ETA",
+  "elapsed": "Upłynęło",
+  "finishesAt": "koniec ~{time}"
 }

@@ -27,5 +27,8 @@
   "safeMode": "Tryb bezpieczny",
   "safeModeOn": "Włączone",
   "safeModeOff": "Wył.",
-  "safeModeHint": "Blokuje wszystkie polecenia drukarki do czasu wyłączenia."
+  "safeModeHint": "Blokuje wszystkie polecenia drukarki do czasu wyłączenia.",
+  "sleep": "Uśpienie ekranu",
+  "sleepOff": "Wył.",
+  "minutes": "{n} min"
 }

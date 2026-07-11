@@ -17,5 +17,6 @@
     "extruder1": "Buse 2",
     "heater_bed": "Plateau"
   },
-  "ok": "OK"
+  "ok": "OK",
+  "sign": "Inverser le signe"
 }

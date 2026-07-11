@@ -27,5 +27,8 @@
   "safeMode": "セーフモード",
   "safeModeOn": "オン",
   "safeModeOff": "オフ",
-  "safeModeHint": "オフにするまで、プリンターのすべての操作をブロックします。"
+  "safeModeHint": "オフにするまで、プリンターのすべての操作をブロックします。",
+  "sleep": "画面スリープ",
+  "sleepOff": "オフ",
+  "minutes": "{n}分"
 }

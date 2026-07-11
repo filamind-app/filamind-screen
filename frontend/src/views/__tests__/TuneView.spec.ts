@@ -115,13 +115,25 @@ describe('TuneView', () => {
 
   it('numpad fan entry converts percent to the 0-255 scale', async () => {
     const w = mountView()
-    await w.findAll('button.row-value')[2]!.trigger('click') // fan (z has no tappable value)
+    await w.findAll('button.row-value')[3]!.trigger('click') // fan (speed/flow/zoff before it)
     const pad = w.find('.numpad')
     const key = (label: string) => pad.findAll('button.key').find((b) => b.text() === label)!
     await key('5').trigger('click')
     await key('0').trigger('click')
     await pad.find('button.ok').trigger('click')
     expect(state.runGcode).toHaveBeenCalledWith('M106 S128')
+  })
+
+  it('numpad Z entry accepts a signed decimal absolute offset', async () => {
+    const w = mountView()
+    await w.findAll('button.row-value')[2]!.trigger('click') // z offset
+    const pad = w.find('.numpad')
+    const key = (label: string) => pad.findAll('button.key').find((b) => b.text() === label)!
+    await key('.').trigger('click')
+    await key('5').trigger('click')
+    await key('±').trigger('click')
+    await pad.find('button.ok').trigger('click')
+    expect(state.runGcode).toHaveBeenCalledWith('SET_GCODE_OFFSET Z=-0.500 MOVE=1')
   })
 
   it('numpad refuses an out-of-range flow value', async () => {

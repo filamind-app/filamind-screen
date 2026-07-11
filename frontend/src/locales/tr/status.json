@@ -12,5 +12,7 @@
   "fan": "Fan",
   "speed": "Hız",
   "layer": "Katman",
-  "eta": "ETA"
+  "eta": "ETA",
+  "elapsed": "Geçen",
+  "finishesAt": "bitiş ~{time}"
 }

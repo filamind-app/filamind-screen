@@ -2,6 +2,7 @@
 import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import NumPad from '@/components/NumPad.vue'
+import TempGraph from '@/components/TempGraph.vue'
 import ToolHeader from '@/components/ToolHeader.vue'
 import { useHeaters, heaterRange, type HeaterRow } from '@/core/heaters'
 import { useControlStore } from '@/core/store/control'
@@ -81,6 +82,14 @@ function allOff(): void {
 }
 
 const fmt = (n: number): string => `${Math.round(n)}°`
+
+// The live graph plots every discovered heater + sensor under its display name.
+const graphNames = computed(() => [...heaters.value, ...sensors.value].map((r) => r.name))
+const graphLabels = computed(() => {
+  const out: Record<string, string> = {}
+  for (const r of [...heaters.value, ...sensors.value]) out[r.name] = displayName(r)
+  return out
+})
 </script>
 
 <template>
@@ -106,6 +115,9 @@ const fmt = (n: number): string => `${Math.round(n)}°`
         <span class="preset-temps">0°</span>
       </button>
     </div>
+
+    <!-- Live history graph (hidden while entering a target: the numpad gets the height). -->
+    <TempGraph v-if="!editing" :names="graphNames" :labels="graphLabels" />
 
     <!-- Heater rows (tap to set) + read-only sensors; the list scrolls, the chrome doesn't. -->
     <div v-if="!editing" class="list">

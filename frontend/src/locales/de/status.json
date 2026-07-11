@@ -12,5 +12,7 @@
   "fan": "Lüfter",
   "speed": "Tempo",
   "layer": "Schicht",
-  "eta": "Restzeit"
+  "eta": "Restzeit",
+  "elapsed": "Vergangen",
+  "finishesAt": "endet ~{time}"
 }

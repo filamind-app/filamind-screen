@@ -12,5 +12,7 @@
   "fan": "Ventilador",
   "speed": "Velocidad",
   "layer": "Capa",
-  "eta": "ETA"
+  "eta": "ETA",
+  "elapsed": "Transcurrido",
+  "finishesAt": "termina ~{time}"
 }

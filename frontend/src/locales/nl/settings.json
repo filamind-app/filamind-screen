@@ -27,5 +27,8 @@
   "safeMode": "Veilige modus",
   "safeModeOn": "Aan",
   "safeModeOff": "Uit",
-  "safeModeHint": "Blokkeert alle printerbediening totdat deze wordt uitgeschakeld."
+  "safeModeHint": "Blokkeert alle printerbediening totdat deze wordt uitgeschakeld.",
+  "sleep": "Schermslaap",
+  "sleepOff": "Uit",
+  "minutes": "{n} min"
 }

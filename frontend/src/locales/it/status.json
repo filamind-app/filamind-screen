@@ -12,5 +12,7 @@
   "fan": "Ventola",
   "speed": "Velocità",
   "layer": "Strato",
-  "eta": "ETA"
+  "eta": "ETA",
+  "elapsed": "Trascorso",
+  "finishesAt": "fine ~{time}"
 }

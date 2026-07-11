@@ -130,6 +130,11 @@ onUnmounted(() => off?.())
   padding: var(--sp-2) var(--sp-3);
   min-height: 8rem;
 }
+/* With the keyboard docked the content height is tight (a small panel loses ~16rem); the log
+   yields its floor so the entry row and its chips stay above the keys, never clipped. */
+:global(html.osk-docked) .log {
+  min-height: 3rem;
+}
 .muted {
   margin: 0;
   color: var(--fm-text-muted);

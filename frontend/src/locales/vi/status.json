@@ -12,5 +12,7 @@
   "fan": "Quạt",
   "speed": "Tốc độ",
   "layer": "Lớp",
-  "eta": "Còn lại"
+  "eta": "Còn lại",
+  "elapsed": "Đã trôi qua",
+  "finishesAt": "xong ~{time}"
 }

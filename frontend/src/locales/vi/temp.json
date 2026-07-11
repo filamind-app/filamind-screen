@@ -17,5 +17,6 @@
     "extruder1": "Đầu nóng 2",
     "heater_bed": "Bàn in"
   },
-  "ok": "OK"
+  "ok": "OK",
+  "sign": "Đổi dấu"
 }

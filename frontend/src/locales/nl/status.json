@@ -12,5 +12,7 @@
   "fan": "Ventilator",
   "speed": "Snelheid",
   "layer": "Laag",
-  "eta": "ETA"
+  "eta": "ETA",
+  "elapsed": "Verstreken",
+  "finishesAt": "klaar ~{time}"
 }

@@ -27,5 +27,8 @@
   "safeMode": "Safe mode",
   "safeModeOn": "On",
   "safeModeOff": "Off",
-  "safeModeHint": "Blocks all printer controls until switched off."
+  "safeModeHint": "Blocks all printer controls until switched off.",
+  "sleep": "Screen sleep",
+  "sleepOff": "Off",
+  "minutes": "{n} min"
 }

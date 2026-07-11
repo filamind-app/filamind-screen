@@ -27,5 +27,8 @@
   "safeMode": "안전 모드",
   "safeModeOn": "켜짐",
   "safeModeOff": "끔",
-  "safeModeHint": "끌 때까지 프린터의 모든 조작을 차단합니다."
+  "safeModeHint": "끌 때까지 프린터의 모든 조작을 차단합니다.",
+  "sleep": "화면 절전",
+  "sleepOff": "끔",
+  "minutes": "{n}분"
 }

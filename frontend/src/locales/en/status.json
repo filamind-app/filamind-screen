@@ -12,5 +12,7 @@
   "fan": "Fan",
   "speed": "Speed",
   "layer": "Layer",
-  "eta": "ETA"
+  "eta": "ETA",
+  "elapsed": "Elapsed",
+  "finishesAt": "ends ~{time}"
 }

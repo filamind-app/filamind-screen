@@ -17,5 +17,6 @@
     "extruder1": "Hotend 2",
     "heater_bed": "Mesa"
   },
-  "ok": "OK"
+  "ok": "OK",
+  "sign": "Alternar sinal"
 }
