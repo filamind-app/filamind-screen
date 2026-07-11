@@ -18,6 +18,9 @@ All notable changes to FilaMind screen are documented here. Format: `## [version
   pressure advance live - nudge steps (+/-0.005, +/-0.02) or absolute numpad entry via
   `SET_PRESSURE_ADVANCE` - reading the extruder's current value and restoring the printer's
   configured default on Reset.
+- **Miniature print chip (v0.12.0 "job depth").** While a job runs and you are in another tool, a
+  small floating chip shows the live progress and filename and taps back to the job face - the print
+  stays glanceable without leaving the tool you are in. Hidden on the job face itself.
 
 ### Fixed
 

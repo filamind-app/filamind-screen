@@ -204,6 +204,9 @@ html.osk-docked .log {
 html.osk-docked .reopen-chip {
   inset-block-end: calc(var(--osk-h) + var(--sp-2));
 }
+html.osk-docked .print-chip {
+  inset-block-end: calc(var(--osk-h) + var(--sp-2));
+}
 
 @media (prefers-reduced-motion: reduce) {
   *,

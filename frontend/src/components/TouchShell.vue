@@ -144,6 +144,16 @@ watch(printState, (now, was) => {
   if (now === 'printing' && was !== 'printing' && was !== 'paused') view.value = 'status'
 })
 
+// Mini print chip: while a job runs and the operator is in another tool, keep it glanceable and
+// one tap from the job face (hidden on the status view itself - that IS the job face).
+const jobActive = computed(() => printState.value === 'printing' || printState.value === 'paused')
+const jobProgress = computed(() => {
+  const sd = sess.object<{ progress?: number }>('virtual_sdcard')?.progress
+  const disp = sess.object<{ progress?: number }>('display_status')?.progress
+  return Math.round((sd ?? disp ?? 0) * 100)
+})
+const jobFile = computed(() => sess.object<{ filename?: string }>('print_stats')?.filename ?? '')
+
 // Recovery: when Klipper is shutdown/error the write gate is closed by design - these two
 // actions are the way back, so they surface on every view with the printer's own message.
 const needsRecovery = computed(() => sess.trust === 'shutdown' || sess.trust === 'error')
@@ -275,6 +285,19 @@ function onRailKey(e: KeyboardEvent): void {
     <div v-show="remoteLocating" class="locate-badge" role="status" aria-live="polite">
       {{ t('shell.remote.here') }}
     </div>
+
+    <!-- Mini print chip: the running job stays one tap from any other tool. -->
+    <button
+      v-if="jobActive && view !== 'status'"
+      class="print-chip"
+      type="button"
+      :aria-label="t(viewLabelKeys.status)"
+      @click="view = 'status'"
+    >
+      <span class="chip-dot" :class="printState"></span>
+      <span class="chip-pct">{{ jobProgress }}%</span>
+      <span v-if="jobFile" class="chip-file" dir="ltr">{{ jobFile }}</span>
+    </button>
 
     <PromptDialog />
     <ToastHost />
@@ -455,6 +478,49 @@ function onRailKey(e: KeyboardEvent): void {
   align-items: center;
   justify-content: center;
   cursor: pointer;
+}
+
+/* Mini print chip: floating bottom-start - clear of the rail (left), the bottom-centre toasts and
+   the bottom-end re-open chip. It lifts above the docked keyboard via a global rule in main.css. */
+.print-chip {
+  position: fixed;
+  inset-block-end: var(--sp-4);
+  inset-inline-start: calc(3.4rem + var(--sp-6));
+  z-index: 50;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  min-height: var(--touch);
+  max-width: 16rem;
+  padding: 0 var(--sp-3);
+  border: 1px solid var(--fm-border);
+  border-radius: var(--r-pill);
+  background: var(--fm-surface);
+  color: var(--fm-text);
+  box-shadow: 0 0.4rem 1.2rem rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+}
+.chip-dot {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background: var(--fm-primary);
+  flex-shrink: 0;
+}
+.chip-dot.paused {
+  background: var(--fm-warning);
+}
+.chip-pct {
+  font-family: var(--font-mono);
+  font-weight: 700;
+}
+.chip-file {
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  color: var(--fm-text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* "Locate" flash so an operator can tell which physical screen is FilaMind. */
