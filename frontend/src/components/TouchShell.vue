@@ -406,7 +406,11 @@ function onRailKey(e: KeyboardEvent): void {
 }
 .rail-btn {
   min-width: 3.4rem;
-  min-height: var(--touch);
+  /* min-height 0 (not the touch floor) so a fully-featured printer's rail - up to 11 destinations
+     once Bed Mesh + Power are gated in - shrinks the icons to FIT a short panel (e.g. 800x480)
+     instead of pushing Settings below an easily-missed scroll. flex:1 still grows them to the 4rem
+     cap on roomy panels; the icon stays 1.5rem so it's legible even when the buttons compress. */
+  min-height: 0;
   flex: 1;
   max-height: 4rem;
   display: inline-flex;

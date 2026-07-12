@@ -2,6 +2,16 @@
 
 All notable changes to FilaMind screen are documented here. Format: `## [version]` sections (parsed by the release workflow).
 
+## [0.16.1]
+
+### Fixed
+
+- **The side rail fits every destination on a short panel again.** Adding the Bed Mesh and Power
+  destinations pushed a fully-featured printer's rail to 11 items, which overflowed an 800x480 panel
+  and left Settings below an easily-missed scroll. The rail buttons now shrink to fit the available
+  height (icons stay legible) instead of overflowing, so every destination - Settings included - is
+  reachable without scrolling; on taller panels they grow back to full size.
+
 ## [0.16.0]
 
 ### Added
