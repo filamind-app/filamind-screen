@@ -30,6 +30,7 @@ export type IconName =
   | 'fan'
   | 'power'
   | 'mesh'
+  | 'download'
   | 'motor-off'
   | 'shield'
   | 'estop'
@@ -203,6 +204,12 @@ withDefaults(defineProps<{ name: IconName; size?: string }>(), { size: '1.5rem' 
       <line x1="4" y1="14.6" x2="20" y2="14.6" />
       <line x1="9.3" y1="4" x2="9.3" y2="20" />
       <line x1="14.6" y1="4" x2="14.6" y2="20" />
+    </template>
+    <!-- download: update -->
+    <template v-else-if="name === 'download'">
+      <path d="M12 3.5 v9.5" />
+      <path d="M8 9.5 l4 4 4 -4" />
+      <path d="M4.5 19.5 h15" />
     </template>
     <!-- motor-off: crossed M -->
     <template v-else-if="name === 'motor-off'">

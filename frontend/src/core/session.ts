@@ -60,6 +60,24 @@ export function onPowerChanged(fn: PowerListener): () => void {
   }
 }
 
+// notify_update_response tee. Moonraker streams the live log of a running update (git pulls, pip
+// installs, service restarts) on this event; the Update Manager shows it so a long update is not an
+// opaque spinner, and watches `complete` to know when to re-read the versions.
+export interface UpdateResponse {
+  application?: string
+  proc_id?: number
+  message?: string
+  complete?: boolean
+}
+type UpdateListener = (r: UpdateResponse) => void
+const updateListeners = new Set<UpdateListener>()
+export function onUpdateResponse(fn: UpdateListener): () => void {
+  updateListeners.add(fn)
+  return () => {
+    updateListeners.delete(fn)
+  }
+}
+
 const _setCallbacks = connector.setCallbacks.bind(connector)
 connector.setCallbacks = (cb) => {
   _setCallbacks({
@@ -76,6 +94,9 @@ connector.setCallbacks = (cb) => {
             !!p && typeof p === 'object' && typeof (p as PowerChange).device === 'string',
         )
         if (changes.length) powerListeners.forEach((l) => l(changes))
+      } else if (method === 'notify_update_response' && Array.isArray(params)) {
+        const p = params[0]
+        if (p && typeof p === 'object') updateListeners.forEach((l) => l(p as UpdateResponse))
       }
     },
   })

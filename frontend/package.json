@@ -1,7 +1,7 @@
 {
   "name": "@filamind-app/screen",
   "private": true,
-  "version": "0.16.1",
+  "version": "0.17.0",
   "type": "module",
   "description": "FilaMind screen - on-printer touch control, built on @filamind-app/core and wrapped by Tauri 2.",
   "license": "GPL-3.0-or-later",

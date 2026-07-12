@@ -1,0 +1,17 @@
+{
+  "title": "업데이트",
+  "back": "뒤로",
+  "check": "확인",
+  "outdated": "사용 가능한 업데이트: {n}개",
+  "allCurrent": "모두 최신 상태입니다.",
+  "updating": "{name} 업데이트 중…",
+  "update": "업데이트",
+  "recover": "복구",
+  "offline": "업데이트를 관리하려면 프린터에 연결하세요.",
+  "status": {
+    "current": "최신",
+    "available": "업데이트",
+    "dirty": "수정됨",
+    "invalid": "손상됨"
+  }
+}

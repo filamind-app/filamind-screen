@@ -1,0 +1,17 @@
+{
+  "title": "Updates",
+  "back": "Terug",
+  "check": "Controleren",
+  "outdated": "Updates beschikbaar: {n}",
+  "allCurrent": "Alles is up-to-date.",
+  "updating": "{name} bijwerken…",
+  "update": "Bijwerken",
+  "recover": "Herstellen",
+  "offline": "Maak verbinding met de printer om updates te beheren.",
+  "status": {
+    "current": "Up-to-date",
+    "available": "Update",
+    "dirty": "Gewijzigd",
+    "invalid": "Ongeldig"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "title": "Pembaruan",
+  "back": "Kembali",
+  "check": "Periksa",
+  "outdated": "Pembaruan tersedia: {n}",
+  "allCurrent": "Semua sudah terbaru.",
+  "updating": "Memperbarui {name}…",
+  "update": "Perbarui",
+  "recover": "Pulihkan",
+  "offline": "Sambungkan ke printer untuk mengelola pembaruan.",
+  "status": {
+    "current": "Terbaru",
+    "available": "Perbarui",
+    "dirty": "Diubah",
+    "invalid": "Tidak valid"
+  }
+}

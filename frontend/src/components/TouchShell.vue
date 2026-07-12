@@ -21,10 +21,12 @@ import ExtrudeView from '@/views/ExtrudeView.vue'
 import MacrosView from '@/views/MacrosView.vue'
 import PowerView from '@/views/PowerView.vue'
 import BedMeshView from '@/views/BedMeshView.vue'
+import UpdatesView from '@/views/UpdatesView.vue'
 import { remoteNav, remoteBanner, remoteLocating, dismissBanner } from '@/core/remote'
 import { useControlStore } from '@/core/store/control'
 import { useSessionStore } from '@/core/store/session'
 import { usePowerStore } from '@/core/store/power'
+import { useUpdatesStore } from '@/core/store/updates'
 import { connector } from '@/core/session'
 
 const { t } = useI18n()
@@ -32,6 +34,8 @@ const ctl = useControlStore()
 const sess = useSessionStore()
 const power = usePowerStore()
 power.init() // discover Moonraker power devices (the rail shows Power only when some exist)
+const updates = useUpdatesStore()
+updates.init() // read the managed-component versions (the rail shows Updates once they load)
 
 // Show which printer this panel drives: its Moonraker hostname. Falls back to the product name until
 // the host answers (and if it never does, e.g. a cold boot before Klipper is up).
@@ -62,6 +66,7 @@ type View =
   | 'macros'
   | 'console'
   | 'power'
+  | 'updates'
   | 'settings'
 const view = ref<View>('status')
 
@@ -76,6 +81,7 @@ const views: Record<View, Component> = {
   macros: MacrosView,
   console: ConsoleView,
   power: PowerView,
+  updates: UpdatesView,
   settings: SettingsView,
 }
 const viewLabelKeys: Record<View, string> = {
@@ -89,6 +95,7 @@ const viewLabelKeys: Record<View, string> = {
   macros: 'macros.title',
   console: 'console.title',
   power: 'power.title',
+  updates: 'updates.title',
   settings: 'shell.tab.settings',
 }
 const viewIcons: Record<View, IconName> = {
@@ -102,6 +109,7 @@ const viewIcons: Record<View, IconName> = {
   macros: 'macros',
   console: 'console',
   power: 'power',
+  updates: 'download',
   settings: 'settings',
 }
 
@@ -129,15 +137,18 @@ const railViews = computed<View[]>(() => {
     'macros',
     'console',
     'power',
+    'updates',
     'settings',
   ]
   // Capability-gated destinations: Macros when the printer defines user macros; Bed Mesh when it
-  // has a [bed_mesh] section; Power when Moonraker reports at least one power device.
+  // has a [bed_mesh] section; Power when Moonraker reports at least one power device; Updates once
+  // the update manager's component list has loaded.
   return all.filter(
     (v) =>
       (v !== 'macros' || hasMacros.value) &&
       (v !== 'mesh' || hasBedMesh.value) &&
-      (v !== 'power' || power.hasPower),
+      (v !== 'power' || power.hasPower) &&
+      (v !== 'updates' || updates.hasComponents),
   )
 })
 

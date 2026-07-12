@@ -1,0 +1,17 @@
+{
+  "title": "Cập nhật",
+  "back": "Quay lại",
+  "check": "Kiểm tra",
+  "outdated": "Có bản cập nhật: {n}",
+  "allCurrent": "Mọi thứ đều đã là mới nhất.",
+  "updating": "Đang cập nhật {name}…",
+  "update": "Cập nhật",
+  "recover": "Khôi phục",
+  "offline": "Kết nối với máy in để quản lý cập nhật.",
+  "status": {
+    "current": "Mới nhất",
+    "available": "Có bản mới",
+    "dirty": "Đã sửa đổi",
+    "invalid": "Không hợp lệ"
+  }
+}

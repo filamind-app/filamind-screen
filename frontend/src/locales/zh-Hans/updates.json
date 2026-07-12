@@ -1,0 +1,17 @@
+{
+  "title": "更新",
+  "back": "返回",
+  "check": "检查",
+  "outdated": "可更新：{n}",
+  "allCurrent": "全部为最新版本。",
+  "updating": "正在更新 {name}…",
+  "update": "更新",
+  "recover": "修复",
+  "offline": "请连接打印机以管理更新。",
+  "status": {
+    "current": "最新",
+    "available": "可更新",
+    "dirty": "已修改",
+    "invalid": "无效"
+  }
+}

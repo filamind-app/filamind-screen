@@ -1,0 +1,17 @@
+{
+  "title": "Aktualizacje",
+  "back": "Wstecz",
+  "check": "Sprawdź",
+  "outdated": "Dostępne aktualizacje: {n}",
+  "allCurrent": "Wszystko jest aktualne.",
+  "updating": "Aktualizowanie {name}…",
+  "update": "Aktualizuj",
+  "recover": "Napraw",
+  "offline": "Połącz się z drukarką, aby zarządzać aktualizacjami.",
+  "status": {
+    "current": "Aktualne",
+    "available": "Aktualizacja",
+    "dirty": "Zmodyfikowane",
+    "invalid": "Nieprawidłowe"
+  }
+}

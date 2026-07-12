@@ -1,0 +1,17 @@
+{
+  "title": "アップデート",
+  "back": "戻る",
+  "check": "確認",
+  "outdated": "アップデートあり：{n}",
+  "allCurrent": "すべて最新です。",
+  "updating": "{name} を更新中…",
+  "update": "更新",
+  "recover": "修復",
+  "offline": "アップデートを管理するにはプリンターに接続してください。",
+  "status": {
+    "current": "最新",
+    "available": "更新あり",
+    "dirty": "変更あり",
+    "invalid": "無効"
+  }
+}

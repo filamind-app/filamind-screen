@@ -1,0 +1,17 @@
+{
+  "title": "Mises à jour",
+  "back": "Retour",
+  "check": "Vérifier",
+  "outdated": "Mises à jour disponibles : {n}",
+  "allCurrent": "Tout est à jour.",
+  "updating": "Mise à jour de {name}…",
+  "update": "Mettre à jour",
+  "recover": "Réparer",
+  "offline": "Connectez-vous à l'imprimante pour gérer les mises à jour.",
+  "status": {
+    "current": "À jour",
+    "available": "Disponible",
+    "dirty": "Modifié",
+    "invalid": "Invalide"
+  }
+}

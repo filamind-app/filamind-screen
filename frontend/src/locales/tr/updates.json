@@ -1,0 +1,17 @@
+{
+  "title": "Güncellemeler",
+  "back": "Geri",
+  "check": "Denetle",
+  "outdated": "Kullanılabilir güncelleme: {n}",
+  "allCurrent": "Her şey güncel.",
+  "updating": "{name} güncelleniyor…",
+  "update": "Güncelle",
+  "recover": "Onar",
+  "offline": "Güncellemeleri yönetmek için yazıcıya bağlanın.",
+  "status": {
+    "current": "Güncel",
+    "available": "Güncelleme",
+    "dirty": "Değiştirildi",
+    "invalid": "Geçersiz"
+  }
+}

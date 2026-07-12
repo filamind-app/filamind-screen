@@ -1,0 +1,17 @@
+{
+  "title": "更新",
+  "back": "返回",
+  "check": "檢查更新",
+  "outdated": "有 {n} 項更新可用",
+  "allCurrent": "全部都是最新版本。",
+  "updating": "正在更新 {name}…",
+  "update": "更新",
+  "recover": "修復",
+  "offline": "請連線至印表機以管理更新。",
+  "status": {
+    "current": "最新版本",
+    "available": "可更新",
+    "dirty": "已修改",
+    "invalid": "無效"
+  }
+}

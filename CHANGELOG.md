@@ -2,6 +2,20 @@
 
 All notable changes to FilaMind screen are documented here. Format: `## [version]` sections (parsed by the release workflow).
 
+## [0.17.0]
+
+### Added
+
+- **Update Manager panel.** A new Updates destination lists Moonraker's managed components - Klipper,
+  Moonraker, the host OS packages, and any configured web UIs / add-ons - each with its current
+  version, the available version when one is newer, and a status badge (up to date / update /
+  modified / invalid). Per-component **Update** and **Recover** actions map to the Moonraker machine
+  API, a **Check** button re-queries the internet for newer versions, and a running update streams
+  its live log (from `notify_update_response`, teed alongside the other machine events) so a long
+  git-pull or pip-install isn't an opaque wait. Every action is gated on a live connection, and
+  Moonraker refuses updates mid-print. Component names come from the printer's own runtime status.
+  The rail tab appears once the component list has loaded; fully translated across all 19 locales.
+
 ## [0.16.1]
 
 ### Fixed

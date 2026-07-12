@@ -1,0 +1,17 @@
+{
+  "title": "Updates",
+  "back": "Back",
+  "check": "Check",
+  "outdated": "Updates available: {n}",
+  "allCurrent": "Everything is up to date.",
+  "updating": "Updating {name}…",
+  "update": "Update",
+  "recover": "Recover",
+  "offline": "Connect to the printer to manage updates.",
+  "status": {
+    "current": "Up to date",
+    "available": "Update",
+    "dirty": "Modified",
+    "invalid": "Invalid"
+  }
+}
