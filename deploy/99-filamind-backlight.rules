@@ -1,5 +1,8 @@
-# FilaMind screen: let the unprivileged kiosk app dim the panel backlight.
-# The webview can't touch /sys, so the native shell writes brightness directly; this makes the
-# brightness file writable without root on a single-user printer panel. Applied on the next boot
-# after install (or `udevadm trigger --subsystem-match=backlight`).
-SUBSYSTEM=="backlight", ACTION=="add", MODE="0666"
+# FilaMind screen: let the unprivileged kiosk app control the panel backlight.
+# The webview can't touch /sys, so the native shell writes these files directly:
+#   brightness - dim the panel, and drive it to 0 for screen sleep
+#   bl_power   - blank/unblank the panel for screen sleep
+# MODE= alone does not reliably chmod sysfs *attributes* (only the device node) on every udev
+# version, so also chmod the two attributes explicitly. Applied on the next boot after install
+# (or `udevadm trigger --subsystem-match=backlight --action=add`).
+SUBSYSTEM=="backlight", ACTION=="add", MODE="0666", RUN+="/bin/sh -c 'chmod 0666 /sys/class/backlight/%k/brightness /sys/class/backlight/%k/bl_power 2>/dev/null || true'"

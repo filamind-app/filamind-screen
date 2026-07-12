@@ -5,7 +5,8 @@ import { watch } from 'vue'
 import { applySettings, type UserSettings } from '@filamind-app/core'
 import { settingsStore } from './settings'
 import { localPrefs, UI_SCALE } from './localPrefs'
-import { applyBacklight } from './backlight'
+import { applyBacklight, setBacklightPower } from './backlight'
+import { asleep } from './idle'
 
 function applyRoamed(s: UserSettings): void {
   // applySettings applies the theme's --fm-* vars (its return value's `dir` is intentionally
@@ -41,4 +42,15 @@ export function initTheme(): void {
     (b) => void applyBacklight(b),
     { immediate: true },
   )
+  // Screen sleep drives real panel power: sleeping blanks the panel fully (past the brightness
+  // floor), waking un-blanks and restores the user's brightness. Keeping this the sole owner of
+  // the sleep->hardware write means the black SleepShield overlay always sits over a dark panel.
+  watch(asleep, (sleeping) => {
+    if (sleeping) {
+      void setBacklightPower(false)
+    } else {
+      void setBacklightPower(true)
+      void applyBacklight(localPrefs.value.brightness)
+    }
+  })
 }

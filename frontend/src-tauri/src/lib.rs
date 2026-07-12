@@ -4,7 +4,7 @@
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![set_backlight])
+        .invoke_handler(tauri::generate_handler![set_backlight, set_backlight_power])
         .setup(|app| {
             fit_window_to_display(app);
             Ok(())
@@ -33,6 +33,27 @@ fn set_backlight(percent: u8) {
         let floor = (max / 20).max(1);
         let value = ((max * pct) / 100).max(floor);
         let _ = std::fs::write(dir.join("brightness"), value.to_string());
+    }
+}
+
+/// Panel power for screen sleep. Unlike `set_backlight`, this is allowed to reach a fully dark
+/// panel: `on = false` drives brightness to 0 - BYPASSING the visibility floor - and writes
+/// `bl_power` powerdown, so an idle screen truly goes off (measured: `actual_brightness` -> 0).
+/// `on = true` un-blanks; the caller restores the user's brightness with `set_backlight`
+/// afterwards. Same udev-writable-file caveat as `set_backlight`; failures are ignored.
+#[tauri::command]
+fn set_backlight_power(on: bool) {
+    let Ok(entries) = std::fs::read_dir("/sys/class/backlight") else {
+        return;
+    };
+    for entry in entries.flatten() {
+        let dir = entry.path();
+        if on {
+            let _ = std::fs::write(dir.join("bl_power"), "0"); // FB_BLANK_UNBLANK
+        } else {
+            let _ = std::fs::write(dir.join("bl_power"), "4"); // FB_BLANK_POWERDOWN
+            let _ = std::fs::write(dir.join("brightness"), "0");
+        }
     }
 }
 

@@ -173,12 +173,13 @@ else
   $SUDO "$BASH_BIN" "$SCRIPT_DIR/write-unit.sh" --bin "$BIN" "$USER_NAME" "" "$SERVICE"
 fi
 
-# -- 3b. backlight: install the udev rule that lets the unprivileged app dim the panel. Applies on
-#    the next boot (or a udevadm trigger); best-effort, brightness just stays fixed without it. ----
+# -- 3b. backlight: install the udev rule that lets the unprivileged app control the panel backlight
+#    (dim it, and power it off for screen sleep). The trigger below applies it now; without the rule
+#    the panel just stays fixed and screen sleep can only overlay black. Best-effort. --------------
 BL_RULE="$SCRIPT_DIR/99-filamind-backlight.rules"
 if [ -f "$BL_RULE" ]; then
   $SUDO cp "$BL_RULE" /etc/udev/rules.d/99-filamind-backlight.rules 2>/dev/null \
-    && log "Backlight udev rule installed (takes effect after reboot)." || true
+    && log "Backlight udev rule installed." || true
   $SUDO udevadm control --reload 2>/dev/null || true
   $SUDO udevadm trigger --subsystem-match=backlight --action=add 2>/dev/null || true
 fi

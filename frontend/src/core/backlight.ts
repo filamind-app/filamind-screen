@@ -14,3 +14,15 @@ export async function applyBacklight(level: number): Promise<void> {
     // reboot after install). The stored preference stays; the hardware just isn't driven.
   }
 }
+
+/** Power the panel fully off (screen sleep) or back on. Best-effort: never throws. Off reaches a
+ *  dark panel by bypassing the brightness floor applyBacklight keeps; on un-blanks (restore the
+ *  user's brightness with a separate applyBacklight call). No-op outside Tauri. */
+export async function setBacklightPower(on: boolean): Promise<void> {
+  try {
+    const { invoke } = await import('@tauri-apps/api/core')
+    await invoke('set_backlight_power', { on })
+  } catch {
+    // Not under Tauri, or the backlight isn't writable yet - same caveat as applyBacklight.
+  }
+}

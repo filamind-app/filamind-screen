@@ -2,6 +2,23 @@
 
 All notable changes to FilaMind screen are documented here. Format: `## [version]` sections (parsed by the release workflow).
 
+## [0.14.0]
+
+### Fixed
+
+- **Screen sleep now truly powers the panel off.** Previously the idle screen only overlaid a black
+  page while the backlight stayed lit at its floor, so it never actually went dark and the sleep
+  timer looked broken. A new native `set_backlight_power` command drives the panel backlight to 0
+  (past the visibility floor `set_backlight` keeps) and blanks it via `bl_power` when the screen
+  sleeps, then un-blanks and restores your brightness on the first touch, heater warm-up, print
+  start, or fault. Verified on the reference panel: the backlight measurably reaches zero. The
+  must-stay-visible guards are unchanged - a live job, a hot heater, or a Klipper fault still keep
+  the panel lit.
+- **Backlight controls are actually writable by the app.** The shipped udev rule now `chmod`s the
+  `brightness` and `bl_power` sysfs attributes to 0666 explicitly; the previous `MODE=` alone did
+  not reliably apply to sysfs *attributes* on every udev version, which left the files root-only and
+  silently blocked both dimming and sleep. Applied immediately by the install's `udevadm trigger`.
+
 ## [0.13.0]
 
 ### Changed
