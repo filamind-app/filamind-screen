@@ -107,6 +107,18 @@ describe('FilesView', () => {
     expect(names).toEqual(['parts', 'newer.gcode', 'older.gcode']) // .thumbs hidden
   })
 
+  it('shows a list thumbnail for files that have one, a doc icon otherwise', async () => {
+    const w = mountView()
+    await flushPromises()
+    const rows = w.findAll('button.file-row')
+    const newer = rows.find((b) => b.text().includes('newer.gcode'))!
+    expect(newer.find('.file-thumb img').attributes('src')).toBe(
+      'http://printer.local/server/files/gcodes/.thumbs/newer-300.png', // largest, folder-relative
+    )
+    const older = rows.find((b) => b.text().includes('older.gcode'))!
+    expect(older.find('.file-thumb img').exists()).toBe(false) // no metadata -> fallback icon
+  })
+
   it('descends into a folder, offers Up, and starts with the folder-relative path', async () => {
     const w = mountView()
     await flushPromises()
@@ -219,7 +231,8 @@ describe('FilesView', () => {
     expect(w.text()).toContain('gone')
     await w.find('button.refresh').trigger('click')
     await flushPromises()
-    expect(state.call).toHaveBeenLastCalledWith('server.files.get_directory', { path: 'gcodes' })
+    // (not toHaveBeenLastCalledWith: the listing is now followed by per-file thumbnail metadata calls)
+    expect(state.call).toHaveBeenCalledWith('server.files.get_directory', { path: 'gcodes' })
     expect(w.text()).toContain('newer.gcode')
   })
 })

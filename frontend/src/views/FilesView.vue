@@ -39,6 +39,42 @@ const error = ref<string | null>(null)
 const selected = ref<string | null>(null)
 const meta = ref<GcodeMetadata | null>(null)
 
+// Per-file thumbnails for the list, so the browser is a visual part picker, not a wall of names.
+// One metadata call per file is too much to fire all at once, so a small pool fetches them a few
+// at a time after each folder loads. (An IntersectionObserver "lazy on scroll" pass was tried and
+// dropped: its callback never fired in the packaged webview even for in-viewport rows, so no
+// thumbnail loaded - a bounded eager fetch is reliable everywhere.) `null` = looked up, no embedded
+// thumbnail (a bare doc icon); `undefined` = not looked up yet.
+const thumbs = ref<Record<string, string | null>>({})
+const pendingThumbs = new Set<string>()
+async function loadThumb(rel: string): Promise<void> {
+  if (rel in thumbs.value || pendingThumbs.has(rel)) return
+  pendingThumbs.add(rel)
+  try {
+    const m = await fetchMetadata(rel)
+    thumbs.value = { ...thumbs.value, [rel]: thumbnailUrl(rel, m) }
+  } catch {
+    thumbs.value = { ...thumbs.value, [rel]: null }
+  } finally {
+    pendingThumbs.delete(rel)
+  }
+}
+
+// Bounded-concurrency fetch for a whole listing; the token aborts in-flight workers when the user
+// changes folders, so a slow previous folder can't keep populating the new one.
+let thumbToken = 0
+async function loadThumbsFor(rels: string[]): Promise<void> {
+  const mine = ++thumbToken
+  const queue = [...rels]
+  const worker = async (): Promise<void> => {
+    while (queue.length && mine === thumbToken) {
+      const rel = queue.shift()
+      if (rel) await loadThumb(rel)
+    }
+  }
+  await Promise.all([worker(), worker(), worker(), worker()])
+}
+
 const printState = computed(
   () => session.object<{ state?: string }>('print_stats')?.state ?? 'standby',
 )
@@ -49,6 +85,7 @@ async function load(target: string = path.value): Promise<void> {
   error.value = null
   selected.value = null
   meta.value = null
+  thumbs.value = {} // a new listing re-fetches thumbnails for whatever scrolls into view
   try {
     const res = await connector.call<{ dirs?: DirEntry[]; files?: FileEntry[] }>(
       'server.files.get_directory',
@@ -61,6 +98,8 @@ async function load(target: string = path.value): Promise<void> {
       .filter((d) => !d.dirname.startsWith('.'))
       .sort((a, b) => a.dirname.localeCompare(b.dirname))
     files.value = [...(res.files ?? [])].sort((a, b) => (b.modified ?? 0) - (a.modified ?? 0))
+    // Fill in the list thumbnails a few at a time (bounded so a big folder doesn't burst).
+    void loadThumbsFor(files.value.map((f) => relOf(f.filename)))
   } catch (e) {
     error.value = e instanceof Error ? e.message : String(e)
   } finally {
@@ -168,17 +207,27 @@ onMounted(load)
       </li>
       <li v-for="f in files" :key="f.filename">
         <button
-          class="file touch-card"
+          class="file touch-card file-row"
           :class="{ sel: selected === relOf(f.filename) }"
           type="button"
           :aria-pressed="selected === relOf(f.filename)"
           @click="select(f.filename)"
         >
-          <span class="file-name" dir="ltr">{{ f.filename }}</span>
-          <span class="file-meta"
-            >{{ fmtSize(f.size)
-            }}<template v-if="f.modified"> · {{ fmtDate(f.modified) }}</template></span
-          >
+          <span class="file-thumb">
+            <img
+              v-if="thumbs[relOf(f.filename)]"
+              :src="thumbs[relOf(f.filename)] as string"
+              alt=""
+            />
+            <Icon v-else name="doc" size="1.3rem" />
+          </span>
+          <span class="file-text">
+            <span class="file-name" dir="ltr">{{ f.filename }}</span>
+            <span class="file-meta"
+              >{{ fmtSize(f.size)
+              }}<template v-if="f.modified"> · {{ fmtDate(f.modified) }}</template></span
+            >
+          </span>
         </button>
       </li>
     </ul>
@@ -252,6 +301,44 @@ onMounted(load)
 .file.sel {
   border-color: var(--fm-primary);
 }
+/* Gcode rows carry a thumbnail: lay them out as [preview] [name + meta] instead of a name column. */
+.file-row {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--sp-3);
+}
+.file-thumb {
+  flex-shrink: 0;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  background: var(--fm-surface-2);
+  color: var(--fm-text-muted);
+  overflow: hidden;
+}
+.file-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.file-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
+}
+.file-row .file-name {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-break: normal;
+}
 .dir .file-name {
   color: var(--fm-text);
 }
@@ -276,8 +363,8 @@ onMounted(load)
   padding: var(--sp-2) var(--sp-3);
 }
 .thumb {
-  width: 4.5rem;
-  height: 4.5rem;
+  width: 5.5rem;
+  height: 5.5rem;
   object-fit: contain;
   border-radius: 0.5rem;
   background: var(--fm-surface-2);

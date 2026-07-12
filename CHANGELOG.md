@@ -2,6 +2,17 @@
 
 All notable changes to FilaMind screen are documented here. Format: `## [version]` sections (parsed by the release workflow).
 
+## [0.18.0]
+
+### Added
+
+- **Part thumbnails in the file browser.** Each g-code file now shows the slicer's embedded part
+  preview beside its name, turning the browser into a visual part picker instead of a wall of file
+  names; files without an embedded thumbnail fall back to a document icon. Thumbnails load a few at
+  a time after each folder opens (bounded concurrency, cached per file), and the confirm card's
+  preview is a bit larger. An IntersectionObserver "lazy on scroll" pass was tried first but its
+  callback never fired in the packaged webview, so the bounded eager fetch is used instead.
+
 ## [0.17.0]
 
 ### Added
