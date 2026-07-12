@@ -1,0 +1,15 @@
+{
+  "title": "Daya",
+  "back": "Kembali",
+  "intro": "Nyalakan atau matikan perangkat daya printer.",
+  "empty": "Printer ini tidak memiliki perangkat daya yang dikonfigurasi.",
+  "status": {
+    "on": "Nyala",
+    "off": "Mati",
+    "error": "Kesalahan",
+    "init": "Memulai"
+  },
+  "locked": "Terkunci saat mencetak",
+  "offline": "Sambungkan ke printer untuk mengubah daya.",
+  "error": "Tidak dapat mengubah status perangkat tersebut."
+}

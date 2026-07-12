@@ -1,0 +1,15 @@
+{
+  "title": "Strom",
+  "back": "Zurück",
+  "intro": "Stromgeräte des Druckers ein- oder ausschalten.",
+  "empty": "Für diesen Drucker sind keine Stromgeräte konfiguriert.",
+  "status": {
+    "on": "Ein",
+    "off": "Aus",
+    "error": "Fehler",
+    "init": "Startet"
+  },
+  "locked": "Während des Drucks gesperrt",
+  "offline": "Mit dem Drucker verbinden, um die Stromversorgung zu schalten.",
+  "error": "Gerät konnte nicht geschaltet werden."
+}

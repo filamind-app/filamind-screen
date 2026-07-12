@@ -1,0 +1,15 @@
+{
+  "title": "Alimentazione",
+  "back": "Indietro",
+  "intro": "Accendi o spegni i dispositivi di alimentazione della stampante.",
+  "empty": "Questa stampante non ha dispositivi di alimentazione configurati.",
+  "status": {
+    "on": "Acceso",
+    "off": "Spento",
+    "error": "Errore",
+    "init": "Avvio"
+  },
+  "locked": "Bloccato durante la stampa",
+  "offline": "Connettiti alla stampante per gestire l'alimentazione.",
+  "error": "Impossibile cambiare lo stato del dispositivo."
+}

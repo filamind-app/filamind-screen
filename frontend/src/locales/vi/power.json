@@ -1,0 +1,15 @@
+{
+  "title": "Nguồn điện",
+  "back": "Quay lại",
+  "intro": "Bật hoặc tắt các thiết bị nguồn của máy in.",
+  "empty": "Máy in này chưa cấu hình thiết bị nguồn nào.",
+  "status": {
+    "on": "Bật",
+    "off": "Tắt",
+    "error": "Lỗi",
+    "init": "Đang khởi động"
+  },
+  "locked": "Đã khóa khi đang in",
+  "offline": "Kết nối với máy in để bật/tắt nguồn.",
+  "error": "Không thể bật/tắt thiết bị đó."
+}

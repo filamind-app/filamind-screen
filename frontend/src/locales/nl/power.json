@@ -1,0 +1,15 @@
+{
+  "title": "Voeding",
+  "back": "Terug",
+  "intro": "Schakel de voedingsapparaten van de printer in of uit.",
+  "empty": "Deze printer heeft geen voedingsapparaten geconfigureerd.",
+  "status": {
+    "on": "Aan",
+    "off": "Uit",
+    "error": "Fout",
+    "init": "Opstarten"
+  },
+  "locked": "Vergrendeld tijdens printen",
+  "offline": "Maak verbinding met de printer om de voeding te schakelen.",
+  "error": "Kon dat apparaat niet schakelen."
+}

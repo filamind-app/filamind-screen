@@ -1,0 +1,15 @@
+{
+  "title": "Energia",
+  "back": "Voltar",
+  "intro": "Ligue ou desligue os dispositivos de energia da impressora.",
+  "empty": "Esta impressora não tem dispositivos de energia configurados.",
+  "status": {
+    "on": "Ligado",
+    "off": "Desligado",
+    "error": "Erro",
+    "init": "Iniciando"
+  },
+  "locked": "Bloqueado durante a impressão",
+  "offline": "Conecte-se à impressora para controlar a energia.",
+  "error": "Não foi possível alternar esse dispositivo."
+}

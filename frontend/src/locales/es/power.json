@@ -1,0 +1,15 @@
+{
+  "title": "Energía",
+  "back": "Atrás",
+  "intro": "Enciende o apaga los dispositivos de alimentación de la impresora.",
+  "empty": "Esta impresora no tiene dispositivos de alimentación configurados.",
+  "status": {
+    "on": "Encendido",
+    "off": "Apagado",
+    "error": "Error",
+    "init": "Iniciando"
+  },
+  "locked": "Bloqueado durante la impresión",
+  "offline": "Conéctate a la impresora para cambiar la alimentación.",
+  "error": "No se pudo cambiar ese dispositivo."
+}

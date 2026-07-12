@@ -1,0 +1,15 @@
+{
+  "title": "Güç",
+  "back": "Geri",
+  "intro": "Yazıcının güç aygıtlarını açın veya kapatın.",
+  "empty": "Bu yazıcıda yapılandırılmış güç aygıtı yok.",
+  "status": {
+    "on": "Açık",
+    "off": "Kapalı",
+    "error": "Hata",
+    "init": "Başlatılıyor"
+  },
+  "locked": "Baskı sırasında kilitli",
+  "offline": "Gücü açıp kapatmak için yazıcıya bağlanın.",
+  "error": "Aygıt açılıp kapatılamadı."
+}

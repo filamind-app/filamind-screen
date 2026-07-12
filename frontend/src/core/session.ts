@@ -42,6 +42,24 @@ export function onGcodeResponse(fn: GcodeLineListener): () => void {
     gcodeLineListeners.delete(fn)
   }
 }
+
+// notify_power_changed tee. Moonraker power devices are NOT Klipper printer objects, so they never
+// arrive through the printer-object subscription - Moonraker announces every status change (from
+// this or ANY surface) on this event instead. Fan it out the same way, so the Power panel stays
+// live without polling.
+export interface PowerChange {
+  device: string
+  status: string
+}
+type PowerListener = (changes: PowerChange[]) => void
+const powerListeners = new Set<PowerListener>()
+export function onPowerChanged(fn: PowerListener): () => void {
+  powerListeners.add(fn)
+  return () => {
+    powerListeners.delete(fn)
+  }
+}
+
 const _setCallbacks = connector.setCallbacks.bind(connector)
 connector.setCallbacks = (cb) => {
   _setCallbacks({
@@ -52,6 +70,12 @@ connector.setCallbacks = (cb) => {
         for (const line of params) {
           if (typeof line === 'string') gcodeLineListeners.forEach((l) => l(line))
         }
+      } else if (method === 'notify_power_changed' && Array.isArray(params)) {
+        const changes = params.filter(
+          (p): p is PowerChange =>
+            !!p && typeof p === 'object' && typeof (p as PowerChange).device === 'string',
+        )
+        if (changes.length) powerListeners.forEach((l) => l(changes))
       }
     },
   })

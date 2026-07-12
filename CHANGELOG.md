@@ -2,6 +2,21 @@
 
 All notable changes to FilaMind screen are documented here. Format: `## [version]` sections (parsed by the release workflow).
 
+## [0.15.0]
+
+### Added
+
+- **Power devices panel.** A new Power destination lists the printer's Moonraker power devices (PSU,
+  lights, ...) each with a live on/off switch. The rail tab appears only when the printer actually
+  has power devices, the same capability-gating the Macros tab uses. Status stays live from
+  Moonraker's `notify_power_changed` event (so a change from any surface or a physical button is
+  reflected at once), a device `locked_while_printing` shows a lock instead of failing on tap, and
+  every toggle is gated on a live connection. Fully translated across all 19 locales.
+- **Live toolhead position on the job face.** While a job runs, the job face now shows live X / Y / Z
+  (Z is the current print height) beneath the elapsed/finish line - an un-homed axis reads a dash
+  rather than a misleading 0. Reuses the existing `move.position` string, so no new copy to
+  translate.
+
 ## [0.14.0]
 
 ### Fixed

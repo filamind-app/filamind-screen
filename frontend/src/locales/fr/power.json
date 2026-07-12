@@ -1,0 +1,15 @@
+{
+  "title": "Alimentation",
+  "back": "Retour",
+  "intro": "Allumez ou éteignez les périphériques d'alimentation de l'imprimante.",
+  "empty": "Aucun périphérique d'alimentation n'est configuré sur cette imprimante.",
+  "status": {
+    "on": "Allumé",
+    "off": "Éteint",
+    "error": "Erreur",
+    "init": "Démarrage"
+  },
+  "locked": "Verrouillé pendant l'impression",
+  "offline": "Connectez-vous à l'imprimante pour commander l'alimentation.",
+  "error": "Impossible de changer l'état de ce périphérique."
+}

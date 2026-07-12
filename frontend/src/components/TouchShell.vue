@@ -19,14 +19,18 @@ import ConsoleView from '@/views/ConsoleView.vue'
 import TempView from '@/views/TempView.vue'
 import ExtrudeView from '@/views/ExtrudeView.vue'
 import MacrosView from '@/views/MacrosView.vue'
+import PowerView from '@/views/PowerView.vue'
 import { remoteNav, remoteBanner, remoteLocating, dismissBanner } from '@/core/remote'
 import { useControlStore } from '@/core/store/control'
 import { useSessionStore } from '@/core/store/session'
+import { usePowerStore } from '@/core/store/power'
 import { connector } from '@/core/session'
 
 const { t } = useI18n()
 const ctl = useControlStore()
 const sess = useSessionStore()
+const power = usePowerStore()
+power.init() // discover Moonraker power devices (the rail shows Power only when some exist)
 
 // Show which printer this panel drives: its Moonraker hostname. Falls back to the product name until
 // the host answers (and if it never does, e.g. a cold boot before Klipper is up).
@@ -47,7 +51,16 @@ const brandName = computed(() => printerName.value || 'FilaMind')
 // Every tool is a first-class destination on the side rail - no hidden overlay layer, no tab bar
 // eating the content height. The rail is a vertical WAI-ARIA tablist.
 type View =
-  'status' | 'temp' | 'filament' | 'move' | 'tune' | 'files' | 'macros' | 'console' | 'settings'
+  | 'status'
+  | 'temp'
+  | 'filament'
+  | 'move'
+  | 'tune'
+  | 'files'
+  | 'macros'
+  | 'console'
+  | 'power'
+  | 'settings'
 const view = ref<View>('status')
 
 const views: Record<View, Component> = {
@@ -59,6 +72,7 @@ const views: Record<View, Component> = {
   files: FilesView,
   macros: MacrosView,
   console: ConsoleView,
+  power: PowerView,
   settings: SettingsView,
 }
 const viewLabelKeys: Record<View, string> = {
@@ -70,6 +84,7 @@ const viewLabelKeys: Record<View, string> = {
   files: 'files.title',
   macros: 'macros.title',
   console: 'console.title',
+  power: 'power.title',
   settings: 'shell.tab.settings',
 }
 const viewIcons: Record<View, IconName> = {
@@ -81,6 +96,7 @@ const viewIcons: Record<View, IconName> = {
   files: 'files',
   macros: 'macros',
   console: 'console',
+  power: 'power',
   settings: 'settings',
 }
 
@@ -101,9 +117,12 @@ const railViews = computed<View[]>(() => {
     'files',
     'macros',
     'console',
+    'power',
     'settings',
   ]
-  return all.filter((v) => v !== 'macros' || hasMacros.value)
+  // Capability-gated destinations: Macros only when the printer defines user macros; Power only
+  // when Moonraker reports at least one power device (PSU / lights / ...).
+  return all.filter((v) => (v !== 'macros' || hasMacros.value) && (v !== 'power' || power.hasPower))
 })
 
 const active = computed<Component>(() => views[view.value])

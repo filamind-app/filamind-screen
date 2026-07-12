@@ -40,6 +40,21 @@ const dispProgress = computed(() => store.object<{ progress?: number }>('display
 
 const progress = computed(() => Math.round((sdProgress.value ?? dispProgress.value ?? 0) * 100))
 const layer = computed(() => stats.value.info ?? {})
+
+// Live toolhead position on the job face - where the nozzle is and how tall the print is now.
+const toolhead = computed(() =>
+  store.object<{ position?: number[]; homed_axes?: string }>('toolhead'),
+)
+const pos = computed(() => {
+  const p = toolhead.value?.position
+  if (!p || p.length < 3) return null
+  // An un-homed axis reads a meaningless coordinate - show a dash rather than a misleading 0.0.
+  // Z carries an extra decimal (layer-height granularity); X/Y one is enough at a glance.
+  const homed = toolhead.value?.homed_axes ?? ''
+  const axis = (v: number, letter: string, dp: number): string =>
+    homed.includes(letter) ? v.toFixed(dp) : '—'
+  return { x: axis(p[0] ?? 0, 'x', 1), y: axis(p[1] ?? 0, 'y', 1), z: axis(p[2] ?? 0, 'z', 2) }
+})
 const fanPct = computed(() => Math.round((fan.value?.speed ?? 0) * 100))
 const speedPct = computed(() => Math.round((gmove.value?.speed_factor ?? 1) * 100))
 
@@ -234,6 +249,12 @@ const tiles = computed<Tile[]>(() => [
           {{ t('status.elapsed') }} {{ elapsedText
           }}<span v-if="finishesAt"> · {{ t('status.finishesAt', { time: finishesAt }) }}</span>
         </div>
+        <!-- Live nozzle position (and print height, Z). Only while a job runs, to keep standby calm. -->
+        <div v-if="active && pos" class="pos" dir="ltr" :aria-label="t('move.position')">
+          <span><b>X</b> {{ pos.x }}</span>
+          <span><b>Y</b> {{ pos.y }}</span>
+          <span><b>Z</b> {{ pos.z }}</span>
+        </div>
       </div>
 
       <div class="side">
@@ -421,6 +442,22 @@ const tiles = computed<Tile[]>(() => [
 }
 .times {
   font-variant-numeric: tabular-nums;
+}
+/* Live position readout: mono + tabular so the digits don't jitter as the toolhead moves. */
+.pos {
+  display: flex;
+  justify-content: center;
+  gap: var(--sp-3);
+  margin-top: var(--sp-1);
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  font-variant-numeric: tabular-nums;
+  color: var(--fm-text-muted);
+}
+.pos b {
+  color: var(--fm-primary);
+  font-weight: 700;
+  margin-inline-end: 0.1rem;
 }
 .state-dot {
   width: 0.5rem;

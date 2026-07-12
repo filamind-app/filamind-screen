@@ -1,0 +1,15 @@
+{
+  "title": "Power",
+  "back": "Back",
+  "intro": "Switch the printer's power devices on or off.",
+  "empty": "This printer has no power devices configured.",
+  "status": {
+    "on": "On",
+    "off": "Off",
+    "error": "Error",
+    "init": "Starting"
+  },
+  "locked": "Locked while printing",
+  "offline": "Connect to the printer to switch power.",
+  "error": "Could not switch that device."
+}

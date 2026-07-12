@@ -1,0 +1,15 @@
+{
+  "title": "Zasilanie",
+  "back": "Wstecz",
+  "intro": "Włączaj i wyłączaj urządzenia zasilające drukarki.",
+  "empty": "Ta drukarka nie ma skonfigurowanych urządzeń zasilających.",
+  "status": {
+    "on": "Wł.",
+    "off": "Wył.",
+    "error": "Błąd",
+    "init": "Uruchamianie"
+  },
+  "locked": "Zablokowane podczas druku",
+  "offline": "Połącz się z drukarką, aby przełączać zasilanie.",
+  "error": "Nie udało się przełączyć tego urządzenia."
+}
