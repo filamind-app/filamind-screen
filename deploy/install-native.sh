@@ -83,11 +83,22 @@ PY
   exit 0
 }
 
-case "${1:-}" in
-  --uninstall) uninstall ;;
-  "") ;;
-  *) echo "usage: $0 [--uninstall]" >&2; exit 2 ;;
-esac
+# --enable / --additive control the boot behaviour (resolved after the Flow-presence check below):
+#   default   STANDALONE (no Flow) enables at boot + takes the display over; a Flow host stays
+#             additive so Flow's Screen-Manager keeps owning the switch (no surprise takeover, and
+#             Moonraker's update re-runs don't grab the panel).
+#   --enable  force enable-at-boot + display takeover now (what a direct screen install implies).
+#   --additive / --no-enable  write the unit only; don't enable or switch (Flow's model).
+ENABLE_AT_BOOT=""
+for arg in "$@"; do
+  case "$arg" in
+    --uninstall) uninstall ;;
+    --enable) ENABLE_AT_BOOT=1 ;;
+    --additive | --no-enable) ENABLE_AT_BOOT=0 ;;
+    "") ;;
+    *) echo "usage: $0 [--uninstall] [--enable|--additive]" >&2; exit 2 ;;
+  esac
+done
 
 # -- 0. full clone + tags --------------------------------------------------------------------
 # Repair a legacy --depth 1 (shallow) screen clone so Moonraker's update_manager reads a real
@@ -105,14 +116,20 @@ case "$ARCH" in
   *) echo "[native] This touch app targets arm64; this host is '$ARCH'. Aborting." >&2; exit 1 ;;
 esac
 
-# The unit must be written by Flow's single-source unit-writer (one display-stack detector for the
-# whole suite). Require the Flow clone rather than shipping a divergent copy that could drift.
-# Test for the file (-f), not the executable bit (-x): the script is always invoked via `bash …`
-# below, and a git clone does not reliably set +x, so -x gave a false "Flow not found".
-if [ ! -f "$FLOW_DIR/scripts/install.sh" ]; then
-  echo "[native] FilaMind Flow is required (it owns the shared touch-UI installer) but was not found" >&2
-  echo "         at $FLOW_DIR. Install FilaMind Flow first, then re-run - or set FILAMIND_FLOW_DIR." >&2
-  exit 1
+# The systemd unit is ideally written by Flow's single-source unit-writer (one display-stack
+# detector for the whole suite) when Flow is installed - but the screen must ALSO install and run
+# STANDALONE, so fall back to the bundled writer (deploy/write-unit.sh) when Flow is absent.
+# Test for the file (-f), not the executable bit (-x): a git clone does not reliably set +x.
+if [ -f "$FLOW_DIR/scripts/install.sh" ]; then
+  USE_FLOW_WRITER=1
+else
+  USE_FLOW_WRITER=0
+  log "FilaMind Flow not found at $FLOW_DIR - installing STANDALONE (bundled unit-writer)."
+fi
+
+# Resolve the boot behaviour if no flag forced it: standalone auto-starts, a Flow host stays additive.
+if [ -z "$ENABLE_AT_BOOT" ]; then
+  [ "$USE_FLOW_WRITER" = 0 ] && ENABLE_AT_BOOT=1 || ENABLE_AT_BOOT=0
 fi
 
 TMP="$(mktemp -d)"; trap 'rm -rf "$TMP"' EXIT
@@ -129,10 +146,13 @@ curl -fL "$DEB_URL" -o "$TMP/$ASSET" \
 # command by hand; if the base grant is absent too, point them at updating Flow (which grants it).
 if [ "$SUDO" = "sudo -n" ] && ! sudo -n apt-get --version >/dev/null 2>&1; then
   log "Setting up the native-install permissions…"
-  bash "$FLOW_DIR/scripts/install.sh" sudoers-refresh >/dev/null 2>&1 || true
+  # Opportunistically use Flow's passwordless sudoers refresh when Flow is present; a standalone
+  # host has no such grant, so a headless (no-tty) install there needs the grant set up first.
+  [ "$USE_FLOW_WRITER" = 1 ] && bash "$FLOW_DIR/scripts/install.sh" sudoers-refresh >/dev/null 2>&1 || true
   if ! sudo -n apt-get --version >/dev/null 2>&1; then
-    echo "[native] The native touch app needs extra host permissions that aren't in place yet." >&2
-    echo "[native] Update FilaMind Flow (it grants them automatically), then install again." >&2
+    echo "[native] The native touch app needs apt/dpkg as root, but this is a headless run with no" >&2
+    echo "[native] passwordless grant. Re-run from a terminal (it prompts for sudo), or - with" >&2
+    echo "[native] FilaMind Flow installed - update Flow, which grants it automatically." >&2
     exit 1
   fi
 fi
@@ -145,8 +165,13 @@ BIN="$(dpkg -L "$PKG" 2>/dev/null | grep -E '^/usr/bin/' | head -1 || true)"
 [ -n "$BIN" ] || BIN="/usr/bin/filamind-screen"
 log "Installed binary: $BIN"
 
-# -- 3. write the kiosk unit via Flow's single-source unit-writer (empty URL = no HTTP origin) ---
-$SUDO "$BASH_BIN" "$FLOW_DIR/scripts/install.sh" kiosk --bin "$BIN" "$USER_NAME" "" "$SERVICE"
+# -- 3. write the unit: Flow's single-source writer when present, else the bundled standalone writer
+#    (empty URL = the native app, launched directly - no HTTP origin) -------------------------------
+if [ "$USE_FLOW_WRITER" = 1 ]; then
+  $SUDO "$BASH_BIN" "$FLOW_DIR/scripts/install.sh" kiosk --bin "$BIN" "$USER_NAME" "" "$SERVICE"
+else
+  $SUDO "$BASH_BIN" "$SCRIPT_DIR/write-unit.sh" --bin "$BIN" "$USER_NAME" "" "$SERVICE"
+fi
 
 # -- 3b. backlight: install the udev rule that lets the unprivileged app dim the panel. Applies on
 #    the next boot (or a udevadm trigger); best-effort, brightness just stays fixed without it. ----
@@ -179,10 +204,33 @@ EOF
 fi
 $SUDO systemctl restart moonraker 2>/dev/null || true
 
+# -- 5. auto-start at boot (the standalone default). Installing a screen app implies it should come
+#    up after a reboot, so take the display over from KlipperScreen/guppyscreen (the unit's
+#    Conflicts= list also stops them at runtime) and enable the unit. --additive skips this.
+if [ "$ENABLE_AT_BOOT" = 1 ]; then
+  $SUDO systemctl daemon-reload || true
+  $SUDO systemctl disable --now KlipperScreen.service 2>/dev/null || true
+  $SUDO systemctl disable --now guppyscreen.service 2>/dev/null || true
+  $SUDO systemctl enable "${SERVICE}.service" 2>/dev/null || true
+  $SUDO systemctl restart "${SERVICE}.service" 2>/dev/null \
+    || $SUDO systemctl start "${SERVICE}.service" 2>/dev/null || true
+  log "Enabled $SERVICE at boot and switched the display to it (now + after every reboot)."
+fi
+
+if [ "$ENABLE_AT_BOOT" = 1 ]; then
 cat <<MSG
 
-[native] Done. The FilaMind screen native print-control app is installed but NOT yet on the screen.
+[native] Done. The FilaMind screen native touch app is installed, running, and set to start at boot.
+  It took the display over from KlipperScreen (reversible).
+  Keep KlipperScreen at boot instead:  re-run with --additive, then switch from Flow's Screen Manager.
+  Remove it (restores KlipperScreen):  bash deploy/install-native.sh --uninstall
+MSG
+else
+cat <<MSG
+
+[native] Done. The FilaMind screen native touch app is installed but NOT yet on the screen (--additive).
   Put it on the screen:  FilaMind Flow > Screen Manager > Touch UI > "Use"   (or: $SUDO systemctl start $SERVICE)
-  KlipperScreen stays the boot default until you persist the switch (reboot-recoverable).
+  Enable it at boot:     bash deploy/install-native.sh --enable
   Remove it:             bash deploy/install-native.sh --uninstall
 MSG
+fi

@@ -2,6 +2,25 @@
 
 All notable changes to FilaMind screen are documented here. Format: `## [version]` sections (parsed by the release workflow).
 
+## [0.13.0]
+
+### Changed
+
+- **The native touch app now installs STANDALONE and no longer requires FilaMind Flow.**
+  `deploy/install-native.sh` gained a bundled systemd unit-writer (`deploy/write-unit.sh`) that
+  writes the same fullscreen bare-X (xinit) unit Flow produces (verified byte-identical on the
+  device), so a printer host WITHOUT FilaMind Flow can install and run the screen. Flow's
+  single-source writer is still preferred when Flow is present (one display-stack detector for the
+  whole suite); the hard `exit 1`-when-Flow-absent is gone.
+- **Auto-start at boot.** A standalone install now enables the unit and takes the display over from
+  KlipperScreen/guppyscreen by DEFAULT (reboot-persistent) - installing a screen app implies it
+  should come up after a reboot, which it previously did not. A Flow host stays additive (Flow's
+  Screen Manager owns the switch, and Moonraker update re-runs don't grab the panel); `--enable`
+  forces the takeover, `--additive` opts out.
+- The standalone path no longer depends on Flow's passwordless-sudo grant (used opportunistically
+  only when Flow is present; a terminal install prompts for sudo). The service is still named
+  `filamind-screen-kiosk` for compatibility with already-deployed hosts and Flow's switch_touch.
+
 ## [0.12.0]
 
 ### Added
