@@ -1,0 +1,13 @@
+{
+  "title": "Siatka stołu",
+  "back": "Wstecz",
+  "empty": "Brak siatki stołu. Skalibruj, aby zbadać stół i ją utworzyć.",
+  "range": "Zakres",
+  "min": "Najniższy",
+  "max": "Najwyższy",
+  "loaded": "Wczytana",
+  "load": "Wczytaj",
+  "clear": "Wyczyść",
+  "calibrate": "Kalibruj",
+  "calibrateHint": "Kalibracja bada cały stół i może potrwać kilka minut."
+}

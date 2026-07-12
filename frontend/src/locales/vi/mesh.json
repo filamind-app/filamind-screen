@@ -1,0 +1,13 @@
+{
+  "title": "Lưới bàn in",
+  "back": "Quay lại",
+  "empty": "Chưa có lưới bàn in. Hiệu chỉnh để dò bàn và tạo lưới.",
+  "range": "Chênh lệch",
+  "min": "Thấp nhất",
+  "max": "Cao nhất",
+  "loaded": "Đã tải",
+  "load": "Tải",
+  "clear": "Xóa",
+  "calibrate": "Hiệu chỉnh",
+  "calibrateHint": "Hiệu chỉnh sẽ dò toàn bộ bàn in và có thể mất vài phút."
+}

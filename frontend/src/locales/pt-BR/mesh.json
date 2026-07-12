@@ -1,0 +1,13 @@
+{
+  "title": "Malha da Mesa",
+  "back": "Voltar",
+  "empty": "Nenhuma malha da mesa ainda. Calibre para sondar a mesa e criar uma.",
+  "range": "Amplitude",
+  "min": "Mais baixo",
+  "max": "Mais alto",
+  "loaded": "Carregada",
+  "load": "Carregar",
+  "clear": "Limpar",
+  "calibrate": "Calibrar",
+  "calibrateHint": "A calibração sonda toda a mesa e pode levar alguns minutos."
+}

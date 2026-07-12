@@ -1,0 +1,13 @@
+{
+  "title": "Maillage",
+  "back": "Retour",
+  "empty": "Aucun maillage du plateau pour le moment. Calibrez pour palper le plateau et en créer un.",
+  "range": "Amplitude",
+  "min": "Point bas",
+  "max": "Point haut",
+  "loaded": "Chargé",
+  "load": "Charger",
+  "clear": "Effacer",
+  "calibrate": "Calibrer",
+  "calibrateHint": "Le calibrage palpe tout le plateau et peut prendre quelques minutes."
+}

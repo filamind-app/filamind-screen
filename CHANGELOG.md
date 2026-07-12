@@ -2,6 +2,19 @@
 
 All notable changes to FilaMind screen are documented here. Format: `## [version]` sections (parsed by the release workflow).
 
+## [0.16.0]
+
+### Added
+
+- **Bed Mesh panel.** A new Bed Mesh destination visualizes the bed's Z deviation as a heat map
+  (blue below flat, pale at zero, red above), with the peak-to-peak range and the lowest/highest
+  points called out. It reads the live active mesh when one is loaded, and lets you inspect any
+  saved profile from a chip row without loading it. Actions map to the standard gcode -
+  `BED_MESH_PROFILE LOAD`, `BED_MESH_CLEAR`, and `BED_MESH_CALIBRATE` - each gated on the write
+  guard. The rail tab appears only when the printer has a `[bed_mesh]` section, and `bed_mesh` is
+  now part of the base subscription so the map is ready on open. Fully translated across all 19
+  locales.
+
 ## [0.15.0]
 
 ### Added

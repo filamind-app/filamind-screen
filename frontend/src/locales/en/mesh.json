@@ -1,0 +1,13 @@
+{
+  "title": "Bed Mesh",
+  "back": "Back",
+  "empty": "No bed mesh yet. Calibrate to probe the bed and build one.",
+  "range": "Range",
+  "min": "Lowest",
+  "max": "Highest",
+  "loaded": "Loaded",
+  "load": "Load",
+  "clear": "Clear",
+  "calibrate": "Calibrate",
+  "calibrateHint": "Calibrate probes the whole bed and can take a few minutes."
+}

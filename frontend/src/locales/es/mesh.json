@@ -1,0 +1,13 @@
+{
+  "title": "Malla de cama",
+  "back": "Atrás",
+  "empty": "Aún no hay malla de cama. Calibra para sondear la cama y crear una.",
+  "range": "Rango",
+  "min": "Mínimo",
+  "max": "Máximo",
+  "loaded": "Cargada",
+  "load": "Cargar",
+  "clear": "Borrar",
+  "calibrate": "Calibrar",
+  "calibrateHint": "Calibrar sondea toda la cama y puede tardar unos minutos."
+}

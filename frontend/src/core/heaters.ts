@@ -22,6 +22,9 @@ interface HeatersObject {
 export function baseSubscriptions(): SubscriptionMap {
   return mergeSubscriptions(FULL_CONTROL, {
     heaters: ['available_heaters', 'available_sensors'],
+    // Bed mesh (saved profiles + the active mesh matrix) for the Bed Mesh view. Not part of the
+    // control baseline; low-churn (only changes on a calibrate / profile load / clear).
+    bed_mesh: null,
   })
 }
 

@@ -1,0 +1,13 @@
+{
+  "title": "Bett-Mesh",
+  "back": "Zurück",
+  "empty": "Noch kein Bett-Mesh. Kalibrieren, um das Bett abzutasten und eines zu erstellen.",
+  "range": "Spanne",
+  "min": "Tiefster",
+  "max": "Höchster",
+  "loaded": "Geladen",
+  "load": "Laden",
+  "clear": "Löschen",
+  "calibrate": "Kalibrieren",
+  "calibrateHint": "Das Kalibrieren tastet das gesamte Bett ab und kann einige Minuten dauern."
+}

@@ -1,0 +1,13 @@
+{
+  "title": "Tabla Ağı",
+  "back": "Geri",
+  "empty": "Henüz tabla ağı yok. Tablayı taramak ve bir tane oluşturmak için kalibre edin.",
+  "range": "Aralık",
+  "min": "En Düşük",
+  "max": "En Yüksek",
+  "loaded": "Yüklü",
+  "load": "Yükle",
+  "clear": "Temizle",
+  "calibrate": "Kalibre Et",
+  "calibrateHint": "Kalibrasyon tüm tablayı tarar ve birkaç dakika sürebilir."
+}

@@ -29,6 +29,7 @@ export type IconName =
   | 'doc'
   | 'fan'
   | 'power'
+  | 'mesh'
   | 'motor-off'
   | 'shield'
   | 'estop'
@@ -194,6 +195,14 @@ withDefaults(defineProps<{ name: IconName; size?: string }>(), { size: '1.5rem' 
     <template v-else-if="name === 'power'">
       <path d="M12 3.5 v8" />
       <path d="M7 6.5 a7.5 7.5 0 1 0 10 0" />
+    </template>
+    <!-- mesh: probe grid -->
+    <template v-else-if="name === 'mesh'">
+      <rect x="4" y="4" width="16" height="16" rx="1" />
+      <line x1="4" y1="9.3" x2="20" y2="9.3" />
+      <line x1="4" y1="14.6" x2="20" y2="14.6" />
+      <line x1="9.3" y1="4" x2="9.3" y2="20" />
+      <line x1="14.6" y1="4" x2="14.6" y2="20" />
     </template>
     <!-- motor-off: crossed M -->
     <template v-else-if="name === 'motor-off'">

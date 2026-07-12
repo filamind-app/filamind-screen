@@ -1,0 +1,13 @@
+{
+  "title": "Mesh piano",
+  "back": "Indietro",
+  "empty": "Nessuna mesh del piano. Calibra per sondare il piano e crearne una.",
+  "range": "Intervallo",
+  "min": "Minimo",
+  "max": "Massimo",
+  "loaded": "Caricata",
+  "load": "Carica",
+  "clear": "Cancella",
+  "calibrate": "Calibra",
+  "calibrateHint": "La calibrazione sonda tutto il piano e può richiedere alcuni minuti."
+}

@@ -20,6 +20,7 @@ import TempView from '@/views/TempView.vue'
 import ExtrudeView from '@/views/ExtrudeView.vue'
 import MacrosView from '@/views/MacrosView.vue'
 import PowerView from '@/views/PowerView.vue'
+import BedMeshView from '@/views/BedMeshView.vue'
 import { remoteNav, remoteBanner, remoteLocating, dismissBanner } from '@/core/remote'
 import { useControlStore } from '@/core/store/control'
 import { useSessionStore } from '@/core/store/session'
@@ -56,6 +57,7 @@ type View =
   | 'filament'
   | 'move'
   | 'tune'
+  | 'mesh'
   | 'files'
   | 'macros'
   | 'console'
@@ -69,6 +71,7 @@ const views: Record<View, Component> = {
   filament: ExtrudeView,
   move: MoveView,
   tune: TuneView,
+  mesh: BedMeshView,
   files: FilesView,
   macros: MacrosView,
   console: ConsoleView,
@@ -81,6 +84,7 @@ const viewLabelKeys: Record<View, string> = {
   filament: 'extrude.title',
   move: 'move.title',
   tune: 'tune.title',
+  mesh: 'mesh.title',
   files: 'files.title',
   macros: 'macros.title',
   console: 'console.title',
@@ -93,6 +97,7 @@ const viewIcons: Record<View, IconName> = {
   filament: 'filament',
   move: 'move',
   tune: 'tune',
+  mesh: 'mesh',
   files: 'files',
   macros: 'macros',
   console: 'console',
@@ -107,6 +112,11 @@ const hasMacros = computed(() => {
     (k) => k.startsWith('gcode_macro ') && !k.slice('gcode_macro '.length).startsWith('_'),
   )
 })
+// The Bed Mesh destination only exists when the printer has a [bed_mesh] section configured.
+const hasBedMesh = computed(() => {
+  const settings = sess.object<{ settings?: Record<string, unknown> }>('configfile')?.settings ?? {}
+  return 'bed_mesh' in settings
+})
 const railViews = computed<View[]>(() => {
   const all: View[] = [
     'status',
@@ -114,15 +124,21 @@ const railViews = computed<View[]>(() => {
     'filament',
     'move',
     'tune',
+    'mesh',
     'files',
     'macros',
     'console',
     'power',
     'settings',
   ]
-  // Capability-gated destinations: Macros only when the printer defines user macros; Power only
-  // when Moonraker reports at least one power device (PSU / lights / ...).
-  return all.filter((v) => (v !== 'macros' || hasMacros.value) && (v !== 'power' || power.hasPower))
+  // Capability-gated destinations: Macros when the printer defines user macros; Bed Mesh when it
+  // has a [bed_mesh] section; Power when Moonraker reports at least one power device.
+  return all.filter(
+    (v) =>
+      (v !== 'macros' || hasMacros.value) &&
+      (v !== 'mesh' || hasBedMesh.value) &&
+      (v !== 'power' || power.hasPower),
+  )
 })
 
 const active = computed<Component>(() => views[view.value])

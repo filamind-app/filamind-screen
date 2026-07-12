@@ -1,0 +1,13 @@
+{
+  "title": "Bed Mesh",
+  "back": "Terug",
+  "empty": "Nog geen bed mesh. Kalibreer om het bed af te tasten en er een aan te maken.",
+  "range": "Bereik",
+  "min": "Laagste",
+  "max": "Hoogste",
+  "loaded": "Geladen",
+  "load": "Laden",
+  "clear": "Wissen",
+  "calibrate": "Kalibreren",
+  "calibrateHint": "Kalibreren tast het hele bed af en kan enkele minuten duren."
+}

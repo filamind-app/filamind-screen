@@ -1,0 +1,13 @@
+{
+  "title": "Bed Mesh",
+  "back": "Kembali",
+  "empty": "Belum ada bed mesh. Kalibrasi untuk memindai bed dan membuatnya.",
+  "range": "Rentang",
+  "min": "Terendah",
+  "max": "Tertinggi",
+  "loaded": "Dimuat",
+  "load": "Muat",
+  "clear": "Hapus",
+  "calibrate": "Kalibrasi",
+  "calibrateHint": "Kalibrasi memindai seluruh bed dan bisa memakan waktu beberapa menit."
+}
