@@ -13,7 +13,7 @@ All notable changes to FilaMind screen are documented here. Format: `## [version
   single-source writer is still preferred when Flow is present (one display-stack detector for the
   whole suite); the hard `exit 1`-when-Flow-absent is gone.
 - **Auto-start at boot.** A standalone install now enables the unit and takes the display over from
-  KlipperScreen/guppyscreen by DEFAULT (reboot-persistent) - installing a screen app implies it
+  the existing touch UI by DEFAULT (reboot-persistent) - installing a screen app implies it
   should come up after a reboot, which it previously did not. A Flow host stays additive (Flow's
   Screen Manager owns the switch, and Moonraker update re-runs don't grab the panel); `--enable`
   forces the takeover, `--additive` opts out.
@@ -398,8 +398,9 @@ control path (refused unless the printer is live and Klippy is ready).
 - **`deploy/install-native.sh`** (and `install.sh native`): downloads the prebuilt `.deb` (never
   builds on the low-RAM host), installs it, and writes a `filamind-screen-kiosk` systemd unit by
   delegating to FilaMind Flow's single-source unit-writer (one display-stack detector for the whole
-  suite). Registers with Moonraker. First-class `--uninstall` restores KlipperScreen before removing
-  the binary; the full `uninstall` also removes the native unit so no orphan display owner is left.
+  suite). Registers with Moonraker. First-class `--uninstall` restores the previous screen before
+  removing the binary; the full `uninstall` also removes the native unit so no orphan display owner
+  is left.
   Switch to it (and back) from FilaMind Flow's Screen Manager (Touch UI); not boot-enabled, so any
   switch is reboot-recoverable.
 
