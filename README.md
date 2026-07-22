@@ -10,6 +10,7 @@ A small-team hobby project, built and tested on real printers. The code is all h
 
 [![Support on Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/I2I119XEIV)
 
+[![Status: experimental](https://img.shields.io/badge/status-experimental-E8A317)](#status-experimental)
 [![CI](https://github.com/filamind-app/filamind-screen/actions/workflows/ci.yml/badge.svg)](https://github.com/filamind-app/filamind-screen/actions/workflows/ci.yml)
 [![Release](https://img.shields.io/github/v/release/filamind-app/filamind-screen?color=111111&label=release&sort=semver)](https://github.com/filamind-app/filamind-screen/releases/latest)
 [![License: GPLv3](https://img.shields.io/badge/License-GPLv3-111111.svg)](LICENSE)
@@ -20,6 +21,16 @@ A small-team hobby project, built and tested on real printers. The code is all h
 [Install](#install) · [Uninstall](#uninstall) · [What's on the screen](#whats-on-the-screen) · [Languages](#languages) · [Docs](#documentation) · [Support](#support)
 
 </div>
+
+## Status: experimental
+
+> [!WARNING]
+> **FilaMind Screen is under active development and research.**
+> We are still shaping it toward a touch interface that stays light and quick while being genuinely
+> enjoyable to use - so this app, and every feature tied to it, will keep changing between releases.
+> Treat it as a preview rather than a settled product: expect rough edges, and keep your previous
+> touch UI installed so you can switch back at any time (the installer and `--uninstall` both leave
+> it in place). Suggestions and improvement ideas are genuinely welcome - open an issue any time.
 
 FilaMind Screen is a native touchscreen app for your Klipper printer. It runs fullscreen on the printer's own display and talks straight to Moonraker, so the panel in front of the machine shows the same live job, the same big control buttons, and the same theme you set anywhere else in FilaMind. It ships as a prebuilt arm64 package for the small computers that drive most printer screens, so installing it never asks the host to compile anything.
 
