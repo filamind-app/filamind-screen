@@ -14,15 +14,25 @@ constraint is why the app is never built on the printer.
 To see a change on the device you must cut a release and run `deploy/install-native.sh`. Almost
 every "my fix didn't work on the device" traces back to this.
 
-## No external project names
+## No lineage claims
 
-Nothing published here may name another touch UI, web UI, or competing project — not in source,
-comments, documentation, commit messages, PR bodies, issues, or **test fixtures**. A CI guard
-(`frontend/scripts/check-no-external-refs.sh`) enforces it and has caught hardcoded names in test
-data before.
+The shipped frontend must not name the touch and web UIs that were studied while building this app,
+and nothing anywhere may present FilaMind Screen as derived from, ported from, inspired by, or a
+fork of another project. Describe what this app does, not what it was learned from. This applies to
+commit messages, PR bodies and issue comments as much as to code.
 
-Two carve-outs: runtime data arriving from Moonraker that happens to contain such a name is fine,
-and GPL attribution for genuinely vendored code is required.
+`frontend/scripts/check-no-external-refs.sh` enforces the mechanical part in CI. Read it before
+assuming what it covers:
+
+- It scans the **shipped frontend surface only** — `src`, `index.html`, `vite.config.ts`,
+  `package.json`, `env.d.ts` — and has caught hardcoded names in **test fixtures**, so test data
+  counts.
+- It deliberately does **not** scan `deploy/` or `scripts/`. That layer names the touchscreen
+  service this app takes over from and restores on uninstall, which is managing a service, not
+  claiming descent from it. Widening the guard's scope would break that integration and must be a
+  deliberate decision.
+- Klipper and Moonraker are the platform and are always allowed. So is naming ecosystem projects the
+  software genuinely integrates with, and GPL attribution for vendored code.
 
 ## Platform traps
 
