@@ -26,27 +26,27 @@
     "@filamind-app/core": "^0.1.6",
     "@tauri-apps/api": "^2.11.1",
     "pinia": "^3.0.4",
-    "vue": "^3.5.40",
-    "vue-i18n": "^11.4.6"
+    "vue": "^3.5.42",
+    "vue-i18n": "^11.4.10"
   },
   "devDependencies": {
-    "@intlify/unplugin-vue-i18n": "^11.2.4",
+    "@intlify/unplugin-vue-i18n": "^11.2.5",
     "@tailwindcss/vite": "^4.3.3",
     "@tauri-apps/cli": "^2.11.4",
-    "@types/node": "^26.1.1",
+    "@types/node": "^26.5.1",
     "@vitejs/plugin-vue": "^6.0.8",
     "@vue/eslint-config-prettier": "^10.1.0",
     "@vue/eslint-config-typescript": "^14.9.0",
-    "@vue/test-utils": "^2.4.11",
+    "@vue/test-utils": "^2.5.0",
     "@vue/tsconfig": "^0.9.1",
-    "eslint": "^10.7.0",
-    "eslint-plugin-vue": "^10.9.2",
+    "eslint": "^10.10.0",
+    "eslint-plugin-vue": "^10.11.0",
     "jsdom": "^29.1.1",
     "prettier": "3.9.6",
     "tailwindcss": "^4.3.1",
     "typescript": "~6.0.3",
-    "vite": "^8.1.5",
+    "vite": "^8.2.2",
     "vitest": "^4.1.10",
-    "vue-tsc": "^3.3.7"
+    "vue-tsc": "^3.3.11"
   }
 }
